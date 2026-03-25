@@ -879,14 +879,12 @@ function renderSensitivity() {
     <p style="margin-top:.6rem">On a scale of 1–10, how would you rate your sensitivity to sounds in general? (1 = not sensitive at all, 10 = very sensitive)</p>
     ${renderLikert('sensitivity','Not sensitive','Very sensitive',10,'')}
     <button class="sa-submit" id="sensNext" disabled onclick="submitSensitivity()">Continue →</button>
-    <script>
-      document.querySelectorAll('input[name="sensitivity"]').forEach(el => {
-        el.addEventListener('change', () => {
-          document.getElementById('sensNext').disabled = false;
-        });
-      });
-    <\/script>
   `);
+  document.querySelectorAll('input[name="sensitivity"]').forEach(el => {
+    el.addEventListener('change', () => {
+      document.getElementById('sensNext').disabled = false;
+    });
+  });
 }
 
 function submitSensitivity() {
