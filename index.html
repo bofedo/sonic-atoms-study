@@ -748,8 +748,8 @@ function renderAtom(atomIdx) {
     <hr class="sa-divider">
     ${renderSectionHeader('Section 1 · Affect','How does the sound feel?')}
     ${renderMiniPlayer(atomIdx, url, 'replay before rating')}
-    ${renderLikert(`valence_${atomIdx}`,'Unpleasant','Pleasant',9,'Valence')}
-    ${renderLikert(`arousal_${atomIdx}`,'Calm','Exciting',9,'Arousal')}
+    ${renderLikert(`valence_${atomIdx}`,'Unpleasant','Pleasant',9,'Valence (1 = Unpleasant, 9 = Pleasant)')}
+    ${renderLikert(`arousal_${atomIdx}`,'Calm','Exciting',9,'Arousal (1 = Calm, 9 = Exciting)')}
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 2 · Perception','Sound character')}
@@ -759,22 +759,25 @@ function renderAtom(atomIdx) {
     <hr class="sa-divider">
     ${renderSectionHeader('Section 3 · Behaviour','Your response')}
     ${renderMiniPlayer(atomIdx, url)}
-    ${renderLikert(`trustworthiness_${atomIdx}`,'Not at all','Very trustworthy',7,'Perceived Trustworthiness')}
+    ${renderLikert(`trustworthiness_${atomIdx}`,'Not trustworthy','Very trustworthy',7,'Perceived Trustworthiness')}
+    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">Trustworthy = the sound conveys reliability and safety. (1 = not at all trustworthy, 7 = very trustworthy)</p>
     ${renderLikert(`action_urge_${atomIdx}`,'Stop / avoid','Continue / engage',7,'Action Urge')}
+    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">How would you react to this sound? &nbsp;1 = I want to stop it / silence it / leave &nbsp;·&nbsp; 4 = neutral, neither direction &nbsp;·&nbsp; 7 = I want to continue / react / click</p>
     ${renderLikert(`distinctiveness_${atomIdx}`,'Blends in','Very distinctive',7,'Distinctiveness')}
+    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">How easily would you recognise this sound among others? &nbsp;1 = not at all, blends in &nbsp;·&nbsp; 7 = immediately, very distinctive</p>
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 4 · Classification','Context and identity')}
     ${renderMiniPlayer(atomIdx, url)}
     <div class="sa-scale-block">
       <div class="sa-scale-label">Attribute</div>
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">If this sound were part of a digital product, what impression would it make?</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">If this sound were part of a digital product, what impression would it make? Select the one category that best describes the character of the sound.</p>
       <div class="sa-attr-grid">${attrBtns}</div>
       <div class="sa-confidence"><span>Confidence:</span><div class="sa-conf-options">${confOpts}</div></div>
     </div>
     <div class="sa-scale-block">
       <div class="sa-scale-label">UX Affordance</div>
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">Imagine this sound in a phone app. What event would it announce?</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">Imagine this sound playing in an app on your phone. What event would it announce?</p>
       <div class="sa-ux-grid">${uxBtns}</div>
     </div>
 
