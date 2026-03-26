@@ -773,7 +773,11 @@ function renderAtom(atomIdx) {
       <div class="sa-scale-label">Attribute</div>
       <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">If this sound were part of a digital product, what impression would it make? Select the one category that best describes the character of the sound.</p>
       <div class="sa-attr-grid">${attrBtns}</div>
-      <div class="sa-confidence"><span>Confidence:</span><div class="sa-conf-options">${confOpts}</div></div>
+      <div class="sa-confidence">
+        <span>Confidence:</span>
+        <div class="sa-conf-options">${confOpts}</div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.4rem">1 = I guessed &nbsp;·&nbsp; 3 = fairly sure &nbsp;·&nbsp; 5 = completely certain</p>
     </div>
     <div class="sa-scale-block">
       <div class="sa-scale-label">UX Affordance</div>
