@@ -259,7 +259,7 @@ const CONFIG = {
   vars:  ['01','02','03','04','05','06','07','08','09','10'],
 
   // Stimuli per participant (10 + 1 duplicate)
-  stimPerParticipant: 10,
+  stimPerParticipant: 3,
 
   // Duplicate drawn from stable cells
   duplicateCells: ['01','05','10'],
@@ -590,8 +590,8 @@ function submitAtom(atomIdx) {
   STATE.responses.push(resp);
   STATE.currentAtomIdx++;
 
-  // Check if rest screen needed (after atom 5)
-  if (STATE.currentAtomIdx === 5) {
+  // Rest screen po 5. atóme — pri 3 atómoch sa nezobrazí
+  if (STATE.currentAtomIdx === 5 && STATE.stimulusOrder.length > 5) {
     renderRestScreen();
   } else if (STATE.currentAtomIdx < STATE.stimulusOrder.length) {
     // Check attention check
@@ -1038,7 +1038,7 @@ function submitAttention() {
 }
 
 // ── END SCREEN ────────────────────────────────────────
-function renderEnd() {
+async function renderEnd() {
   // Build final data object
   const finalData = {
     prolific_pid:    STATE.prolificPID,
