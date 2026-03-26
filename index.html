@@ -295,9 +295,10 @@ const CONFIG = {
 // STATE
 // ═══════════════════════════════════════════════════════
 const STATE = {
-  prolificPID: new URLSearchParams(window.location.search).get('PROLIFIC_PID') || 'TEST',
-  studyID:     new URLSearchParams(window.location.search).get('STUDY_ID')    || 'TEST',
-  sessionID:   new URLSearchParams(window.location.search).get('SESSION_ID')  || 'TEST',
+  prolificPID: new URLSearchParams(window.location.search).get('PROLIFIC_PID') || null,
+  studyID:     new URLSearchParams(window.location.search).get('STUDY_ID')    || 'SOCIAL',
+  sessionID:   new URLSearchParams(window.location.search).get('SESSION_ID')  || 'SOCIAL',
+  source:      new URLSearchParams(window.location.search).get('PROLIFIC_PID') ? 'prolific' : 'social',
   sensitivity: null,
   headphoneFlag: false, // soft flag
   terminated: false,
@@ -1067,10 +1068,19 @@ function renderEnd() {
     finalData.hard_flag = hardFlag;
   }
 
-  // Log to console (replace with your data endpoint if needed)
-  console.log('FINAL DATA:', JSON.stringify(finalData, null, 2));
+  // Odošli dáta na Railway backend
+  try {
+    await fetch('https://app.doremifo.com/responses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(finalData),
+    });
+  } catch(e) {
+    console.warn('Data save error:', e);
+  }
 
-  renderScreen(`
+  const isProlific = STATE.source === 'prolific';
+  const endHTML = isProlific ? `
     <div class="sa-rest">
       <div class="big">🎉</div>
       <h2>Thank you!</h2>
@@ -1081,7 +1091,23 @@ function renderEnd() {
         Complete on Prolific →
       </button>
     </div>
-  `);
+  ` : `
+    <div class="sa-rest">
+      <div class="big">🎉</div>
+      <h2>Thank you!</h2>
+      <p style="margin-top:.8rem">You have completed the study. Your responses have been recorded and will contribute to research on sound perception.</p>
+      <p style="margin-top:.8rem">If you'd like to share this study with others:</p>
+      <div style="background:#0f172a;border:1px solid var(--border);border-radius:8px;
+        padding:.7rem 1rem;font-size:.82rem;color:#7dd3fc;margin:.6rem 0;word-break:break-all;">
+        https://study.doremifo.com
+      </div>
+      <button class="sa-submit" style="margin-top:1rem;background:#334155"
+        onclick="navigator.clipboard.writeText('https://study.doremifo.com').then(()=>this.textContent='✅ Copied!')">
+        Copy link to share
+      </button>
+    </div>
+  `;
+  renderScreen(endHTML);
 }
 
 // ═══════════════════════════════════════════════════════
