@@ -328,34 +328,33 @@ function audioURL(cell, varNum) {
 }
 
 function buildStimulusOrder() {
-  // Build all 100 stimuli
-  const all = [];
-  CONFIG.cells.forEach(c => CONFIG.vars.forEach(v => all.push({cell:c, var:v})));
+  // Pick 3 atoms — each from a different cell
+  const allCells = shuffle([...CONFIG.cells]);
+  const pickedCells = allCells.slice(0, CONFIG.stimPerParticipant);
+  const picked = pickedCells.map(cell => {
+    const v = CONFIG.vars[Math.floor(Math.random() * CONFIG.vars.length)];
+    return { cell, var: v };
+  });
 
-  // Shuffle and take 10
-  const picked = shuffle(all).slice(0, CONFIG.stimPerParticipant);
-
-  // Pick duplicate from stable cells
+  // Pick duplicate from stable cells if available, else from picked
   const stablePicked = picked.filter(s => CONFIG.duplicateCells.includes(s.cell));
   const dupSource = stablePicked.length > 0
     ? stablePicked[Math.floor(Math.random() * stablePicked.length)]
-    : picked[0];
+    : picked[Math.floor(Math.random() * picked.length)];
   STATE.duplicateSource = dupSource;
 
-  // Insert duplicate at random position after 5th atom
-  const dupInsertIdx = Math.floor(Math.random() * 5) + 5; // 5–9
-  const withDup = [...picked];
-  withDup.splice(dupInsertIdx, 0, { ...dupSource, isDuplicate: true });
+  // Insert duplicate at position 3 (after all 3 real atoms)
+  const withDup = [...picked, { ...dupSource, isDuplicate: true }];
   STATE.stimulusOrder = withDup;
 
-  // Attention check: random between atom 3 and 8
-  STATE.attentionCheckIdx = Math.floor(Math.random() * 5) + 2; // after atom 2, before atom 8
+  // Attention check: after atom 1, before atom 3
+  STATE.attentionCheckIdx = 1;
 
   // Assign semantic diff scales (balanced rotation)
   const scales4 = [0,1,2,3];
-  STATE.semDiffAssignment = withDup.map((_, i) => {
+  STATE.semDiffAssignment = withDup.map(() => {
     const s = shuffle(scales4);
-    return [s[0], s[1]]; // pick 2
+    return [s[0], s[1]];
   });
 }
 
