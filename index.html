@@ -34,11 +34,9 @@ body {
 .sa-card p, .sa-card li { color: #cbd5e1; font-size: .9rem; line-height: 1.65; }
 .sa-card ul { padding-left: 1.3rem; margin-top: .5rem; }
 
-/* Progress */
 .sa-progress { background: var(--border); border-radius: 99px; height: 5px; margin-bottom: 1.2rem; overflow: hidden; }
 .sa-progress-bar { background: var(--accent); height: 5px; border-radius: 99px; transition: width .4s; }
 
-/* Section header */
 .sa-section-header {
   border-left: 3px solid var(--accent);
   padding: .4rem 0 .4rem .8rem;
@@ -50,7 +48,6 @@ body {
 }
 .sa-section-header h3 { font-size: 1rem; color: #f1f5f9; font-weight: 600; }
 
-/* Mini player (above each section) */
 .sa-mini-player {
   background: #0f172a; border: 1px solid var(--border);
   border-radius: 10px; padding: .8rem 1rem;
@@ -76,7 +73,6 @@ body {
   opacity: .3; width: 0%; transition: width .1s linear;
 }
 
-/* Full player */
 .sa-player {
   background: #0f172a; border: 1px solid var(--border);
   border-radius: 12px; padding: 1rem 1.2rem;
@@ -96,7 +92,6 @@ body {
 .sa-waveform-fill { height: 100%; background: var(--accent); opacity: .3; width: 0%; transition: width .1s linear; }
 .sa-play-hint { font-size: .75rem; color: var(--muted); text-align: center; margin-bottom: .6rem; }
 
-/* Scales */
 .sa-scale-block { margin-bottom: 1.2rem; }
 .sa-scale-label { font-size: .75rem; color: var(--accent2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; font-weight: 600; }
 .sa-likert { display: flex; align-items: center; gap: .4rem; }
@@ -114,7 +109,6 @@ body {
 .sa-likert-options input[type=radio]:checked + label { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
 .sa-likert-options label:hover { border-color: var(--accent2); color: var(--accent2); }
 
-/* Training example cards */
 .sa-training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin: .8rem 0; }
 .sa-training-card {
   background: #0f172a; border-radius: 10px; padding: .8rem;
@@ -126,7 +120,6 @@ body {
 .sa-training-card.extreme-low .tc-val { color: #ef4444; }
 .sa-training-card.extreme-high .tc-val { color: #22c55e; }
 
-/* Attribute binding */
 .sa-attr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; }
 .sa-attr-btn {
   padding: .5rem .7rem; border-radius: 8px;
@@ -141,7 +134,6 @@ body {
 .sa-attr-btn.negative { border-left: 3px solid var(--err); }
 .sa-attr-btn.escape   { border-left: 3px solid var(--warn); }
 
-/* Confidence */
 .sa-confidence { display: flex; align-items: center; gap: .8rem; margin-top: .6rem; padding: .5rem .8rem; background: #0f172a; border-radius: 8px; }
 .sa-confidence span { font-size: .78rem; color: var(--muted); white-space: nowrap; }
 .sa-conf-options { display: flex; gap: .3rem; }
@@ -149,13 +141,11 @@ body {
 .sa-conf-options label { padding: .25rem .55rem; border-radius: 6px; border: 1px solid var(--border); font-size: .75rem; color: var(--muted); cursor: pointer; transition: all .15s; }
 .sa-conf-options input[type=radio]:checked + label { background: var(--accent); border-color: var(--accent); color: white; }
 
-/* UX Affordance */
 .sa-ux-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; margin-top: .5rem; }
 .sa-ux-btn { padding: .5rem; border-radius: 8px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .8rem; cursor: pointer; text-align: center; transition: all .15s; }
 .sa-ux-btn:hover { border-color: var(--accent2); }
 .sa-ux-btn.selected { border-color: var(--accent); background: #1e2a4a; }
 
-/* Post-test questions */
 .sa-select {
   width: 100%; padding: .55rem .8rem; background: #0f172a;
   color: var(--text); border: 1px solid var(--border);
@@ -164,7 +154,6 @@ body {
 }
 .sa-select:focus { outline: 2px solid var(--accent); }
 
-/* Submit */
 .sa-submit {
   width: 100%; padding: .7rem; background: var(--accent);
   color: white; border: none; border-radius: 10px;
@@ -174,13 +163,11 @@ body {
 .sa-submit:hover:not(:disabled) { background: #4f46e5; }
 .sa-submit:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
 
-/* HP test */
 .sa-hp-options { display: flex; gap: .8rem; margin-top: 1rem; flex-wrap: wrap; }
 .sa-hp-btn { flex: 1; min-width: 80px; padding: .65rem; border-radius: 10px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .88rem; cursor: pointer; text-align: center; transition: all .15s; }
 .sa-hp-btn:hover { border-color: var(--accent2); }
 .sa-hp-btn.selected { border-color: var(--accent); background: #1e2a4a; }
 
-/* Vol/Attention */
 .sa-vol-options { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
 .sa-vol-btn { flex: 1; padding: .55rem; border-radius: 8px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .83rem; cursor: pointer; text-align: center; transition: all .15s; }
 .sa-vol-btn:hover { border-color: var(--accent2); }
@@ -190,14 +177,11 @@ body {
 .sa-attention-btn:hover { border-color: var(--accent2); }
 .sa-attention-btn.selected { border-color: var(--accent); background: #1e2a4a; }
 
-/* Divider */
 .sa-divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
 
-/* Rest */
 .sa-rest { text-align: center; padding: 1rem 0; }
 .sa-rest .big { font-size: 2.2rem; margin-bottom: .5rem; }
 
-/* Training play button */
 .sa-train-play {
   display: inline-flex; align-items: center; gap: .5rem;
   padding: .4rem .9rem; border-radius: 8px;
@@ -206,6 +190,12 @@ body {
   transition: background .2s; margin-top: .5rem;
 }
 .sa-train-play:hover { background: #263a5e; }
+
+.sa-error-box {
+  background: #450a0a; color: #fca5a5; border-radius: 8px;
+  padding: .7rem 1rem; font-size: .85rem; margin-top: .8rem;
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -214,7 +204,7 @@ body {
 <script>
 const CONFIG = {
   audioBase: 'https://pub-e597382e71d24ba2a9ec99f1249c6c55.r2.dev/',
-  prolificCompleteURL: 'https://app.prolific.com/submissions/complete?cc=C1FJXB7Q',
+  backendURL: 'https://app.doremifo.com/responses',
   cells: ['01','02','03','04','05','06','07','08','09','10'],
   vars:  ['01','02','03','04','05','06','07','08','09','10'],
   stimPerParticipant: 3,
@@ -240,12 +230,17 @@ const CONFIG = {
   hugginsCorrect: null,
 };
 
+const params = new URLSearchParams(window.location.search);
+
 const STATE = {
-  prolificPID: new URLSearchParams(window.location.search).get('PROLIFIC_PID') || null,
-  studyID:     new URLSearchParams(window.location.search).get('STUDY_ID') || 'SOCIAL',
-  sessionID:   new URLSearchParams(window.location.search).get('SESSION_ID') || 'SOCIAL',
-  source:      new URLSearchParams(window.location.search).get('PROLIFIC_PID') ? 'prolific' : 'social',
-  sensitivity: null, headphoneFlag: false, terminated: false,
+  prolificPID: params.get('PROLIFIC_PID') || null,
+  studyID:     params.get('STUDY_ID') || params.get('UTM_SOURCE') || 'SOCIAL',
+  sessionID:   params.get('SESSION_ID') || crypto.randomUUID(),
+  source:      params.get('PROLIFIC_PID') ? 'prolific' : 'social',
+  sensitivity: null,
+  headphoneFlag: false,
+  attentionFlag: false,
+  terminated: false,
   stimulusOrder: [], duplicateSource: null,
   responses: [], currentAtomIdx: 0,
   attentionCheckIdx: null, semDiffAssignment: [],
@@ -282,7 +277,7 @@ function buildResponse(atomIdx, data) {
 
 buildStimulusOrder();
 
-// ── AUDIO ENGINE ─────────────────────────────────────
+// ── AUDIO ENGINE ──────────────────────────────────────
 let audioCtx = null;
 function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
@@ -305,14 +300,12 @@ function generateHugginsStimuli() {
   return buffers;
 }
 
-// Training tone generator
 function playTrainingTone(type) {
   const ctx = getAudioCtx();
   if (ctx.state==='suspended') ctx.resume();
   const osc = ctx.createOscillator(), gain = ctx.createGain();
 
   if (type==='pleasant') {
-    // Major chord — warm, consonant
     [261.6, 329.6, 392].forEach(f => {
       const o2 = ctx.createOscillator(), g2 = ctx.createGain();
       o2.frequency.value = f; o2.type = 'sine';
@@ -325,7 +318,6 @@ function playTrainingTone(type) {
     return;
   }
   if (type==='unpleasant') {
-    // Dissonant cluster — harsh, inharmonic
     [220, 233, 247, 440, 466].forEach((f,i) => {
       const o2 = ctx.createOscillator(), g2 = ctx.createGain();
       o2.frequency.value = f; o2.type = i%2===0 ? 'sawtooth' : 'square';
@@ -347,7 +339,6 @@ function playTrainingTone(type) {
     return;
   }
   if (type==='exciting') {
-    // Fast rhythmic pulsing
     for (let i=0; i<8; i++) {
       const o2 = ctx.createOscillator(), g2 = ctx.createGain();
       o2.frequency.value = 440 + (i%2)*220; o2.type = 'square';
@@ -360,7 +351,6 @@ function playTrainingTone(type) {
     return;
   }
   if (type==='avoid') {
-    // Low, ominous drone
     [55, 58].forEach(f => {
       const o2 = ctx.createOscillator(), g2 = ctx.createGain();
       o2.frequency.value = f; o2.type = 'sawtooth';
@@ -373,7 +363,6 @@ function playTrainingTone(type) {
     return;
   }
   if (type==='approach') {
-    // Bright, inviting notification-like tone
     [880, 1100, 1320].forEach((f,i) => {
       const o2 = ctx.createOscillator(), g2 = ctx.createGain();
       o2.frequency.value = f; o2.type = 'sine';
@@ -389,7 +378,7 @@ function playTrainingTone(type) {
 
 // ── AUDIO PLAYBACK ────────────────────────────────────
 let currentAudio = null, audioGateTimer = null, audioGatePassed = {};
-let miniPlayerRef = {}; // atomIdx → {audio, fill}
+let miniPlayerRef = {};
 
 function handlePlay(atomIdx, url) {
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
@@ -860,13 +849,36 @@ function submitPostTest() {
   renderEnd();
 }
 
-// ── END ───────────────────────────────────────────────
+// ── END + RETRY LOGIC ────────────────────────────────
+async function postWithRetry(data, attempts = 3) {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(CONFIG.backendURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return true;
+      if (res.status === 422) return false; // validačná chyba — retry nepomôže
+    } catch (e) {
+      if (i === attempts - 1) return false;
+      await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+  return false;
+}
+
 async function renderEnd() {
   const finalData = {
-    prolific_pid: STATE.prolificPID, study_id: STATE.studyID, session_id: STATE.sessionID,
-    source: STATE.source, sensitivity: STATE.sensitivity,
-    headphone_flag: STATE.headphoneFlag, attention_flag: STATE.attentionFlag||false,
-    post_test: STATE.postTest, responses: STATE.responses,
+    prolific_pid: STATE.prolificPID,
+    study_id: STATE.studyID,
+    session_id: STATE.sessionID,
+    source: STATE.source,
+    sensitivity: STATE.sensitivity,
+    headphone_flag: STATE.headphoneFlag ? 1 : 0,
+    attention_flag: STATE.attentionFlag ? 1 : 0,
+    post_test: STATE.postTest,
+    responses: STATE.responses,
     completed_at: new Date().toISOString(),
   };
 
@@ -875,17 +887,31 @@ async function renderEnd() {
   if (dupResp.length&&origResp) {
     const dV=Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
     const dA=Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
-    finalData.duplicate_delta_valence=dV; finalData.duplicate_delta_arousal=dA;
-    finalData.hard_flag=dV>3&&dA>3;
+    finalData.duplicate_delta_valence=dV;
+    finalData.duplicate_delta_arousal=dA;
+    finalData.hard_flag = (dV>3&&dA>3) ? 1 : 0;
   }
 
-  try {
-    await fetch('https://app.doremifo.com/responses', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(finalData),
-    });
-  } catch(e) { console.warn('Data save error:', e); }
+  // Zobraziť loading stav
+  render(`<div class="sa-rest"><div class="big">⏳</div><h2>Saving your responses…</h2></div>`);
 
-  const isProlific = STATE.source==='prolific';
+  const ok = await postWithRetry(finalData);
+
+  const isProlific = STATE.source === 'prolific';
+
+  if (!ok) {
+    render(`
+      <div class="sa-rest">
+        <div class="big">⚠️</div>
+        <h2>Could not save responses</h2>
+        <p style="margin-top:.8rem">There was a problem saving your data. Please try again.</p>
+        <button class="sa-submit" style="margin-top:1.5rem" onclick="renderEnd()">Try again →</button>
+        ${isProlific ? `<p style="margin-top:1rem;font-size:.82rem;color:var(--muted)">If the problem persists, please contact the research team before completing on Prolific.</p>` : ''}
+      </div>
+    `);
+    return;
+  }
+
   render(isProlific ? `
     <div class="sa-rest">
       <div class="big">🎉</div>
