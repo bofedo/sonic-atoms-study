@@ -205,6 +205,7 @@ body {
 const CONFIG = {
   audioBase: 'https://pub-e597382e71d24ba2a9ec99f1249c6c55.r2.dev/',
   backendURL: 'https://app.doremifo.com/responses',
+  prolificCompleteURL: 'https://app.prolific.com/submissions/complete?cc=C1FJXB7Q',
   cells: ['01','02','03','04','05','06','07','08','09','10'],
   vars:  ['01','02','03','04','05','06','07','08','09','10'],
   stimPerParticipant: 3,
@@ -246,6 +247,22 @@ const STATE = {
   attentionCheckIdx: null, semDiffAssignment: [],
   postTest: {},
 };
+
+// ── OCHRANA VOČI VIACNÁSOBNÉMU VYPLNENIU ─────────────
+const STORAGE_KEY = 'sa_completed_sessions';
+function markSessionCompleted(sessionID) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    existing.push(sessionID);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing.slice(-20)));
+  } catch(e) {}
+}
+function isSessionCompleted(sessionID) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return existing.includes(sessionID);
+  } catch(e) { return false; }
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -513,6 +530,18 @@ function submitAtom(atomIdx) {
 // ── SCREENS ───────────────────────────────────────────
 
 function renderWelcome() {
+  // Kontrola viacnásobného vyplnenia (len pre social zdroj — Prolific má vlastnú ochranu)
+  if (STATE.source === 'social' && isSessionCompleted(STATE.sessionID)) {
+    render(`
+      <div class="sa-rest">
+        <div class="big">✅</div>
+        <h2>Already completed</h2>
+        <p style="margin-top:.8rem">It looks like you have already completed this study. Thank you for your participation!</p>
+      </div>
+    `);
+    return;
+  }
+
   render(`
     <h2>🎵 Sonic Atoms — Sound Perception Study</h2>
     <p style="margin-top:.8rem">Welcome! In this study you will listen to <strong>3 short sounds</strong> and rate each one across several dimensions.</p>
@@ -859,7 +888,7 @@ async function postWithRetry(data, attempts = 3) {
         body: JSON.stringify(data),
       });
       if (res.ok) return true;
-      if (res.status === 422) return false; // validačná chyba — retry nepomôže
+      if (res.status === 422) return false;
     } catch (e) {
       if (i === attempts - 1) return false;
       await new Promise(r => setTimeout(r, 1000 * (i + 1)));
@@ -892,7 +921,6 @@ async function renderEnd() {
     finalData.hard_flag = (dV>3&&dA>3) ? 1 : 0;
   }
 
-  // Zobraziť loading stav
   render(`<div class="sa-rest"><div class="big">⏳</div><h2>Saving your responses…</h2></div>`);
 
   const ok = await postWithRetry(finalData);
@@ -911,6 +939,9 @@ async function renderEnd() {
     `);
     return;
   }
+
+  // Označiť session ako dokončenú (ochrana voči opakovaniu)
+  markSessionCompleted(STATE.sessionID);
 
   render(isProlific ? `
     <div class="sa-rest">
