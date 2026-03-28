@@ -205,7 +205,8 @@ body {
 const CONFIG = {
   audioBase: 'https://pub-e597382e71d24ba2a9ec99f1249c6c55.r2.dev/',
   backendURL: 'https://app.doremifo.com/responses',
-  prolificCompleteURL: 'https://app.prolific.com/submissions/complete?cc=C1FJXB7Q',
+  // ✅ SECURITY: prolificCompleteURL odstránená z frontendu
+  // Backend vráti completion_url až po úspešnom uložení dát
   cells: ['01','02','03','04','05','06','07','08','09','10'],
   vars:  ['01','02','03','04','05','06','07','08','09','10'],
   stimPerParticipant: 3,
@@ -530,7 +531,6 @@ function submitAtom(atomIdx) {
 // ── SCREENS ───────────────────────────────────────────
 
 function renderWelcome() {
-  // Kontrola viacnásobného vyplnenia (len pre social zdroj — Prolific má vlastnú ochranu)
   if (STATE.source === 'social' && isSessionCompleted(STATE.sessionID)) {
     render(`
       <div class="sa-rest">
@@ -657,14 +657,12 @@ function renderEarTraining() {
     <p style="font-size:.85rem; color:var(--muted); margin-bottom:.8rem">How agreeable or pleasant does the sound feel overall?</p>
     <div class="sa-training-grid">
       <div class="sa-training-card extreme-low">
-        <div class="tc-label">Score 1</div>
-        <div class="tc-val">Unpleasant</div>
+        <div class="tc-label">Score 1</div><div class="tc-val">Unpleasant</div>
         <div class="tc-desc">Harsh, dissonant, irritating</div>
         <button class="sa-train-play" onclick="playTrainingTone('unpleasant')">▶ Play example</button>
       </div>
       <div class="sa-training-card extreme-high">
-        <div class="tc-label">Score 9</div>
-        <div class="tc-val">Pleasant</div>
+        <div class="tc-label">Score 9</div><div class="tc-val">Pleasant</div>
         <div class="tc-desc">Warm, harmonious, agreeable</div>
         <button class="sa-train-play" onclick="playTrainingTone('pleasant')">▶ Play example</button>
       </div>
@@ -675,14 +673,12 @@ function renderEarTraining() {
     <p style="font-size:.85rem; color:var(--muted); margin-bottom:.8rem">How activating or energising does the sound feel?</p>
     <div class="sa-training-grid">
       <div class="sa-training-card extreme-low">
-        <div class="tc-label">Score 1</div>
-        <div class="tc-val">Calm</div>
+        <div class="tc-label">Score 1</div><div class="tc-val">Calm</div>
         <div class="tc-desc">Slow, quiet, low energy</div>
         <button class="sa-train-play" onclick="playTrainingTone('calm')">▶ Play example</button>
       </div>
       <div class="sa-training-card extreme-high">
-        <div class="tc-label">Score 9</div>
-        <div class="tc-val">Exciting</div>
+        <div class="tc-label">Score 9</div><div class="tc-val">Exciting</div>
         <div class="tc-desc">Fast, percussive, energetic</div>
         <button class="sa-train-play" onclick="playTrainingTone('exciting')">▶ Play example</button>
       </div>
@@ -693,14 +689,12 @@ function renderEarTraining() {
     <p style="font-size:.85rem; color:var(--muted); margin-bottom:.8rem">Does the sound make you want to move away from it, or engage with it?</p>
     <div class="sa-training-grid">
       <div class="sa-training-card extreme-low">
-        <div class="tc-label">Score 1</div>
-        <div class="tc-val">Avoid</div>
+        <div class="tc-label">Score 1</div><div class="tc-val">Avoid</div>
         <div class="tc-desc">Want to stop, silence, leave</div>
         <button class="sa-train-play" onclick="playTrainingTone('avoid')">▶ Play example</button>
       </div>
       <div class="sa-training-card extreme-high">
-        <div class="tc-label">Score 7</div>
-        <div class="tc-val">Approach</div>
+        <div class="tc-label">Score 7</div><div class="tc-val">Approach</div>
         <div class="tc-desc">Want to engage, click, respond</div>
         <button class="sa-train-play" onclick="playTrainingTone('approach')">▶ Play example</button>
       </div>
@@ -711,14 +705,12 @@ function renderEarTraining() {
     <p style="font-size:.85rem; color:var(--muted); margin-bottom:.8rem">Does the sound feel reliable, safe, and credible? Imagine it in an app — would you trust it?</p>
     <div class="sa-training-grid">
       <div class="sa-training-card extreme-low">
-        <div class="tc-label">Score 1</div>
-        <div class="tc-val">Untrustworthy</div>
+        <div class="tc-label">Score 1</div><div class="tc-val">Untrustworthy</div>
         <div class="tc-desc">Cheap, unstable, uncertain</div>
         <button class="sa-train-play" onclick="playTrainingTone('unpleasant')">▶ Play example</button>
       </div>
       <div class="sa-training-card extreme-high">
-        <div class="tc-label">Score 7</div>
-        <div class="tc-val">Trustworthy</div>
+        <div class="tc-label">Score 7</div><div class="tc-val">Trustworthy</div>
         <div class="tc-desc">Clean, solid, reliable</div>
         <button class="sa-train-play" onclick="playTrainingTone('pleasant')">▶ Play example</button>
       </div>
@@ -879,6 +871,8 @@ function submitPostTest() {
 }
 
 // ── END + RETRY LOGIC ────────────────────────────────
+
+// ✅ SECURITY: postWithRetry vracia JSON odpoveď (obsahuje completion_url)
 async function postWithRetry(data, attempts = 3) {
   for (let i = 0; i < attempts; i++) {
     try {
@@ -887,7 +881,7 @@ async function postWithRetry(data, attempts = 3) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (res.ok) return true;
+      if (res.ok) return await res.json();
       if (res.status === 422) return false;
     } catch (e) {
       if (i === attempts - 1) return false;
@@ -911,19 +905,21 @@ async function renderEnd() {
     completed_at: new Date().toISOString(),
   };
 
+  // duplicate deltas — stále posielame, backend ich prepočíta
   const dupResp = STATE.responses.filter(r=>r.is_duplicate);
   const origResp = STATE.responses.find(r=>r.cell===STATE.duplicateSource.cell&&r.var===STATE.duplicateSource.var&&!r.is_duplicate);
   if (dupResp.length&&origResp) {
-    const dV=Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
-    const dA=Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
-    finalData.duplicate_delta_valence=dV;
-    finalData.duplicate_delta_arousal=dA;
-    finalData.hard_flag = (dV>3&&dA>3) ? 1 : 0;
+    finalData.duplicate_delta_valence = Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
+    finalData.duplicate_delta_arousal = Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
   }
 
   render(`<div class="sa-rest"><div class="big">⏳</div><h2>Saving your responses…</h2></div>`);
 
-  const ok = await postWithRetry(finalData);
+  // ✅ SECURITY: result obsahuje completion_url z backendu
+  const result = await postWithRetry(finalData);
+  const ok = result !== false && result !== null;
+  // ✅ SECURITY: completion_url príde zo servera, nie z frontendu
+  const completionUrl = (result && result.completion_url) ? result.completion_url : null;
 
   const isProlific = STATE.source === 'prolific';
 
@@ -940,15 +936,14 @@ async function renderEnd() {
     return;
   }
 
-  // Označiť session ako dokončenú (ochrana voči opakovaniu)
   markSessionCompleted(STATE.sessionID);
 
-  render(isProlific ? `
+  render(isProlific && completionUrl ? `
     <div class="sa-rest">
       <div class="big">🎉</div>
       <h2>Thank you!</h2>
       <p style="margin-top:.8rem">Your responses have been recorded. Please click below to complete your submission on Prolific.</p>
-      <button class="sa-submit" style="margin-top:1.5rem" onclick="window.location.href='${CONFIG.prolificCompleteURL}'">Complete on Prolific →</button>
+      <button class="sa-submit" style="margin-top:1.5rem" onclick="window.location.href='${completionUrl}'">Complete on Prolific →</button>
     </div>
   ` : `
     <div class="sa-rest">
