@@ -4,197 +4,540 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sonic Atoms — Perception Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --accent: #6366f1;
-  --accent2: #a5b4fc;
-  --text: #e2e8f0;
-  --muted: #64748b;
-  --border: #334155;
-  --ok: #22c55e;
-  --warn: #f59e0b;
-  --err: #ef4444;
+  --bg:       #ffffff;
+  --tertiary: #f5f4f1;
+  --text:     #1a1a1a;
+  --muted:    #666666;
+  --faint:    #999999;
+  --border:   #e2e2e2;
+  --border-hi:#c8c8c8;
+  --sans: 'Syne', system-ui, sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --mono: 'SFMono-Regular', 'Consolas', monospace;
+  /* category colours — badges only */
+  --ok-bg:#f0fdf4; --ok-text:#166534; --ok-border:#bbf7d0;
+  --warn-bg:#fffbeb; --warn-text:#92400e; --warn-border:#fde68a;
+  --err-bg:#fff1f2; --err-text:#9f1239; --err-border:#fecdd3;
+  --blue-bg:#eff6ff; --blue-text:#1e3a8a; --blue-border:#bfdbfe;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg); color: var(--text);
-  min-height: 100vh; display: flex;
-  align-items: flex-start; justify-content: center;
-  padding: 1.5rem 1rem;
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.75;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
 }
+
+/* ── CARD ── */
 .sa-card {
-  background: var(--card); border-radius: 16px;
-  padding: 2rem; width: 100%; max-width: 680px;
-  margin: 0 auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  padding: 2rem 2.2rem;
+  width: 100%;
+  max-width: 680px;
 }
-.sa-card h2 { font-size: 1.25rem; color: #f1f5f9; margin-bottom: .5rem; }
-.sa-card p, .sa-card li { color: #cbd5e1; font-size: .9rem; line-height: 1.65; }
+@media (max-width:560px) { .sa-card { padding: 1.4rem 1.2rem; } }
+
+/* ── HEADINGS ── */
+.sa-card h2 {
+  font-family: var(--sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .4rem;
+  line-height: 1.2;
+}
+.sa-card h3 {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.sa-card p, .sa-card li {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.65;
+}
 .sa-card ul { padding-left: 1.3rem; margin-top: .5rem; }
+.sa-card li { color: var(--muted); }
+.sa-card strong { color: var(--text); }
 
-.sa-progress { background: var(--border); border-radius: 99px; height: 5px; margin-bottom: 1.2rem; overflow: hidden; }
-.sa-progress-bar { background: var(--accent); height: 5px; border-radius: 99px; transition: width .4s; }
+/* ── PROGRESS ── */
+.sa-progress {
+  background: var(--tertiary);
+  border-radius: 99px;
+  height: 4px;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.sa-progress-bar {
+  background: var(--text);
+  height: 4px;
+  border-radius: 99px;
+  transition: width .4s;
+}
 
+/* ── SECTION HEADER ── */
 .sa-section-header {
-  border-left: 3px solid var(--accent);
-  padding: .4rem 0 .4rem .8rem;
+  border-left: 2px solid var(--border-hi);
+  padding: .35rem 0 .35rem .9rem;
   margin-bottom: 1.2rem;
 }
-.sa-section-header .sa-section-tag {
-  font-size: .7rem; color: var(--accent2); text-transform: uppercase;
-  letter-spacing: .08em; font-weight: 600; margin-bottom: .15rem;
+.sa-section-tag {
+  font-size: .68rem;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 600;
+  font-family: var(--mono);
+  margin-bottom: .1rem;
 }
-.sa-section-header h3 { font-size: 1rem; color: #f1f5f9; font-weight: 600; }
+.sa-section-header h3 { font-size: 1rem; }
 
+/* ── DIVIDER ── */
+.sa-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.6rem 0;
+}
+
+/* ── PLAYERS ── */
 .sa-mini-player {
-  background: #0f172a; border: 1px solid var(--border);
-  border-radius: 10px; padding: .8rem 1rem;
-  display: flex; align-items: center; gap: .8rem;
+  background: var(--tertiary);
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  padding: .75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
   margin-bottom: 1.2rem;
+  transition: border-color .2s;
 }
+.sa-mini-player:hover { border-color: var(--border-hi); }
+
 .sa-mini-play-btn {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--accent); border: none; cursor: pointer;
-  font-size: 1rem; color: white; flex-shrink: 0;
-  transition: background .2s; display: flex;
-  align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--text);
+  border: none;
+  cursor: pointer;
+  font-size: .9rem;
+  color: #fff;
+  flex-shrink: 0;
+  transition: opacity .2s;
+  display: flex; align-items: center; justify-content: center;
 }
-.sa-mini-play-btn:hover { background: #4f46e5; }
+.sa-mini-play-btn:hover { opacity: .75; }
+
 .sa-mini-label { font-size: .75rem; color: var(--muted); }
-.sa-mini-label strong { color: var(--accent2); font-size: .78rem; }
+.sa-mini-label strong { color: var(--text); font-size: .78rem; }
+
 .sa-mini-waveform {
-  flex: 1; height: 24px; background: var(--border);
-  border-radius: 4px; overflow: hidden;
+  flex: 1; height: 20px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
 }
 .sa-mini-waveform-fill {
-  height: 100%; background: var(--accent);
-  opacity: .3; width: 0%; transition: width .1s linear;
+  height: 100%;
+  background: var(--text);
+  opacity: .25;
+  width: 0%;
+  transition: width .1s linear;
 }
 
 .sa-player {
-  background: #0f172a; border: 1px solid var(--border);
-  border-radius: 12px; padding: 1rem 1.2rem;
-  display: flex; align-items: center; gap: 1rem;
-  margin: 1rem 0;
+  background: var(--tertiary);
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  padding: .9rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: .8rem 0;
+  transition: border-color .2s;
 }
-.sa-play-btn {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--accent); border: none; cursor: pointer;
-  font-size: 1.1rem; color: white; flex-shrink: 0;
-  transition: background .2s; display: flex;
-  align-items: center; justify-content: center;
-}
-.sa-play-btn:hover { background: #4f46e5; }
-.sa-play-btn:disabled { background: var(--border); cursor: not-allowed; }
-.sa-waveform { flex: 1; height: 32px; background: var(--border); border-radius: 6px; overflow: hidden; }
-.sa-waveform-fill { height: 100%; background: var(--accent); opacity: .3; width: 0%; transition: width .1s linear; }
-.sa-play-hint { font-size: .75rem; color: var(--muted); text-align: center; margin-bottom: .6rem; }
+.sa-player:hover { border-color: var(--border-hi); }
 
-.sa-scale-block { margin-bottom: 1.2rem; }
-.sa-scale-label { font-size: .75rem; color: var(--accent2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; font-weight: 600; }
-.sa-likert { display: flex; align-items: center; gap: .4rem; }
-.sa-likert-anchor { font-size: .75rem; color: var(--muted); white-space: nowrap; min-width: 65px; }
+.sa-play-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--text);
+  border: none; cursor: pointer;
+  font-size: 1rem; color: #fff;
+  flex-shrink: 0;
+  transition: opacity .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.sa-play-btn:hover { opacity: .75; }
+.sa-play-btn:disabled { background: var(--border); cursor: not-allowed; opacity: 1; }
+
+.sa-waveform {
+  flex: 1; height: 28px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sa-waveform-fill {
+  height: 100%;
+  background: var(--text);
+  opacity: .2;
+  width: 0%;
+  transition: width .1s linear;
+}
+
+.sa-play-hint {
+  font-size: .75rem;
+  color: var(--faint);
+  text-align: center;
+  margin-bottom: .5rem;
+  font-family: var(--mono);
+}
+
+/* ── LIKERT ── */
+.sa-scale-block { margin-bottom: 1.4rem; }
+.sa-scale-label {
+  font-size: .72rem;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .5rem;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+.sa-likert { display: flex; align-items: center; gap: .5rem; }
+.sa-likert-anchor {
+  font-size: .75rem;
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 65px;
+}
 .sa-likert-anchor.right { text-align: right; }
 .sa-likert-options { display: flex; gap: .3rem; flex: 1; justify-content: center; }
 .sa-likert-options input[type=radio] { display: none; }
 .sa-likert-options label {
-  width: 32px; height: 32px; border-radius: 50%;
-  border: 2px solid var(--border);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: .72rem; color: var(--muted);
-  cursor: pointer; transition: all .15s; user-select: none;
+  font-size: .72rem;
+  color: var(--faint);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  user-select: none;
 }
-.sa-likert-options input[type=radio]:checked + label { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
-.sa-likert-options label:hover { border-color: var(--accent2); color: var(--accent2); }
+.sa-likert-options input[type=radio]:checked + label {
+  background: var(--text);
+  border-color: var(--text);
+  color: #fff;
+  font-weight: 700;
+}
+.sa-likert-options label:hover { border-color: var(--border-hi); color: var(--text); }
 
-.sa-training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin: .8rem 0; }
+/* ── TRAINING GRID ── */
+.sa-training-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  margin: .8rem 0;
+}
+@media (max-width:480px) { .sa-training-grid { grid-template-columns: 1fr; } }
+
 .sa-training-card {
-  background: #0f172a; border-radius: 10px; padding: .8rem;
-  border: 1px solid var(--border); text-align: center;
+  background: var(--tertiary);
+  border-radius: .75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  text-align: center;
+  transition: border-color .2s;
 }
-.sa-training-card .tc-label { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
-.sa-training-card .tc-val { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
-.sa-training-card .tc-desc { font-size: .75rem; color: var(--muted); }
-.sa-training-card.extreme-low .tc-val { color: #ef4444; }
-.sa-training-card.extreme-high .tc-val { color: #22c55e; }
+.sa-training-card:hover { border-color: var(--border-hi); }
 
-.sa-attr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; }
+.tc-label {
+  font-family: var(--mono);
+  font-size: .68rem;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .3rem;
+}
+.tc-val {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+.tc-desc { font-size: .78rem; color: var(--muted); }
+
+.extreme-low .tc-val { color: var(--err-text); }
+.extreme-high .tc-val { color: var(--ok-text); }
+
+/* ── ATTR GRID ── */
+.sa-attr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .4rem;
+  margin-top: .5rem;
+}
 .sa-attr-btn {
-  padding: .5rem .7rem; border-radius: 8px;
-  border: 2px solid var(--border); background: transparent;
-  color: var(--text); font-size: .82rem; cursor: pointer;
-  text-align: left; transition: all .15s;
+  padding: .55rem .75rem;
+  border-radius: .5rem;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: .83rem;
+  font-family: var(--body);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s;
 }
-.sa-attr-btn:hover { border-color: var(--accent2); }
-.sa-attr-btn.selected { border-color: var(--accent); background: #1e2a4a; color: white; }
-.sa-attr-btn.positive { border-left: 3px solid var(--ok); }
-.sa-attr-btn.neutral  { border-left: 3px solid var(--muted); }
-.sa-attr-btn.negative { border-left: 3px solid var(--err); }
-.sa-attr-btn.escape   { border-left: 3px solid var(--warn); }
+.sa-attr-btn:hover { border-color: var(--border-hi); }
+.sa-attr-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 500; }
+.sa-attr-btn.positive { border-left: 3px solid var(--ok-text); }
+.sa-attr-btn.neutral  { border-left: 3px solid var(--border-hi); }
+.sa-attr-btn.negative { border-left: 3px solid var(--err-text); }
+.sa-attr-btn.escape   { border-left: 3px solid var(--warn-text); }
 
-.sa-confidence { display: flex; align-items: center; gap: .8rem; margin-top: .6rem; padding: .5rem .8rem; background: #0f172a; border-radius: 8px; }
+/* ── CONFIDENCE ── */
+.sa-confidence {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-top: .7rem;
+  padding: .55rem .9rem;
+  background: var(--tertiary);
+  border-radius: .5rem;
+  border: 1px solid var(--border);
+}
 .sa-confidence span { font-size: .78rem; color: var(--muted); white-space: nowrap; }
 .sa-conf-options { display: flex; gap: .3rem; }
 .sa-conf-options input[type=radio] { display: none; }
-.sa-conf-options label { padding: .25rem .55rem; border-radius: 6px; border: 1px solid var(--border); font-size: .75rem; color: var(--muted); cursor: pointer; transition: all .15s; }
-.sa-conf-options input[type=radio]:checked + label { background: var(--accent); border-color: var(--accent); color: white; }
+.sa-conf-options label {
+  padding: .22rem .55rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  font-size: .75rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.sa-conf-options input[type=radio]:checked + label {
+  background: var(--text);
+  border-color: var(--text);
+  color: #fff;
+}
 
-.sa-ux-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; margin-top: .5rem; }
-.sa-ux-btn { padding: .5rem; border-radius: 8px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .8rem; cursor: pointer; text-align: center; transition: all .15s; }
-.sa-ux-btn:hover { border-color: var(--accent2); }
-.sa-ux-btn.selected { border-color: var(--accent); background: #1e2a4a; }
+/* ── UX GRID ── */
+.sa-ux-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .4rem;
+  margin-top: .5rem;
+}
+.sa-ux-btn {
+  padding: .5rem;
+  border-radius: .5rem;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: .8rem;
+  font-family: var(--body);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .15s;
+}
+.sa-ux-btn:hover { border-color: var(--border-hi); }
+.sa-ux-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 500; }
 
+/* ── SELECT ── */
 .sa-select {
-  width: 100%; padding: .55rem .8rem; background: #0f172a;
-  color: var(--text); border: 1px solid var(--border);
-  border-radius: 8px; font-size: .88rem; margin-top: .4rem;
+  width: 100%;
+  padding: .55rem .8rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  font-size: .88rem;
+  font-family: var(--body);
+  margin-top: .4rem;
   appearance: none;
+  transition: border-color .2s;
 }
-.sa-select:focus { outline: 2px solid var(--accent); }
+.sa-select:hover { border-color: var(--border-hi); }
+.sa-select:focus { outline: 2px solid var(--border-hi); outline-offset: 1px; }
 
+/* ── BUTTONS ── */
+/* Primary */
 .sa-submit {
-  width: 100%; padding: .7rem; background: var(--accent);
-  color: white; border: none; border-radius: 10px;
-  font-size: .92rem; font-weight: 600; cursor: pointer;
-  transition: background .2s; margin-top: 1rem;
+  width: 100%;
+  padding: .65rem 1.5rem;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  border-radius: 99px;
+  font-size: .92rem;
+  font-weight: 600;
+  font-family: var(--body);
+  cursor: pointer;
+  transition: opacity .2s;
+  margin-top: 1rem;
 }
-.sa-submit:hover:not(:disabled) { background: #4f46e5; }
-.sa-submit:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+.sa-submit:hover:not(:disabled) { opacity: .8; }
+.sa-submit:disabled {
+  background: var(--tertiary);
+  color: var(--border-hi);
+  border: 1px solid var(--border);
+  cursor: not-allowed;
+  opacity: 1;
+}
 
-.sa-hp-options { display: flex; gap: .8rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-hp-btn { flex: 1; min-width: 80px; padding: .65rem; border-radius: 10px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .88rem; cursor: pointer; text-align: center; transition: all .15s; }
-.sa-hp-btn:hover { border-color: var(--accent2); }
-.sa-hp-btn.selected { border-color: var(--accent); background: #1e2a4a; }
+/* Outline / secondary */
+.sa-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem 1.1rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-hi);
+  background: transparent;
+  color: var(--text);
+  font-size: .85rem;
+  font-weight: 500;
+  font-family: var(--body);
+  cursor: pointer;
+  transition: border-color .2s;
+  margin-top: .5rem;
+}
+.sa-btn-outline:hover { border-color: var(--text); }
 
-.sa-vol-options { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-vol-btn { flex: 1; padding: .55rem; border-radius: 8px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .83rem; cursor: pointer; text-align: center; transition: all .15s; }
-.sa-vol-btn:hover { border-color: var(--accent2); }
-.sa-vol-btn.selected { border-color: var(--accent); background: #1e2a4a; }
-.sa-attention-options { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-attention-btn { padding: .5rem 1rem; border-radius: 8px; border: 2px solid var(--border); background: transparent; color: var(--text); font-size: .88rem; cursor: pointer; transition: all .15s; }
-.sa-attention-btn:hover { border-color: var(--accent2); }
-.sa-attention-btn.selected { border-color: var(--accent); background: #1e2a4a; }
+/* HP / vol / attention buttons */
+.sa-hp-options { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
+.sa-hp-btn {
+  flex: 1; min-width: 80px;
+  padding: .6rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-hi);
+  background: transparent;
+  color: var(--text);
+  font-size: .88rem;
+  font-family: var(--body);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .2s;
+}
+.sa-hp-btn:hover { border-color: var(--text); }
+.sa-hp-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
 
-.sa-divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
+.sa-vol-options { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+.sa-vol-btn {
+  flex: 1;
+  padding: .55rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-hi);
+  background: transparent;
+  color: var(--text);
+  font-size: .83rem;
+  font-family: var(--body);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .2s;
+}
+.sa-vol-btn:hover { border-color: var(--text); }
+.sa-vol-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
 
-.sa-rest { text-align: center; padding: 1rem 0; }
-.sa-rest .big { font-size: 2.2rem; margin-bottom: .5rem; }
+.sa-attention-options { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+.sa-attention-btn {
+  padding: .5rem 1.1rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-hi);
+  background: transparent;
+  color: var(--text);
+  font-size: .88rem;
+  font-family: var(--body);
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.sa-attention-btn:hover { border-color: var(--text); }
+.sa-attention-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
 
+/* Train play button — outline small */
 .sa-train-play {
-  display: inline-flex; align-items: center; gap: .5rem;
-  padding: .4rem .9rem; border-radius: 8px;
-  background: #1e2a4a; border: 1px solid var(--accent);
-  color: var(--accent2); font-size: .8rem; cursor: pointer;
-  transition: background .2s; margin-top: .5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .85rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-hi);
+  background: transparent;
+  color: var(--text);
+  font-size: .78rem;
+  font-family: var(--body);
+  cursor: pointer;
+  transition: border-color .2s;
+  margin-top: .5rem;
 }
-.sa-train-play:hover { background: #263a5e; }
+.sa-train-play:hover { border-color: var(--text); }
 
-.sa-error-box {
-  background: #450a0a; color: #fca5a5; border-radius: 8px;
-  padding: .7rem 1rem; font-size: .85rem; margin-top: .8rem;
-  display: none;
+/* ── REST / CENTER SCREEN ── */
+.sa-rest { text-align: center; padding: 1.5rem 0; }
+.sa-rest .big { font-size: 2.4rem; margin-bottom: .6rem; }
+.sa-rest h2 { font-family: var(--sans); font-size: 1.4rem; }
+
+/* ── BADGE / LABEL ── */
+.bd {
+  font-size: .7rem;
+  font-weight: 600;
+  padding: .22rem .65rem;
+  border-radius: 4px;
+  font-family: var(--body);
+}
+.bd-green  { background: var(--ok-bg);   color: var(--ok-text);   border: 1px solid var(--ok-border); }
+.bd-amber  { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+.bd-coral  { background: var(--err-bg);  color: var(--err-text);  border: 1px solid var(--err-border); }
+.bd-blue   { background: var(--blue-bg); color: var(--blue-text); border: 1px solid var(--blue-border); }
+
+/* Share URL box */
+.share-url-box {
+  background: var(--tertiary);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: .65rem 1rem;
+  font-family: var(--mono);
+  font-size: .82rem;
+  color: var(--text);
+  margin: .6rem 0;
+  word-break: break-all;
+}
+
+/* Meta / counter text */
+.sa-meta {
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: var(--faint);
+  margin-bottom: 1.2rem;
+}
+
+/* Inline note below scale */
+.sa-note {
+  font-size: .75rem;
+  color: var(--faint);
+  margin-top: -.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.55;
 }
 </style>
 </head>
@@ -205,28 +548,26 @@ body {
 const CONFIG = {
   audioBase: 'https://pub-e597382e71d24ba2a9ec99f1249c6c55.r2.dev/',
   backendURL: 'https://app.doremifo.com/responses',
-  // ✅ SECURITY: prolificCompleteURL odstránená z frontendu
-  // Backend vráti completion_url až po úspešnom uložení dát
   cells: ['01','02','03','04','05','06','07','08','09','10'],
   vars:  ['01','02','03','04','05','06','07','08','09','10'],
   stimPerParticipant: 3,
   duplicateCells: ['01','05','10'],
   semDiffScales: [
-    { id:'soft_hard',    left:'Soft',   right:'Hard'    },
-    { id:'dark_bright',  left:'Dark',   right:'Bright'  },
-    { id:'smooth_rough', left:'Smooth', right:'Rough'   },
+    { id:'soft_hard',      left:'Soft',   right:'Hard'    },
+    { id:'dark_bright',    left:'Dark',   right:'Bright'  },
+    { id:'smooth_rough',   left:'Smooth', right:'Rough'   },
     { id:'simple_complex', left:'Simple', right:'Complex' },
   ],
   attributes: [
-    { id:'premium',    label:'Premium',    type:'positive' },
-    { id:'trustworthy',label:'Trustworthy',type:'positive' },
-    { id:'dynamic',    label:'Dynamic',    type:'positive' },
-    { id:'fresh',      label:'Fresh',      type:'positive' },
-    { id:'generic',    label:'Generic',    type:'neutral'  },
-    { id:'functional', label:'Functional', type:'neutral'  },
-    { id:'cheap',      label:'Cheap',      type:'negative' },
-    { id:'irritating', label:'Irritating', type:'negative' },
-    { id:'none',       label:"Can't assign",type:'escape'  },
+    { id:'premium',     label:'Premium',      type:'positive' },
+    { id:'trustworthy', label:'Trustworthy',  type:'positive' },
+    { id:'dynamic',     label:'Dynamic',      type:'positive' },
+    { id:'fresh',       label:'Fresh',        type:'positive' },
+    { id:'generic',     label:'Generic',      type:'neutral'  },
+    { id:'functional',  label:'Functional',   type:'neutral'  },
+    { id:'cheap',       label:'Cheap',        type:'negative' },
+    { id:'irritating',  label:'Irritating',   type:'negative' },
+    { id:'none',        label:"Can't assign", type:'escape'   },
   ],
   uxAffordances: ['Success','Error','Warning','Message','Loading',"Don't know"],
   hugginsCorrect: null,
@@ -249,209 +590,126 @@ const STATE = {
   postTest: {},
 };
 
-// ── OCHRANA VOČI VIACNÁSOBNÉMU VYPLNENIU ─────────────
 const STORAGE_KEY = 'sa_completed_sessions';
-function markSessionCompleted(sessionID) {
-  try {
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    existing.push(sessionID);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing.slice(-20)));
-  } catch(e) {}
+function markSessionCompleted(sid) {
+  try { const e=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); e.push(sid); localStorage.setItem(STORAGE_KEY,JSON.stringify(e.slice(-20))); } catch(e) {}
 }
-function isSessionCompleted(sessionID) {
-  try {
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    return existing.includes(sessionID);
-  } catch(e) { return false; }
+function isSessionCompleted(sid) {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').includes(sid); } catch(e) { return false; }
 }
 
 function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function audioURL(cell, v) { return `${CONFIG.audioBase}CELL${cell}_VAR${v}.wav`; }
+function audioURL(cell,v){return `${CONFIG.audioBase}CELL${cell}_VAR${v}.wav`;}
 
 function buildStimulusOrder() {
-  const allCells = shuffle([...CONFIG.cells]);
-  const picked = allCells.slice(0, CONFIG.stimPerParticipant).map(cell => ({
-    cell, var: CONFIG.vars[Math.floor(Math.random()*CONFIG.vars.length)]
-  }));
-  const stable = picked.filter(s => CONFIG.duplicateCells.includes(s.cell));
-  const dupSource = stable.length > 0 ? stable[Math.floor(Math.random()*stable.length)] : picked[0];
-  STATE.duplicateSource = dupSource;
-  STATE.stimulusOrder = [...picked, {...dupSource, isDuplicate: true}];
-  STATE.attentionCheckIdx = 1;
-  const scales4 = [0,1,2,3];
-  STATE.semDiffAssignment = STATE.stimulusOrder.map(() => { const s=shuffle(scales4); return [s[0],s[1]]; });
+  const allCells=shuffle([...CONFIG.cells]);
+  const picked=allCells.slice(0,CONFIG.stimPerParticipant).map(cell=>({cell,var:CONFIG.vars[Math.floor(Math.random()*CONFIG.vars.length)]}));
+  const stable=picked.filter(s=>CONFIG.duplicateCells.includes(s.cell));
+  const dupSource=stable.length>0?stable[Math.floor(Math.random()*stable.length)]:picked[0];
+  STATE.duplicateSource=dupSource;
+  STATE.stimulusOrder=[...picked,{...dupSource,isDuplicate:true}];
+  STATE.attentionCheckIdx=1;
+  const scales4=[0,1,2,3];
+  STATE.semDiffAssignment=STATE.stimulusOrder.map(()=>{const s=shuffle(scales4);return[s[0],s[1]];});
 }
 
-function buildResponse(atomIdx, data) {
-  const stim = STATE.stimulusOrder[atomIdx];
-  return { prolific_pid: STATE.prolificPID, study_id: STATE.studyID, session_id: STATE.sessionID,
-    atom_index: atomIdx, cell: stim.cell, var: stim.var, is_duplicate: stim.isDuplicate||false,
-    ...data, timestamp: Date.now() };
+function buildResponse(atomIdx,data){
+  const stim=STATE.stimulusOrder[atomIdx];
+  return{prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
+    atom_index:atomIdx,cell:stim.cell,var:stim.var,is_duplicate:stim.isDuplicate||false,
+    ...data,timestamp:Date.now()};
 }
 
 buildStimulusOrder();
 
-// ── AUDIO ENGINE ──────────────────────────────────────
-let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  return audioCtx;
-}
+// ── AUDIO ENGINE ──
+let audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
-function generateHugginsStimuli() {
-  const ctx = getAudioCtx(), dur = 1.5, sr = ctx.sampleRate, buffers = [];
-  const correctIdx = Math.floor(Math.random()*3);
-  CONFIG.hugginsCorrect = correctIdx + 1;
-  for (let s=0; s<3; s++) {
-    const buf = ctx.createBuffer(2, sr*dur, sr);
-    const L = buf.getChannelData(0), R = buf.getChannelData(1);
-    for (let i=0; i<L.length; i++) { const n=(Math.random()*2-1)*0.3; L[i]=n; R[i]=n; }
-    if (s===correctIdx) {
-      for (let i=0; i<L.length; i++) { const t=i/sr, tone=Math.sin(2*Math.PI*600*t)*0.15; L[i]+=tone; R[i]-=tone; }
-    }
+function generateHugginsStimuli(){
+  const ctx=getAudioCtx(),dur=1.5,sr=ctx.sampleRate,buffers=[];
+  const correctIdx=Math.floor(Math.random()*3);
+  CONFIG.hugginsCorrect=correctIdx+1;
+  for(let s=0;s<3;s++){
+    const buf=ctx.createBuffer(2,sr*dur,sr);
+    const L=buf.getChannelData(0),R=buf.getChannelData(1);
+    for(let i=0;i<L.length;i++){const n=(Math.random()*2-1)*0.3;L[i]=n;R[i]=n;}
+    if(s===correctIdx){for(let i=0;i<L.length;i++){const t=i/sr,tone=Math.sin(2*Math.PI*600*t)*0.15;L[i]+=tone;R[i]-=tone;}}
     buffers.push(buf);
   }
   return buffers;
 }
 
-function playTrainingTone(type) {
-  const ctx = getAudioCtx();
-  if (ctx.state==='suspended') ctx.resume();
-  const osc = ctx.createOscillator(), gain = ctx.createGain();
-
-  if (type==='pleasant') {
-    [261.6, 329.6, 392].forEach(f => {
-      const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.frequency.value = f; o2.type = 'sine';
-      o2.connect(g2); g2.connect(ctx.destination);
-      const t = ctx.currentTime;
-      g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(0.12, t+0.05);
-      g2.gain.setValueAtTime(0.12, t+1.5); g2.gain.linearRampToValueAtTime(0, t+1.8);
-      o2.start(t); o2.stop(t+1.8);
-    });
-    return;
-  }
-  if (type==='unpleasant') {
-    [220, 233, 247, 440, 466].forEach((f,i) => {
-      const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.frequency.value = f; o2.type = i%2===0 ? 'sawtooth' : 'square';
-      o2.connect(g2); g2.connect(ctx.destination);
-      const t = ctx.currentTime;
-      g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(0.05, t+0.01);
-      g2.gain.setValueAtTime(0.05, t+1.5); g2.gain.linearRampToValueAtTime(0, t+1.7);
-      o2.start(t); o2.stop(t+1.7);
-    });
-    return;
-  }
-  if (type==='calm') {
-    osc.frequency.value = 180; osc.type = 'sine';
-    osc.connect(gain); gain.connect(ctx.destination);
-    const t = ctx.currentTime;
-    gain.gain.setValueAtTime(0,t); gain.gain.linearRampToValueAtTime(0.15, t+0.3);
-    gain.gain.setValueAtTime(0.15, t+2.5); gain.gain.linearRampToValueAtTime(0, t+3.5);
-    osc.start(t); osc.stop(t+3.5);
-    return;
-  }
-  if (type==='exciting') {
-    for (let i=0; i<8; i++) {
-      const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.frequency.value = 440 + (i%2)*220; o2.type = 'square';
-      o2.connect(g2); g2.connect(ctx.destination);
-      const t = ctx.currentTime + i*0.15;
-      g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(0.08, t+0.02);
-      g2.gain.setValueAtTime(0.08, t+0.1); g2.gain.linearRampToValueAtTime(0, t+0.13);
-      o2.start(t); o2.stop(t+0.14);
-    }
-    return;
-  }
-  if (type==='avoid') {
-    [55, 58].forEach(f => {
-      const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.frequency.value = f; o2.type = 'sawtooth';
-      o2.connect(g2); g2.connect(ctx.destination);
-      const t = ctx.currentTime;
-      g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(0.1, t+0.1);
-      g2.gain.setValueAtTime(0.1, t+2); g2.gain.linearRampToValueAtTime(0, t+2.5);
-      o2.start(t); o2.stop(t+2.5);
-    });
-    return;
-  }
-  if (type==='approach') {
-    [880, 1100, 1320].forEach((f,i) => {
-      const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.frequency.value = f; o2.type = 'sine';
-      o2.connect(g2); g2.connect(ctx.destination);
-      const t = ctx.currentTime + i*0.1;
-      g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(0.12, t+0.02);
-      g2.gain.exponentialRampToValueAtTime(0.001, t+0.35);
-      o2.start(t); o2.stop(t+0.35);
-    });
-    return;
-  }
+function playTrainingTone(type){
+  const ctx=getAudioCtx();
+  if(ctx.state==='suspended')ctx.resume();
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  if(type==='pleasant'){[261.6,329.6,392].forEach(f=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type='sine';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.12,t+0.05);g2.gain.setValueAtTime(0.12,t+1.5);g2.gain.linearRampToValueAtTime(0,t+1.8);o2.start(t);o2.stop(t+1.8);});return;}
+  if(type==='unpleasant'){[220,233,247,440,466].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type=i%2===0?'sawtooth':'square';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.05,t+0.01);g2.gain.setValueAtTime(0.05,t+1.5);g2.gain.linearRampToValueAtTime(0,t+1.7);o2.start(t);o2.stop(t+1.7);});return;}
+  if(type==='calm'){osc.frequency.value=180;osc.type='sine';osc.connect(gain);gain.connect(ctx.destination);const t=ctx.currentTime;gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.15,t+0.3);gain.gain.setValueAtTime(0.15,t+2.5);gain.gain.linearRampToValueAtTime(0,t+3.5);osc.start(t);osc.stop(t+3.5);return;}
+  if(type==='exciting'){for(let i=0;i<8;i++){const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=440+(i%2)*220;o2.type='square';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime+i*0.15;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.08,t+0.02);g2.gain.setValueAtTime(0.08,t+0.1);g2.gain.linearRampToValueAtTime(0,t+0.13);o2.start(t);o2.stop(t+0.14);}return;}
+  if(type==='avoid'){[55,58].forEach(f=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type='sawtooth';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.1,t+0.1);g2.gain.setValueAtTime(0.1,t+2);g2.gain.linearRampToValueAtTime(0,t+2.5);o2.start(t);o2.stop(t+2.5);});return;}
+  if(type==='approach'){[880,1100,1320].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type='sine';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime+i*0.1;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.12,t+0.02);g2.gain.exponentialRampToValueAtTime(0.001,t+0.35);o2.start(t);o2.stop(t+0.35);});return;}
 }
 
-// ── AUDIO PLAYBACK ────────────────────────────────────
-let currentAudio = null, audioGateTimer = null, audioGatePassed = {};
-let miniPlayerRef = {};
+// ── AUDIO PLAYBACK ──
+let currentAudio=null,audioGateTimer=null,audioGatePassed={};
 
-function handlePlay(atomIdx, url) {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  const btn = document.getElementById(`playBtn_${atomIdx}`);
-  const fill = document.getElementById(`wfill_${atomIdx}`);
-  if (!btn) return;
-  const audio = new Audio(url);
-  currentAudio = audio;
-  btn.textContent = '⏸';
-  btn.onclick = () => { audio.pause(); btn.textContent='▶'; btn.onclick=()=>handlePlay(atomIdx,url); };
-  if (fill) { audio.addEventListener('timeupdate', () => { if (audio.duration) fill.style.width=(audio.currentTime/audio.duration*100)+'%'; }); }
-  audio.addEventListener('ended', () => { btn.textContent='▶'; btn.onclick=()=>handlePlay(atomIdx,url); if(fill) fill.style.width='100%'; syncMiniPlayers(atomIdx, false); });
-  audio.play().catch(e => console.warn('Audio error:', e));
-  syncMiniPlayers(atomIdx, true);
-  if (atomIdx !== 'baseline' && !audioGatePassed[atomIdx]) {
+function handlePlay(atomIdx,url){
+  if(currentAudio){currentAudio.pause();currentAudio=null;}
+  const btn=document.getElementById(`playBtn_${atomIdx}`);
+  const fill=document.getElementById(`wfill_${atomIdx}`);
+  if(!btn)return;
+  const audio=new Audio(url);
+  currentAudio=audio;
+  btn.textContent='⏸';
+  btn.onclick=()=>{audio.pause();btn.textContent='▶';btn.onclick=()=>handlePlay(atomIdx,url);};
+  if(fill){audio.addEventListener('timeupdate',()=>{if(audio.duration)fill.style.width=(audio.currentTime/audio.duration*100)+'%';});}
+  audio.addEventListener('ended',()=>{btn.textContent='▶';btn.onclick=()=>handlePlay(atomIdx,url);if(fill)fill.style.width='100%';syncMiniPlayers(atomIdx,false);});
+  audio.play().catch(e=>console.warn('Audio error:',e));
+  syncMiniPlayers(atomIdx,true);
+  if(atomIdx!=='baseline'&&!audioGatePassed[atomIdx]){
     clearTimeout(audioGateTimer);
-    audioGateTimer = setTimeout(() => { audioGatePassed[atomIdx]=true; checkSubmitReady(atomIdx); }, 2000);
+    audioGateTimer=setTimeout(()=>{audioGatePassed[atomIdx]=true;checkSubmitReady(atomIdx);},2000);
   }
 }
 
-function syncMiniPlayers(atomIdx, playing) {
-  document.querySelectorAll(`[data-mini-atom="${atomIdx}"]`).forEach(btn => {
-    btn.textContent = playing ? '⏸' : '▶';
-  });
+function syncMiniPlayers(atomIdx,playing){
+  document.querySelectorAll(`[data-mini-atom="${atomIdx}"]`).forEach(btn=>{btn.textContent=playing?'⏸':'▶';});
 }
+function handleMiniPlay(atomIdx,url){handlePlay(atomIdx,url);}
 
-function handleMiniPlay(atomIdx, url) { handlePlay(atomIdx, url); }
-
-function playBaselineTone() {
-  const ctx = getAudioCtx();
-  if (ctx.state==='suspended') ctx.resume();
-  const btn = document.getElementById('playBtn_baseline');
-  const fill = document.getElementById('wfill_baseline');
-  const dur = 2.0, osc = ctx.createOscillator(), gain = ctx.createGain();
-  osc.type='sine'; osc.frequency.value=440;
-  osc.connect(gain); gain.connect(ctx.destination);
-  const t = ctx.currentTime;
-  gain.gain.setValueAtTime(0,t); gain.gain.linearRampToValueAtTime(0.18, t+0.15);
-  gain.gain.setValueAtTime(0.18, t+dur-0.2); gain.gain.linearRampToValueAtTime(0, t+dur);
-  osc.start(t); osc.stop(t+dur);
-  btn.textContent='⏸'; btn.disabled=true;
-  const startMs = performance.now();
-  const tick = () => { const pct=Math.min((performance.now()-startMs)/(dur*1000)*100,100); if(fill) fill.style.width=pct+'%'; if(pct<100) requestAnimationFrame(tick); };
+function playBaselineTone(){
+  const ctx=getAudioCtx();
+  if(ctx.state==='suspended')ctx.resume();
+  const btn=document.getElementById('playBtn_baseline');
+  const fill=document.getElementById('wfill_baseline');
+  const dur=2.0,osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.type='sine';osc.frequency.value=440;
+  osc.connect(gain);gain.connect(ctx.destination);
+  const t=ctx.currentTime;
+  gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.18,t+0.15);
+  gain.gain.setValueAtTime(0.18,t+dur-0.2);gain.gain.linearRampToValueAtTime(0,t+dur);
+  osc.start(t);osc.stop(t+dur);
+  btn.textContent='⏸';btn.disabled=true;
+  const startMs=performance.now();
+  const tick=()=>{const pct=Math.min((performance.now()-startMs)/(dur*1000)*100,100);if(fill)fill.style.width=pct+'%';if(pct<100)requestAnimationFrame(tick);};
   requestAnimationFrame(tick);
-  osc.onended = () => { btn.textContent='▶'; btn.disabled=false; if(fill) fill.style.width='100%'; document.getElementById('volOpts').style.display='flex'; document.getElementById('baselineNext').disabled=!volSelected; };
+  osc.onended=()=>{btn.textContent='▶';btn.disabled=false;if(fill)fill.style.width='100%';document.getElementById('volOpts').style.display='flex';document.getElementById('baselineNext').disabled=!volSelected;};
 }
 
-// ── RENDER HELPERS ────────────────────────────────────
-function renderLikert(id, left, right, n, label) {
-  const opts = Array.from({length:n},(_,i)=>`<input type="radio" name="${id}" id="${id}_${i+1}" value="${i+1}"><label for="${id}_${i+1}">${i+1}</label>`).join('');
+// ── RENDER HELPERS ──
+function renderLikert(id,left,right,n,label){
+  const opts=Array.from({length:n},(_,i)=>`<input type="radio" name="${id}" id="${id}_${i+1}" value="${i+1}"><label for="${id}_${i+1}">${i+1}</label>`).join('');
   return `<div class="sa-scale-block"><div class="sa-scale-label">${label}</div><div class="sa-likert"><span class="sa-likert-anchor">${left}</span><div class="sa-likert-options">${opts}</div><span class="sa-likert-anchor right">${right}</span></div></div>`;
 }
 
-function renderMiniPlayer(atomIdx, url, label) {
-  const idxExpr = typeof atomIdx==='string' ? `'${atomIdx}'` : atomIdx;
+function renderMiniPlayer(atomIdx,url,label){
+  const idxExpr=typeof atomIdx==='string'?`'${atomIdx}'`:atomIdx;
   return `<div class="sa-mini-player">
     <button class="sa-mini-play-btn" data-mini-atom="${atomIdx}" onclick="handleMiniPlay(${idxExpr},'${url}')">▶</button>
     <div><div class="sa-mini-label"><strong>Replay sound</strong>${label?' · '+label:''}</div></div>
@@ -459,8 +717,8 @@ function renderMiniPlayer(atomIdx, url, label) {
   </div>`;
 }
 
-function renderAudioPlayer(url, atomIdx) {
-  const idxExpr = typeof atomIdx==='string' ? `'${atomIdx}'` : atomIdx;
+function renderAudioPlayer(url,atomIdx){
+  const idxExpr=typeof atomIdx==='string'?`'${atomIdx}'`:atomIdx;
   return `<p class="sa-play-hint">Press ▶ to listen — Submit unlocks after 2 seconds.</p>
   <div class="sa-player">
     <button class="sa-play-btn" id="playBtn_${atomIdx}" onclick="handlePlay(${idxExpr},'${url}')">▶</button>
@@ -468,82 +726,75 @@ function renderAudioPlayer(url, atomIdx) {
   </div>`;
 }
 
-function renderSectionHeader(tag, title) {
+function renderSectionHeader(tag,title){
   return `<div class="sa-section-header"><div class="sa-section-tag">${tag}</div><h3>${title}</h3></div>`;
 }
 
-function render(html) {
-  document.getElementById('app').innerHTML = `<div class="sa-card">${html}</div>`;
+function render(html){
+  document.getElementById('app').innerHTML=`<div class="sa-card">${html}</div>`;
 }
 
-// ── SUBMIT LOGIC ──────────────────────────────────────
-function checkSubmitReady(atomIdx) {
-  const btn = document.getElementById(`submitBtn_${atomIdx}`);
-  if (!btn) return;
-  btn.disabled = !(audioGatePassed[atomIdx] && checkAllAnswered(atomIdx));
+// ── SUBMIT LOGIC ──
+function checkSubmitReady(atomIdx){
+  const btn=document.getElementById(`submitBtn_${atomIdx}`);
+  if(!btn)return;
+  btn.disabled=!(audioGatePassed[atomIdx]&&checkAllAnswered(atomIdx));
 }
 
-function checkAllAnswered(atomIdx) {
-  for (const r of ['valence','arousal','trustworthiness','action_urge','distinctiveness']) {
-    if (!document.querySelector(`input[name="${r}_${atomIdx}"]:checked`)) return false;
+function checkAllAnswered(atomIdx){
+  for(const r of['valence','arousal','trustworthiness','action_urge','distinctiveness']){
+    if(!document.querySelector(`input[name="${r}_${atomIdx}"]:checked`))return false;
   }
-  if (!document.querySelector(`[data-attr][data-selected="true"]`)) return false;
-  if (!document.querySelector(`[data-ux][data-selected="true"]`)) return false;
+  if(!document.querySelector(`[data-attr][data-selected="true"]`))return false;
+  if(!document.querySelector(`[data-ux][data-selected="true"]`))return false;
   return true;
 }
 
-function selectAttr(el) {
+function selectAttr(el){
   document.querySelectorAll('[data-attr]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});
-  el.dataset.selected='true'; el.classList.add('selected');
+  el.dataset.selected='true';el.classList.add('selected');
   checkSubmitReady(parseInt(el.dataset.atomidx));
 }
-function selectUX(el) {
+function selectUX(el){
   document.querySelectorAll('[data-ux]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});
-  el.dataset.selected='true'; el.classList.add('selected');
+  el.dataset.selected='true';el.classList.add('selected');
   checkSubmitReady(parseInt(el.dataset.atomidx));
 }
-function onLikertChange(atomIdx) { checkSubmitReady(atomIdx); }
-function getVal(name) { const el=document.querySelector(`input[name="${name}"]:checked`); return el?parseInt(el.value):null; }
+function onLikertChange(atomIdx){checkSubmitReady(atomIdx);}
+function getVal(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?parseInt(el.value):null;}
 
-function submitAtom(atomIdx) {
-  const semScales = STATE.semDiffAssignment[atomIdx];
-  const semData = {};
-  semScales.forEach(si => { const sc=CONFIG.semDiffScales[si]; semData[sc.id]=getVal(`semdiff_${sc.id}_${atomIdx}`); });
-  const attrEl = document.querySelector('[data-attr][data-selected="true"]');
-  const confEl = document.querySelector(`input[name="confidence_${atomIdx}"]:checked`);
-  const uxEl   = document.querySelector('[data-ux][data-selected="true"]');
-  STATE.responses.push(buildResponse(atomIdx, {
-    valence: getVal(`valence_${atomIdx}`), arousal: getVal(`arousal_${atomIdx}`),
-    trustworthiness: getVal(`trustworthiness_${atomIdx}`), action_urge: getVal(`action_urge_${atomIdx}`),
-    distinctiveness: getVal(`distinctiveness_${atomIdx}`),
-    attribute: attrEl?attrEl.dataset.attr:null, confidence: confEl?parseInt(confEl.value):null,
-    ux_affordance: uxEl?uxEl.dataset.ux:null, sem_diff: semData,
+function submitAtom(atomIdx){
+  const semScales=STATE.semDiffAssignment[atomIdx];
+  const semData={};
+  semScales.forEach(si=>{const sc=CONFIG.semDiffScales[si];semData[sc.id]=getVal(`semdiff_${sc.id}_${atomIdx}`);});
+  const attrEl=document.querySelector('[data-attr][data-selected="true"]');
+  const confEl=document.querySelector(`input[name="confidence_${atomIdx}"]:checked`);
+  const uxEl=document.querySelector('[data-ux][data-selected="true"]');
+  STATE.responses.push(buildResponse(atomIdx,{
+    valence:getVal(`valence_${atomIdx}`),arousal:getVal(`arousal_${atomIdx}`),
+    trustworthiness:getVal(`trustworthiness_${atomIdx}`),action_urge:getVal(`action_urge_${atomIdx}`),
+    distinctiveness:getVal(`distinctiveness_${atomIdx}`),
+    attribute:attrEl?attrEl.dataset.attr:null,confidence:confEl?parseInt(confEl.value):null,
+    ux_affordance:uxEl?uxEl.dataset.ux:null,sem_diff:semData,
   }));
   STATE.currentAtomIdx++;
-  if (STATE.currentAtomIdx < STATE.stimulusOrder.length) {
-    if (STATE.currentAtomIdx === STATE.attentionCheckIdx) renderAttentionCheck();
+  if(STATE.currentAtomIdx<STATE.stimulusOrder.length){
+    if(STATE.currentAtomIdx===STATE.attentionCheckIdx)renderAttentionCheck();
     else renderAtom(STATE.currentAtomIdx);
   } else {
     renderPostTest();
   }
 }
 
-// ── SCREENS ───────────────────────────────────────────
+// ── SCREENS ──
 
-function renderWelcome() {
-  if (STATE.source === 'social' && isSessionCompleted(STATE.sessionID)) {
-    render(`
-      <div class="sa-rest">
-        <div class="big">✅</div>
-        <h2>Already completed</h2>
-        <p style="margin-top:.8rem">It looks like you have already completed this study. Thank you for your participation!</p>
-      </div>
-    `);
+function renderWelcome(){
+  if(STATE.source==='social'&&isSessionCompleted(STATE.sessionID)){
+    render(`<div class="sa-rest"><div class="big">✅</div><h2>Already completed</h2><p style="margin-top:.8rem">It looks like you have already completed this study. Thank you for your participation!</p></div>`);
     return;
   }
-
   render(`
-    <h2>🎵 Sonic Atoms — Sound Perception Study</h2>
+    <h2>Sonic Atoms<br>Sound Perception Study</h2>
     <p style="margin-top:.8rem">Welcome! In this study you will listen to <strong>3 short sounds</strong> and rate each one across several dimensions.</p>
     <p style="margin-top:.6rem">The study takes approximately <strong>5–7 minutes</strong>. Please use <strong>headphones</strong> and find a quiet place.</p>
     <ul style="margin-top:.8rem">
@@ -556,13 +807,13 @@ function renderWelcome() {
 }
 
 // HP CHECK
-let hugginsBuffers=null, hugginsSelected=null, hugginsAttempts=0;
-function renderHeadphoneCheck() {
-  hugginsBuffers = generateHugginsStimuli(); hugginsSelected=null;
-  render(`<h2>🎧 Headphone Check</h2>
+let hugginsBuffers=null,hugginsSelected=null,hugginsAttempts=0;
+function renderHeadphoneCheck(){
+  hugginsBuffers=generateHugginsStimuli();hugginsSelected=null;
+  render(`<h2>Headphone Check</h2>
     <p style="margin-top:.6rem">This study requires headphones. We will verify your audio setup.</p>
     <p style="margin-top:.8rem"><strong>Task:</strong> Three short intervals will play. In one you may hear a faint tone. Which interval?</p>
-    <p style="margin-top:.4rem; font-size:.8rem; color:var(--muted)">Attempt ${hugginsAttempts+1} of 2</p>
+    <p style="margin-top:.4rem" class="sa-meta">Attempt ${hugginsAttempts+1} of 2</p>
     <button class="sa-submit" style="margin-top:1rem;margin-bottom:1rem" onclick="playHuggins()">▶ Play intervals</button>
     <div class="sa-hp-options" id="hugginsOpts" style="display:none">
       <button class="sa-hp-btn" onclick="selectHuggins(1,this)">Interval 1</button>
@@ -571,23 +822,23 @@ function renderHeadphoneCheck() {
     </div>
     <button class="sa-submit" id="hugginsSubmit" disabled onclick="submitHuggins()" style="margin-top:.8rem">Confirm →</button>`);
 }
-function playHuggins() {
-  const ctx=getAudioCtx(); let time=ctx.currentTime+0.1;
-  hugginsBuffers.forEach(buf=>{ const src=ctx.createBufferSource(); src.buffer=buf; src.connect(ctx.destination); src.start(time); time+=buf.duration+0.3; });
-  setTimeout(()=>{ document.getElementById('hugginsOpts').style.display='flex'; }, (hugginsBuffers[0].duration+0.3)*500);
+function playHuggins(){
+  const ctx=getAudioCtx();let time=ctx.currentTime+0.1;
+  hugginsBuffers.forEach(buf=>{const src=ctx.createBufferSource();src.buffer=buf;src.connect(ctx.destination);src.start(time);time+=buf.duration+0.3;});
+  setTimeout(()=>{document.getElementById('hugginsOpts').style.display='flex';},(hugginsBuffers[0].duration+0.3)*500);
 }
-function selectHuggins(n,el) { document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); hugginsSelected=n; document.getElementById('hugginsSubmit').disabled=false; }
-function submitHuggins() {
-  const correct=hugginsSelected===CONFIG.hugginsCorrect; hugginsAttempts++;
-  if (!correct&&hugginsAttempts>=2) renderSpectralCheck(true);
-  else { if(!correct) STATE.headphoneFlag=true; renderSpectralCheck(false); }
+function selectHuggins(n,el){document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');hugginsSelected=n;document.getElementById('hugginsSubmit').disabled=false;}
+function submitHuggins(){
+  const correct=hugginsSelected===CONFIG.hugginsCorrect;hugginsAttempts++;
+  if(!correct&&hugginsAttempts>=2)renderSpectralCheck(true);
+  else{if(!correct)STATE.headphoneFlag=true;renderSpectralCheck(false);}
 }
 
-let spectralCorrect=null, spectralSelected=null;
-function renderSpectralCheck(hardFail) {
-  spectralCorrect=Math.floor(Math.random()*3)+1; spectralSelected=null;
-  const tones=[440,440,440]; tones[spectralCorrect-1]=880;
-  render(`<h2>🎧 Audio Check — Part 2</h2>
+let spectralCorrect=null,spectralSelected=null;
+function renderSpectralCheck(hardFail){
+  spectralCorrect=Math.floor(Math.random()*3)+1;spectralSelected=null;
+  const tones=[440,440,440];tones[spectralCorrect-1]=880;
+  render(`<h2>Audio Check — Part 2</h2>
     <p style="margin-top:.6rem">Three tones will play. One is a <strong>different pitch</strong>. Which one?</p>
     <button class="sa-submit" style="margin-top:1rem;margin-bottom:1rem" onclick="playSpectral(${JSON.stringify(tones)})">▶ Play tones</button>
     <div class="sa-hp-options" id="spectralOpts" style="display:none">
@@ -597,23 +848,23 @@ function renderSpectralCheck(hardFail) {
     </div>
     <button class="sa-submit" id="spectralSubmit" disabled onclick="submitSpectral(${hardFail})" style="margin-top:.8rem">Confirm →</button>`);
 }
-function playSpectral(tones) {
-  const ctx=getAudioCtx(); let time=ctx.currentTime+0.1;
-  tones.forEach(freq=>{ const osc=ctx.createOscillator(),gain=ctx.createGain(); osc.frequency.value=freq; osc.connect(gain); gain.connect(ctx.destination); gain.gain.setValueAtTime(0.2,time); gain.gain.exponentialRampToValueAtTime(0.001,time+0.8); osc.start(time); osc.stop(time+0.8); time+=1.1; });
-  setTimeout(()=>{ document.getElementById('spectralOpts').style.display='flex'; },1500);
+function playSpectral(tones){
+  const ctx=getAudioCtx();let time=ctx.currentTime+0.1;
+  tones.forEach(freq=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.frequency.value=freq;osc.connect(gain);gain.connect(ctx.destination);gain.gain.setValueAtTime(0.2,time);gain.gain.exponentialRampToValueAtTime(0.001,time+0.8);osc.start(time);osc.stop(time+0.8);time+=1.1;});
+  setTimeout(()=>{document.getElementById('spectralOpts').style.display='flex';},1500);
 }
-function selectSpectral(n,el) { document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); spectralSelected=n; document.getElementById('spectralSubmit').disabled=false; }
-function submitSpectral(hardFail) {
+function selectSpectral(n,el){document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');spectralSelected=n;document.getElementById('spectralSubmit').disabled=false;}
+function submitSpectral(hardFail){
   const correct=spectralSelected===spectralCorrect;
-  if (hardFail&&!correct) { STATE.terminated=true; render(`<h2>⚠️ Audio Check Failed</h2><p style="margin-top:.8rem">We could not verify your headphone setup. Please return your submission on Prolific — you will not be penalised.</p>`); return; }
-  if (!correct) STATE.headphoneFlag=true;
+  if(hardFail&&!correct){STATE.terminated=true;render(`<h2>Audio Check Failed</h2><p style="margin-top:.8rem">We could not verify your headphone setup. Please return your submission on Prolific — you will not be penalised.</p>`);return;}
+  if(!correct)STATE.headphoneFlag=true;
   renderBaseline();
 }
 
 // BASELINE
 let volSelected=null;
-function renderBaseline() {
-  render(`<h2>🔊 Volume Calibration</h2>
+function renderBaseline(){
+  render(`<h2>Volume Calibration</h2>
     <p style="margin-top:.6rem">Listen to this reference tone and set your volume to a comfortable level.</p>
     <p class="sa-play-hint" style="margin-top:1rem">Press ▶ to play.</p>
     <div class="sa-player">
@@ -622,33 +873,33 @@ function renderBaseline() {
     </div>
     <div class="sa-vol-options" id="volOpts" style="display:none">
       <button class="sa-vol-btn" onclick="selectVol('too_quiet',this)">🔉 Too quiet</button>
-      <button class="sa-vol-btn" onclick="selectVol('ok',this)">✅ OK</button>
+      <button class="sa-vol-btn" onclick="selectVol('ok',this)">✓ OK</button>
       <button class="sa-vol-btn" onclick="selectVol('too_loud',this)">🔊 Too loud</button>
     </div>
     <button class="sa-submit" id="baselineNext" disabled onclick="renderSensitivity()">Continue →</button>`);
 }
-function selectVol(val,el) { document.querySelectorAll('.sa-vol-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); volSelected=val; document.getElementById('baselineNext').disabled=false; }
+function selectVol(val,el){document.querySelectorAll('.sa-vol-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');volSelected=val;document.getElementById('baselineNext').disabled=false;}
 
 // SENSITIVITY
-function renderSensitivity() {
+function renderSensitivity(){
   render(`<h2>Sound Sensitivity</h2>
     <p style="margin-top:.6rem">How sensitive are you to sounds in general? (1 = not sensitive, 10 = very sensitive)</p>
     ${renderLikert('sensitivity','Not sensitive','Very sensitive',10,'')}
     <button class="sa-submit" id="sensNext" disabled onclick="submitSensitivity()">Continue →</button>`);
-  document.querySelectorAll('input[name="sensitivity"]').forEach(el => {
-    el.addEventListener('change', ()=>{ document.getElementById('sensNext').disabled=false; });
+  document.querySelectorAll('input[name="sensitivity"]').forEach(el=>{
+    el.addEventListener('change',()=>{document.getElementById('sensNext').disabled=false;});
   });
 }
-function submitSensitivity() {
+function submitSensitivity(){
   const el=document.querySelector('input[name="sensitivity"]:checked');
   STATE.sensitivity=el?parseInt(el.value):null;
   renderEarTraining();
 }
 
-// ── EAR TRAINING ──────────────────────────────────────
-function renderEarTraining() {
+// EAR TRAINING
+function renderEarTraining(){
   render(`
-    <h2>👂 Ear Training</h2>
+    <h2>Ear Training</h2>
     <p style="margin-top:.6rem">Before we start, listen to some extreme examples of each scale. This will help you calibrate your ratings.</p>
     <p style="margin-top:.4rem; font-size:.82rem; color:var(--muted)">Click the play buttons to hear examples — then click Continue when ready.</p>
     <hr class="sa-divider">
@@ -721,8 +972,8 @@ function renderEarTraining() {
 }
 
 // INSTRUCTIONS
-function renderInstructions() {
-  render(`<h2>📋 Instructions</h2>
+function renderInstructions(){
+  render(`<h2>Instructions</h2>
     <p style="margin-top:.6rem">You will now hear <strong>3 sounds</strong>. For each sound, you will rate it across four sections:</p>
     <ul style="margin-top:.8rem">
       <li><strong>Affect</strong> — how the sound feels (Valence, Arousal)</li>
@@ -735,77 +986,74 @@ function renderInstructions() {
     <button class="sa-submit" onclick="renderAtom(0)" style="margin-top:1.2rem">Begin →</button>`);
 }
 
-// ── ATOM ─────────────────────────────────────────────
-function renderAtom(atomIdx) {
-  const stim = STATE.stimulusOrder[atomIdx];
-  const url = audioURL(stim.cell, stim.var);
-  const prog = Math.round((atomIdx / STATE.stimulusOrder.length) * 100);
-  const semScales = STATE.semDiffAssignment[atomIdx];
-  const semDiffHTML = semScales.map(si => {
-    const sc=CONFIG.semDiffScales[si];
-    return renderLikert(`semdiff_${sc.id}_${atomIdx}`, sc.left, sc.right, 7, sc.left+' — '+sc.right);
-  }).join('');
-  const attrBtns = CONFIG.attributes.map(a=>`<button class="sa-attr-btn ${a.type}" data-attr="${a.id}" data-selected="false" data-atomidx="${atomIdx}" onclick="selectAttr(this)">${a.label}</button>`).join('');
-  const uxBtns = CONFIG.uxAffordances.map(u=>`<button class="sa-ux-btn" data-ux="${u}" data-selected="false" data-atomidx="${atomIdx}" onclick="selectUX(this)">${u}</button>`).join('');
-  const confOpts = [1,2,3,4,5].map(n=>`<input type="radio" name="confidence_${atomIdx}" id="conf_${atomIdx}_${n}" value="${n}"><label for="conf_${atomIdx}_${n}">${n}</label>`).join('');
+// ATOM
+function renderAtom(atomIdx){
+  const stim=STATE.stimulusOrder[atomIdx];
+  const url=audioURL(stim.cell,stim.var);
+  const prog=Math.round((atomIdx/STATE.stimulusOrder.length)*100);
+  const semScales=STATE.semDiffAssignment[atomIdx];
+  const semDiffHTML=semScales.map(si=>{const sc=CONFIG.semDiffScales[si];return renderLikert(`semdiff_${sc.id}_${atomIdx}`,sc.left,sc.right,7,sc.left+' — '+sc.right);}).join('');
+  const attrBtns=CONFIG.attributes.map(a=>`<button class="sa-attr-btn ${a.type}" data-attr="${a.id}" data-selected="false" data-atomidx="${atomIdx}" onclick="selectAttr(this)">${a.label}</button>`).join('');
+  const uxBtns=CONFIG.uxAffordances.map(u=>`<button class="sa-ux-btn" data-ux="${u}" data-selected="false" data-atomidx="${atomIdx}" onclick="selectUX(this)">${u}</button>`).join('');
+  const confOpts=[1,2,3,4,5].map(n=>`<input type="radio" name="confidence_${atomIdx}" id="conf_${atomIdx}_${n}" value="${n}"><label for="conf_${atomIdx}_${n}">${n}</label>`).join('');
 
   render(`
     <div class="sa-progress"><div class="sa-progress-bar" style="width:${prog}%"></div></div>
-    <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem">Sound ${atomIdx+1} of ${STATE.stimulusOrder.length}</p>
+    <p class="sa-meta">Sound ${atomIdx+1} of ${STATE.stimulusOrder.length}</p>
 
-    ${renderAudioPlayer(url, atomIdx)}
+    ${renderAudioPlayer(url,atomIdx)}
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 1 · Affect','How does the sound feel?')}
-    ${renderMiniPlayer(atomIdx, url, 'replay before rating')}
+    ${renderMiniPlayer(atomIdx,url,'replay before rating')}
     ${renderLikert(`valence_${atomIdx}`,'Unpleasant','Pleasant',9,'Valence (1 = Unpleasant, 9 = Pleasant)')}
     ${renderLikert(`arousal_${atomIdx}`,'Calm','Exciting',9,'Arousal (1 = Calm, 9 = Exciting)')}
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 2 · Perception','Sound character')}
-    ${renderMiniPlayer(atomIdx, url)}
+    ${renderMiniPlayer(atomIdx,url)}
     ${semDiffHTML}
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 3 · Behaviour','Your response')}
-    ${renderMiniPlayer(atomIdx, url)}
+    ${renderMiniPlayer(atomIdx,url)}
     ${renderLikert(`trustworthiness_${atomIdx}`,'Not trustworthy','Very trustworthy',7,'Perceived Trustworthiness')}
-    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">Trustworthy = the sound conveys reliability and safety. (1 = not at all trustworthy, 7 = very trustworthy)</p>
+    <p class="sa-note">Trustworthy = the sound conveys reliability and safety. (1 = not at all trustworthy, 7 = very trustworthy)</p>
     ${renderLikert(`action_urge_${atomIdx}`,'Stop / avoid','Continue / engage',7,'Action Urge')}
-    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">How would you react to this sound? &nbsp;1 = I want to stop it / silence it / leave &nbsp;·&nbsp; 4 = neutral, neither direction &nbsp;·&nbsp; 7 = I want to continue / react / click</p>
+    <p class="sa-note">How would you react to this sound? &nbsp;1 = I want to stop it / silence it &nbsp;·&nbsp; 4 = neutral &nbsp;·&nbsp; 7 = I want to continue / react / click</p>
     ${renderLikert(`distinctiveness_${atomIdx}`,'Blends in','Very distinctive',7,'Distinctiveness')}
-    <p style="font-size:.78rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem">How easily would you recognise this sound among others? &nbsp;1 = not at all, blends in &nbsp;·&nbsp; 7 = immediately, very distinctive</p>
+    <p class="sa-note">How easily would you recognise this sound among others? &nbsp;1 = not at all &nbsp;·&nbsp; 7 = immediately, very distinctive</p>
 
     <hr class="sa-divider">
     ${renderSectionHeader('Section 4 · Classification','Context and identity')}
-    ${renderMiniPlayer(atomIdx, url)}
+    ${renderMiniPlayer(atomIdx,url)}
     <div class="sa-scale-block">
       <div class="sa-scale-label">Attribute</div>
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">If this sound were part of a digital product, what impression would it make? Select the one category that best describes the character of the sound.</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem">If this sound were part of a digital product, what impression would it make? Select the one category that best describes the character of the sound.</p>
       <div class="sa-attr-grid">${attrBtns}</div>
       <div class="sa-confidence">
         <span>Confidence:</span>
         <div class="sa-conf-options">${confOpts}</div>
       </div>
-      <p style="font-size:.75rem;color:var(--muted);margin-top:.4rem">1 = I guessed &nbsp;·&nbsp; 3 = fairly sure &nbsp;·&nbsp; 5 = completely certain</p>
+      <p class="sa-note" style="margin-top:.5rem">1 = I guessed &nbsp;·&nbsp; 3 = fairly sure &nbsp;·&nbsp; 5 = completely certain</p>
     </div>
     <div class="sa-scale-block">
       <div class="sa-scale-label">UX Affordance</div>
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">Imagine this sound playing in an app on your phone. What event would it announce?</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem">Imagine this sound playing in an app on your phone. What event would it announce?</p>
       <div class="sa-ux-grid">${uxBtns}</div>
     </div>
 
     <button class="sa-submit" id="submitBtn_${atomIdx}" disabled onclick="submitAtom(${atomIdx})">Submit sound ${atomIdx+1} →</button>
   `);
 
-  document.querySelectorAll('input[type=radio]').forEach(el => {
-    el.addEventListener('change', () => onLikertChange(atomIdx));
+  document.querySelectorAll('input[type=radio]').forEach(el=>{
+    el.addEventListener('change',()=>onLikertChange(atomIdx));
   });
 }
 
 // ATTENTION CHECK
 let attentionSelected=null;
-function renderAttentionCheck() {
+function renderAttentionCheck(){
   render(`<h2>Quick Check</h2>
     <p style="margin-top:.8rem">Please select option <strong>3</strong> from the list below.</p>
     <div class="sa-attention-options">
@@ -813,14 +1061,14 @@ function renderAttentionCheck() {
     </div>
     <button class="sa-submit" id="attnSubmit" disabled onclick="submitAttention()" style="margin-top:1rem">Continue →</button>`);
 }
-function selectAttention(n,el) { document.querySelectorAll('.sa-attention-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); attentionSelected=n; document.getElementById('attnSubmit').disabled=false; }
-function submitAttention() { if(attentionSelected!==3) STATE.attentionFlag=true; renderAtom(STATE.currentAtomIdx); }
+function selectAttention(n,el){document.querySelectorAll('.sa-attention-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');attentionSelected=n;document.getElementById('attnSubmit').disabled=false;}
+function submitAttention(){if(attentionSelected!==3)STATE.attentionFlag=true;renderAtom(STATE.currentAtomIdx);}
 
-// ── POST-TEST ─────────────────────────────────────────
-function renderPostTest() {
+// POST-TEST
+function renderPostTest(){
   render(`
     <h2>Almost done!</h2>
-    <p style="margin-top:.6rem; margin-bottom:1.2rem">A few quick questions about your listening setup.</p>
+    <p style="margin-top:.6rem; margin-bottom:1.4rem">A few quick questions about your listening setup.</p>
 
     <div class="sa-scale-block">
       <div class="sa-scale-label">Headphone type</div>
@@ -847,7 +1095,7 @@ function renderPostTest() {
     </div>
 
     <div class="sa-scale-block">
-      <div class="sa-scale-label">How often do you use digital products with sound (apps, notifications)?</div>
+      <div class="sa-scale-label">How often do you use digital products with sound?</div>
       <select class="sa-select" id="pt_sound_exposure">
         <option value="">— Select —</option>
         <option value="rarely">Rarely</option>
@@ -861,76 +1109,60 @@ function renderPostTest() {
   `);
 }
 
-function submitPostTest() {
-  STATE.postTest = {
-    headphones: document.getElementById('pt_headphones').value,
-    music_training: document.getElementById('pt_music_training').value,
-    sound_exposure: document.getElementById('pt_sound_exposure').value,
+function submitPostTest(){
+  STATE.postTest={
+    headphones:document.getElementById('pt_headphones').value,
+    music_training:document.getElementById('pt_music_training').value,
+    sound_exposure:document.getElementById('pt_sound_exposure').value,
   };
   renderEnd();
 }
 
-// ── END + RETRY LOGIC ────────────────────────────────
-
-// ✅ SECURITY: postWithRetry vracia JSON odpoveď (obsahuje completion_url)
-async function postWithRetry(data, attempts = 3) {
-  for (let i = 0; i < attempts; i++) {
-    try {
-      const res = await fetch(CONFIG.backendURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) return await res.json();
-      if (res.status === 422) return false;
-    } catch (e) {
-      if (i === attempts - 1) return false;
-      await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+// END + RETRY
+async function postWithRetry(data,attempts=3){
+  for(let i=0;i<attempts;i++){
+    try{
+      const res=await fetch(CONFIG.backendURL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      if(res.ok)return await res.json();
+      if(res.status===422)return false;
+    }catch(e){
+      if(i===attempts-1)return false;
+      await new Promise(r=>setTimeout(r,1000*(i+1)));
     }
   }
   return false;
 }
 
-async function renderEnd() {
-  const finalData = {
-    prolific_pid: STATE.prolificPID,
-    study_id: STATE.studyID,
-    session_id: STATE.sessionID,
-    source: STATE.source,
-    sensitivity: STATE.sensitivity,
-    headphone_flag: STATE.headphoneFlag ? 1 : 0,
-    attention_flag: STATE.attentionFlag ? 1 : 0,
-    post_test: STATE.postTest,
-    responses: STATE.responses,
-    completed_at: new Date().toISOString(),
+async function renderEnd(){
+  const finalData={
+    prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
+    source:STATE.source,sensitivity:STATE.sensitivity,
+    headphone_flag:STATE.headphoneFlag?1:0,attention_flag:STATE.attentionFlag?1:0,
+    post_test:STATE.postTest,responses:STATE.responses,completed_at:new Date().toISOString(),
   };
 
-  // duplicate deltas — stále posielame, backend ich prepočíta
-  const dupResp = STATE.responses.filter(r=>r.is_duplicate);
-  const origResp = STATE.responses.find(r=>r.cell===STATE.duplicateSource.cell&&r.var===STATE.duplicateSource.var&&!r.is_duplicate);
-  if (dupResp.length&&origResp) {
-    finalData.duplicate_delta_valence = Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
-    finalData.duplicate_delta_arousal = Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
+  const dupResp=STATE.responses.filter(r=>r.is_duplicate);
+  const origResp=STATE.responses.find(r=>r.cell===STATE.duplicateSource.cell&&r.var===STATE.duplicateSource.var&&!r.is_duplicate);
+  if(dupResp.length&&origResp){
+    finalData.duplicate_delta_valence=Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
+    finalData.duplicate_delta_arousal=Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
   }
 
   render(`<div class="sa-rest"><div class="big">⏳</div><h2>Saving your responses…</h2></div>`);
 
-  // ✅ SECURITY: result obsahuje completion_url z backendu
-  const result = await postWithRetry(finalData);
-  const ok = result !== false && result !== null;
-  // ✅ SECURITY: completion_url príde zo servera, nie z frontendu
-  const completionUrl = (result && result.completion_url) ? result.completion_url : null;
+  const result=await postWithRetry(finalData);
+  const ok=result!==false&&result!==null;
+  const completionUrl=(result&&result.completion_url)?result.completion_url:null;
+  const isProlific=STATE.source==='prolific';
 
-  const isProlific = STATE.source === 'prolific';
-
-  if (!ok) {
+  if(!ok){
     render(`
       <div class="sa-rest">
         <div class="big">⚠️</div>
         <h2>Could not save responses</h2>
         <p style="margin-top:.8rem">There was a problem saving your data. Please try again.</p>
         <button class="sa-submit" style="margin-top:1.5rem" onclick="renderEnd()">Try again →</button>
-        ${isProlific ? `<p style="margin-top:1rem;font-size:.82rem;color:var(--muted)">If the problem persists, please contact the research team before completing on Prolific.</p>` : ''}
+        ${isProlific?`<p style="margin-top:1rem;font-size:.82rem;color:var(--muted)">If the problem persists, please contact the research team before completing on Prolific.</p>`:''}
       </div>
     `);
     return;
@@ -938,21 +1170,21 @@ async function renderEnd() {
 
   markSessionCompleted(STATE.sessionID);
 
-  render(isProlific && completionUrl ? `
+  render(isProlific&&completionUrl?`
     <div class="sa-rest">
       <div class="big">🎉</div>
       <h2>Thank you!</h2>
       <p style="margin-top:.8rem">Your responses have been recorded. Please click below to complete your submission on Prolific.</p>
       <button class="sa-submit" style="margin-top:1.5rem" onclick="window.location.href='${completionUrl}'">Complete on Prolific →</button>
     </div>
-  ` : `
+  `:`
     <div class="sa-rest">
       <div class="big">🎉</div>
       <h2>Thank you!</h2>
       <p style="margin-top:.8rem">Your responses have been recorded and will contribute to research on sound perception.</p>
       <p style="margin-top:.8rem">If you'd like to share this study:</p>
-      <div style="background:#0f172a;border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;font-size:.82rem;color:#7dd3fc;margin:.6rem 0;word-break:break-all;">https://study.doremifo.com</div>
-      <button class="sa-submit" style="margin-top:1rem;background:#334155" onclick="navigator.clipboard.writeText('https://study.doremifo.com').then(()=>this.textContent='✅ Copied!')">Copy link to share</button>
+      <div class="share-url-box">https://study.doremifo.com</div>
+      <button class="sa-submit" style="margin-top:.8rem" onclick="navigator.clipboard.writeText('https://study.doremifo.com').then(()=>this.textContent='✓ Copied!')">Copy link to share</button>
     </div>
   `);
 }
