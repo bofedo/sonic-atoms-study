@@ -28,7 +28,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   --sans: 'Syne', system-ui, sans-serif;
   --body: 'Inter', system-ui, sans-serif;
   --mono: 'SFMono-Regular', 'Consolas', monospace;
-  /* category colours — badges only */
   --ok-bg:#f0fdf4; --ok-text:#166534; --ok-border:#bbf7d0;
   --warn-bg:#fffbeb; --warn-text:#92400e; --warn-border:#fde68a;
   --err-bg:#fff1f2; --err-text:#9f1239; --err-border:#fecdd3;
@@ -48,8 +47,6 @@ body {
   justify-content: center;
   padding: 2rem 1rem 4rem;
 }
-
-/* ── CARD ── */
 .sa-card {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -59,496 +56,105 @@ body {
   max-width: 680px;
 }
 @media (max-width:560px) { .sa-card { padding: 1.4rem 1.2rem; } }
-
-/* ── HEADINGS ── */
-.sa-card h2 {
-  font-family: var(--sans);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: .4rem;
-  line-height: 1.2;
-}
-.sa-card h3 {
-  font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.sa-card p, .sa-card li {
-  color: var(--muted);
-  font-size: .9rem;
-  line-height: 1.65;
-}
+.sa-card h2 { font-family: var(--sans); font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: .4rem; line-height: 1.2; }
+.sa-card h3 { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--text); }
+.sa-card p, .sa-card li { color: var(--muted); font-size: .9rem; line-height: 1.65; }
 .sa-card ul { padding-left: 1.3rem; margin-top: .5rem; }
 .sa-card li { color: var(--muted); }
 .sa-card strong { color: var(--text); }
-
-/* ── PROGRESS ── */
-.sa-progress {
-  background: var(--tertiary);
-  border-radius: 99px;
-  height: 4px;
-  margin-bottom: 1.4rem;
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-.sa-progress-bar {
-  background: var(--text);
-  height: 4px;
-  border-radius: 99px;
-  transition: width .4s;
-}
-
-/* ── SECTION HEADER ── */
-.sa-section-header {
-  border-left: 2px solid var(--border-hi);
-  padding: .35rem 0 .35rem .9rem;
-  margin-bottom: 1.2rem;
-}
-.sa-section-tag {
-  font-size: .68rem;
-  color: var(--faint);
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  font-weight: 600;
-  font-family: var(--mono);
-  margin-bottom: .1rem;
-}
+.sa-progress { background: var(--tertiary); border-radius: 99px; height: 4px; margin-bottom: 1.4rem; overflow: hidden; border: 1px solid var(--border); }
+.sa-progress-bar { background: var(--text); height: 4px; border-radius: 99px; transition: width .4s; }
+.sa-section-header { border-left: 2px solid var(--border-hi); padding: .35rem 0 .35rem .9rem; margin-bottom: 1.2rem; }
+.sa-section-tag { font-size: .68rem; color: var(--faint); text-transform: uppercase; letter-spacing: .1em; font-weight: 600; font-family: var(--mono); margin-bottom: .1rem; }
 .sa-section-header h3 { font-size: 1rem; }
-
-/* ── DIVIDER ── */
-.sa-divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 1.6rem 0;
-}
-
-/* ── PLAYERS ── */
-.sa-mini-player {
-  background: var(--tertiary);
-  border: 1px solid var(--border);
-  border-radius: .75rem;
-  padding: .75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: .8rem;
-  margin-bottom: 1.2rem;
-  transition: border-color .2s;
-}
+.sa-divider { border: none; border-top: 1px solid var(--border); margin: 1.6rem 0; }
+.sa-mini-player { background: var(--tertiary); border: 1px solid var(--border); border-radius: .75rem; padding: .75rem 1rem; display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; transition: border-color .2s; }
 .sa-mini-player:hover { border-color: var(--border-hi); }
-
-.sa-mini-play-btn {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: var(--text);
-  border: none;
-  cursor: pointer;
-  font-size: .9rem;
-  color: #fff;
-  flex-shrink: 0;
-  transition: opacity .2s;
-  display: flex; align-items: center; justify-content: center;
-}
+.sa-mini-play-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--text); border: none; cursor: pointer; font-size: .9rem; color: #fff; flex-shrink: 0; transition: opacity .2s; display: flex; align-items: center; justify-content: center; }
 .sa-mini-play-btn:hover { opacity: .75; }
-
 .sa-mini-label { font-size: .75rem; color: var(--muted); }
 .sa-mini-label strong { color: var(--text); font-size: .78rem; }
-
-.sa-mini-waveform {
-  flex: 1; height: 20px;
-  background: var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.sa-mini-waveform-fill {
-  height: 100%;
-  background: var(--text);
-  opacity: .25;
-  width: 0%;
-  transition: width .1s linear;
-}
-
-.sa-player {
-  background: var(--tertiary);
-  border: 1px solid var(--border);
-  border-radius: .75rem;
-  padding: .9rem 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: .8rem 0;
-  transition: border-color .2s;
-}
+.sa-mini-waveform { flex: 1; height: 20px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.sa-mini-waveform-fill { height: 100%; background: var(--text); opacity: .25; width: 0%; transition: width .1s linear; }
+.sa-player { background: var(--tertiary); border: 1px solid var(--border); border-radius: .75rem; padding: .9rem 1.2rem; display: flex; align-items: center; gap: 1rem; margin: .8rem 0; transition: border-color .2s; }
 .sa-player:hover { border-color: var(--border-hi); }
-
-.sa-play-btn {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  background: var(--text);
-  border: none; cursor: pointer;
-  font-size: 1rem; color: #fff;
-  flex-shrink: 0;
-  transition: opacity .2s;
-  display: flex; align-items: center; justify-content: center;
-}
+.sa-play-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--text); border: none; cursor: pointer; font-size: 1rem; color: #fff; flex-shrink: 0; transition: opacity .2s; display: flex; align-items: center; justify-content: center; }
 .sa-play-btn:hover { opacity: .75; }
 .sa-play-btn:disabled { background: var(--border); cursor: not-allowed; opacity: 1; }
-
-.sa-waveform {
-  flex: 1; height: 28px;
-  background: var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.sa-waveform-fill {
-  height: 100%;
-  background: var(--text);
-  opacity: .2;
-  width: 0%;
-  transition: width .1s linear;
-}
-
-.sa-play-hint {
-  font-size: .75rem;
-  color: var(--faint);
-  text-align: center;
-  margin-bottom: .5rem;
-  font-family: var(--mono);
-}
-
-/* ── LIKERT ── */
+.sa-waveform { flex: 1; height: 28px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.sa-waveform-fill { height: 100%; background: var(--text); opacity: .2; width: 0%; transition: width .1s linear; }
+.sa-play-hint { font-size: .75rem; color: var(--faint); text-align: center; margin-bottom: .5rem; font-family: var(--mono); }
 .sa-scale-block { margin-bottom: 1.4rem; }
-.sa-scale-label {
-  font-size: .72rem;
-  color: var(--faint);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-bottom: .5rem;
-  font-weight: 600;
-  font-family: var(--mono);
-}
+.sa-scale-label { font-size: .72rem; color: var(--faint); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; font-weight: 600; font-family: var(--mono); }
 .sa-likert { display: flex; align-items: center; gap: .5rem; }
-.sa-likert-anchor {
-  font-size: .75rem;
-  color: var(--muted);
-  white-space: nowrap;
-  min-width: 65px;
-}
+.sa-likert-anchor { font-size: .75rem; color: var(--muted); white-space: nowrap; min-width: 65px; }
 .sa-likert-anchor.right { text-align: right; }
 .sa-likert-options { display: flex; gap: .3rem; flex: 1; justify-content: center; }
 .sa-likert-options input[type=radio] { display: none; }
-.sa-likert-options label {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .72rem;
-  color: var(--faint);
-  cursor: pointer;
-  transition: border-color .15s, color .15s;
-  user-select: none;
-}
-.sa-likert-options input[type=radio]:checked + label {
-  background: var(--text);
-  border-color: var(--text);
-  color: #fff;
-  font-weight: 700;
-}
+.sa-likert-options label { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: .72rem; color: var(--faint); cursor: pointer; transition: border-color .15s, color .15s; user-select: none; }
+.sa-likert-options input[type=radio]:checked + label { background: var(--text); border-color: var(--text); color: #fff; font-weight: 700; }
 .sa-likert-options label:hover { border-color: var(--border-hi); color: var(--text); }
-
-/* ── TRAINING GRID ── */
-.sa-training-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .7rem;
-  margin: .8rem 0;
-}
-@media (max-width:480px) { .sa-training-grid { grid-template-columns: 1fr; } }
-
-.sa-training-card {
-  background: var(--tertiary);
-  border-radius: .75rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--border);
-  text-align: center;
-  transition: border-color .2s;
-}
+.sa-training-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: .8rem 0; }
+.sa-training-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .7rem; margin: .8rem 0; }
+@media (max-width:560px) { .sa-training-grid, .sa-training-grid-3 { grid-template-columns: 1fr; } }
+.sa-training-card { background: var(--tertiary); border-radius: .75rem; padding: 1rem 1.1rem; border: 1px solid var(--border); text-align: center; transition: border-color .2s; }
 .sa-training-card:hover { border-color: var(--border-hi); }
-
-.tc-label {
-  font-family: var(--mono);
-  font-size: .68rem;
-  color: var(--faint);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-bottom: .3rem;
-}
-.tc-val {
-  font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: .3rem;
-}
+.tc-label { font-family: var(--mono); font-size: .68rem; color: var(--faint); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .3rem; }
+.tc-val { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .3rem; }
 .tc-desc { font-size: .78rem; color: var(--muted); }
-
 .extreme-low .tc-val { color: var(--err-text); }
 .extreme-high .tc-val { color: var(--ok-text); }
-
-/* ── ATTR GRID ── */
-.sa-attr-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .4rem;
-  margin-top: .5rem;
-}
-.sa-attr-btn {
-  padding: .55rem .75rem;
-  border-radius: .5rem;
-  border: 1.5px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: .83rem;
-  font-family: var(--body);
-  cursor: pointer;
-  text-align: left;
-  transition: border-color .15s;
-}
+.sa-attr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; }
+.sa-attr-btn { padding: .55rem .75rem; border-radius: .5rem; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); font-size: .83rem; font-family: var(--body); cursor: pointer; text-align: left; transition: border-color .15s; }
 .sa-attr-btn:hover { border-color: var(--border-hi); }
 .sa-attr-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 500; }
 .sa-attr-btn.positive { border-left: 3px solid var(--ok-text); }
 .sa-attr-btn.neutral  { border-left: 3px solid var(--border-hi); }
 .sa-attr-btn.negative { border-left: 3px solid var(--err-text); }
 .sa-attr-btn.escape   { border-left: 3px solid var(--warn-text); }
-
-/* ── CONFIDENCE ── */
-.sa-confidence {
-  display: flex;
-  align-items: center;
-  gap: .8rem;
-  margin-top: .7rem;
-  padding: .55rem .9rem;
-  background: var(--tertiary);
-  border-radius: .5rem;
-  border: 1px solid var(--border);
-}
+.sa-confidence { display: flex; align-items: center; gap: .8rem; margin-top: .7rem; padding: .55rem .9rem; background: var(--tertiary); border-radius: .5rem; border: 1px solid var(--border); }
 .sa-confidence span { font-size: .78rem; color: var(--muted); white-space: nowrap; }
 .sa-conf-options { display: flex; gap: .3rem; }
 .sa-conf-options input[type=radio] { display: none; }
-.sa-conf-options label {
-  padding: .22rem .55rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  font-size: .75rem;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all .15s;
-}
-.sa-conf-options input[type=radio]:checked + label {
-  background: var(--text);
-  border-color: var(--text);
-  color: #fff;
-}
-
-/* ── UX GRID ── */
-.sa-ux-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: .4rem;
-  margin-top: .5rem;
-}
-.sa-ux-btn {
-  padding: .5rem;
-  border-radius: .5rem;
-  border: 1.5px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: .8rem;
-  font-family: var(--body);
-  cursor: pointer;
-  text-align: center;
-  transition: border-color .15s;
-}
+.sa-conf-options label { padding: .22rem .55rem; border-radius: 4px; border: 1px solid var(--border); font-size: .75rem; color: var(--muted); cursor: pointer; transition: all .15s; }
+.sa-conf-options input[type=radio]:checked + label { background: var(--text); border-color: var(--text); color: #fff; }
+.sa-ux-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; margin-top: .5rem; }
+.sa-ux-btn { padding: .5rem; border-radius: .5rem; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); font-size: .8rem; font-family: var(--body); cursor: pointer; text-align: center; transition: border-color .15s; }
 .sa-ux-btn:hover { border-color: var(--border-hi); }
 .sa-ux-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 500; }
-
-/* ── SELECT ── */
-.sa-select {
-  width: 100%;
-  padding: .55rem .8rem;
-  background: var(--bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: .5rem;
-  font-size: .88rem;
-  font-family: var(--body);
-  margin-top: .4rem;
-  appearance: none;
-  transition: border-color .2s;
-}
+.sa-select { width: 100%; padding: .55rem .8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: .5rem; font-size: .88rem; font-family: var(--body); margin-top: .4rem; appearance: none; transition: border-color .2s; }
 .sa-select:hover { border-color: var(--border-hi); }
 .sa-select:focus { outline: 2px solid var(--border-hi); outline-offset: 1px; }
-
-/* ── BUTTONS ── */
-/* Primary */
-.sa-submit {
-  width: 100%;
-  padding: .65rem 1.5rem;
-  background: var(--text);
-  color: #fff;
-  border: none;
-  border-radius: 99px;
-  font-size: .92rem;
-  font-weight: 600;
-  font-family: var(--body);
-  cursor: pointer;
-  transition: opacity .2s;
-  margin-top: 1rem;
-}
+.sa-submit { width: 100%; padding: .65rem 1.5rem; background: var(--text); color: #fff; border: none; border-radius: 99px; font-size: .92rem; font-weight: 600; font-family: var(--body); cursor: pointer; transition: opacity .2s; margin-top: 1rem; }
 .sa-submit:hover:not(:disabled) { opacity: .8; }
-.sa-submit:disabled {
-  background: var(--tertiary);
-  color: var(--border-hi);
-  border: 1px solid var(--border);
-  cursor: not-allowed;
-  opacity: 1;
-}
-
-/* Outline / secondary */
-.sa-btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  padding: .45rem 1.1rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border-hi);
-  background: transparent;
-  color: var(--text);
-  font-size: .85rem;
-  font-weight: 500;
-  font-family: var(--body);
-  cursor: pointer;
-  transition: border-color .2s;
-  margin-top: .5rem;
-}
+.sa-submit:disabled { background: var(--tertiary); color: var(--border-hi); border: 1px solid var(--border); cursor: not-allowed; opacity: 1; }
+.sa-btn-outline { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem 1.1rem; border-radius: 99px; border: 1.5px solid var(--border-hi); background: transparent; color: var(--text); font-size: .85rem; font-weight: 500; font-family: var(--body); cursor: pointer; transition: border-color .2s; margin-top: .5rem; }
 .sa-btn-outline:hover { border-color: var(--text); }
-
-/* HP / vol / attention buttons */
 .sa-hp-options { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-hp-btn {
-  flex: 1; min-width: 80px;
-  padding: .6rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border-hi);
-  background: transparent;
-  color: var(--text);
-  font-size: .88rem;
-  font-family: var(--body);
-  cursor: pointer;
-  text-align: center;
-  transition: border-color .2s;
-}
+.sa-hp-btn { flex: 1; min-width: 80px; padding: .6rem; border-radius: 99px; border: 1.5px solid var(--border-hi); background: transparent; color: var(--text); font-size: .88rem; font-family: var(--body); cursor: pointer; text-align: center; transition: border-color .2s; }
 .sa-hp-btn:hover { border-color: var(--text); }
 .sa-hp-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
-
 .sa-vol-options { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-vol-btn {
-  flex: 1;
-  padding: .55rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border-hi);
-  background: transparent;
-  color: var(--text);
-  font-size: .83rem;
-  font-family: var(--body);
-  cursor: pointer;
-  text-align: center;
-  transition: border-color .2s;
-}
+.sa-vol-btn { flex: 1; padding: .55rem; border-radius: 99px; border: 1.5px solid var(--border-hi); background: transparent; color: var(--text); font-size: .83rem; font-family: var(--body); cursor: pointer; text-align: center; transition: border-color .2s; }
 .sa-vol-btn:hover { border-color: var(--text); }
 .sa-vol-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
-
 .sa-attention-options { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
-.sa-attention-btn {
-  padding: .5rem 1.1rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border-hi);
-  background: transparent;
-  color: var(--text);
-  font-size: .88rem;
-  font-family: var(--body);
-  cursor: pointer;
-  transition: border-color .2s;
-}
+.sa-attention-btn { padding: .5rem 1.1rem; border-radius: 99px; border: 1.5px solid var(--border-hi); background: transparent; color: var(--text); font-size: .88rem; font-family: var(--body); cursor: pointer; transition: border-color .2s; }
 .sa-attention-btn:hover { border-color: var(--text); }
 .sa-attention-btn.selected { border-color: var(--text); background: var(--tertiary); font-weight: 600; }
-
-/* Train play button — outline small */
-.sa-train-play {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  padding: .35rem .85rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border-hi);
-  background: transparent;
-  color: var(--text);
-  font-size: .78rem;
-  font-family: var(--body);
-  cursor: pointer;
-  transition: border-color .2s;
-  margin-top: .5rem;
-}
+.sa-train-play { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .85rem; border-radius: 99px; border: 1.5px solid var(--border-hi); background: transparent; color: var(--text); font-size: .78rem; font-family: var(--body); cursor: pointer; transition: border-color .2s; margin-top: .5rem; }
 .sa-train-play:hover { border-color: var(--text); }
-
-/* ── REST / CENTER SCREEN ── */
 .sa-rest { text-align: center; padding: 1.5rem 0; }
 .sa-rest .big { font-size: 2.4rem; margin-bottom: .6rem; }
 .sa-rest h2 { font-family: var(--sans); font-size: 1.4rem; }
-
-/* ── BADGE / LABEL ── */
-.bd {
-  font-size: .7rem;
-  font-weight: 600;
-  padding: .22rem .65rem;
-  border-radius: 4px;
-  font-family: var(--body);
-}
+.bd { font-size: .7rem; font-weight: 600; padding: .22rem .65rem; border-radius: 4px; font-family: var(--body); }
 .bd-green  { background: var(--ok-bg);   color: var(--ok-text);   border: 1px solid var(--ok-border); }
 .bd-amber  { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
 .bd-coral  { background: var(--err-bg);  color: var(--err-text);  border: 1px solid var(--err-border); }
 .bd-blue   { background: var(--blue-bg); color: var(--blue-text); border: 1px solid var(--blue-border); }
-
-/* Share URL box */
-.share-url-box {
-  background: var(--tertiary);
-  border: 1px solid var(--border);
-  border-radius: .5rem;
-  padding: .65rem 1rem;
-  font-family: var(--mono);
-  font-size: .82rem;
-  color: var(--text);
-  margin: .6rem 0;
-  word-break: break-all;
-}
-
-/* Meta / counter text */
-.sa-meta {
-  font-family: var(--mono);
-  font-size: .72rem;
-  color: var(--faint);
-  margin-bottom: 1.2rem;
-}
-
-/* Inline note below scale */
-.sa-note {
-  font-size: .75rem;
-  color: var(--faint);
-  margin-top: -.5rem;
-  margin-bottom: 1rem;
-  line-height: 1.55;
-}
+.share-url-box { background: var(--tertiary); border: 1px solid var(--border); border-radius: .5rem; padding: .65rem 1rem; font-family: var(--mono); font-size: .82rem; color: var(--text); margin: .6rem 0; word-break: break-all; }
+.sa-meta { font-family: var(--mono); font-size: .72rem; color: var(--faint); margin-bottom: 1.2rem; }
+.sa-note { font-size: .75rem; color: var(--faint); margin-top: -.5rem; margin-bottom: 1rem; line-height: 1.55; }
 </style>
 </head>
 <body>
@@ -559,35 +165,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ── CONSENT BANNER ── -->
 <style>
-#dmf-consent {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
-  background: #ffffff; border-top: 1px solid #e2e2e2;
-  padding: 1rem 1.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: .82rem; color: #666666;
-  box-shadow: 0 -2px 12px rgba(0,0,0,.06);
-}
+#dmf-consent { position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: #ffffff; border-top: 1px solid #e2e2e2; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-family: 'Inter', system-ui, sans-serif; font-size: .82rem; color: #666666; box-shadow: 0 -2px 12px rgba(0,0,0,.06); }
 #dmf-consent p { flex: 1; min-width: 200px; line-height: 1.55; margin: 0; }
 #dmf-consent a { color: #0d9488; text-decoration: none; }
 #dmf-consent a:hover { text-decoration: underline; }
 #dmf-consent-btns { display: flex; gap: .5rem; flex-shrink: 0; }
-#dmf-accept {
-  padding: .45rem 1.1rem; border-radius: 99px;
-  background: #1a1a1a; color: #fff;
-  border: none; cursor: pointer;
-  font-size: .82rem; font-weight: 600;
-  font-family: inherit; transition: opacity .2s;
-}
+#dmf-accept { padding: .45rem 1.1rem; border-radius: 99px; background: #1a1a1a; color: #fff; border: none; cursor: pointer; font-size: .82rem; font-weight: 600; font-family: inherit; transition: opacity .2s; }
 #dmf-accept:hover { opacity: .8; }
-#dmf-decline {
-  padding: .45rem 1.1rem; border-radius: 99px;
-  background: transparent; color: #1a1a1a;
-  border: 1.5px solid #c8c8c8; cursor: pointer;
-  font-size: .82rem; font-weight: 500;
-  font-family: inherit; transition: border-color .2s;
-}
+#dmf-decline { padding: .45rem 1.1rem; border-radius: 99px; background: transparent; color: #1a1a1a; border: 1.5px solid #c8c8c8; cursor: pointer; font-size: .82rem; font-weight: 500; font-family: inherit; transition: border-color .2s; }
 #dmf-decline:hover { border-color: #1a1a1a; }
 </style>
 <div id="dmf-consent" style="display:none">
@@ -604,12 +189,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function applyConsent(granted) {
     const val = granted ? 'granted' : 'denied';
     if (typeof gtag === 'function') {
-      gtag('consent', 'update', {
-        analytics_storage: val,
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-      });
+      gtag('consent', 'update', { analytics_storage: val, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     }
   }
   window.dmfConsent = function(granted) {
@@ -619,12 +199,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   };
   if (stored === null) {
     if (typeof gtag === 'function') {
-      gtag('consent', 'default', {
-        analytics_storage: 'denied',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-      });
+      gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     }
     document.getElementById('dmf-consent').style.display = 'flex';
   } else {
@@ -633,6 +208,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <!-- ── END CONSENT BANNER ── -->
+
 <div id="app"></div>
 
 <script>
@@ -665,16 +241,12 @@ const CONFIG = {
 };
 
 const params = new URLSearchParams(window.location.search);
-
 const STATE = {
   prolificPID: params.get('PROLIFIC_PID') || null,
   studyID:     params.get('STUDY_ID') || params.get('UTM_SOURCE') || 'SOCIAL',
   sessionID:   params.get('SESSION_ID') || crypto.randomUUID(),
   source:      params.get('PROLIFIC_PID') ? 'prolific' : 'social',
-  sensitivity: null,
-  headphoneFlag: false,
-  attentionFlag: false,
-  terminated: false,
+  sensitivity: null, headphoneFlag: false, attentionFlag: false, terminated: false,
   stimulusOrder: [], duplicateSource: null,
   responses: [], currentAtomIdx: 0,
   attentionCheckIdx: null, semDiffAssignment: [],
@@ -682,21 +254,13 @@ const STATE = {
 };
 
 const STORAGE_KEY = 'sa_completed_sessions';
-function markSessionCompleted(sid) {
-  try { const e=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); e.push(sid); localStorage.setItem(STORAGE_KEY,JSON.stringify(e.slice(-20))); } catch(e) {}
-}
-function isSessionCompleted(sid) {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').includes(sid); } catch(e) { return false; }
-}
+function markSessionCompleted(sid){try{const e=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');e.push(sid);localStorage.setItem(STORAGE_KEY,JSON.stringify(e.slice(-20)));}catch(e){}}
+function isSessionCompleted(sid){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').includes(sid);}catch(e){return false;}}
 
-function shuffle(arr) {
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
-}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function audioURL(cell,v){return `${CONFIG.audioBase}CELL${cell}_VAR${v}.wav`;}
 
-function buildStimulusOrder() {
+function buildStimulusOrder(){
   const allCells=shuffle([...CONFIG.cells]);
   const picked=allCells.slice(0,CONFIG.stimPerParticipant).map(cell=>({cell,var:CONFIG.vars[Math.floor(Math.random()*CONFIG.vars.length)]}));
   const stable=picked.filter(s=>CONFIG.duplicateCells.includes(s.cell));
@@ -717,7 +281,6 @@ function buildResponse(atomIdx,data){
 
 buildStimulusOrder();
 
-// ── AUDIO ENGINE ──
 let audioCtx=null;
 function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
@@ -744,10 +307,10 @@ function playTrainingTone(type){
   if(type==='calm'){osc.frequency.value=180;osc.type='sine';osc.connect(gain);gain.connect(ctx.destination);const t=ctx.currentTime;gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.15,t+0.3);gain.gain.setValueAtTime(0.15,t+2.5);gain.gain.linearRampToValueAtTime(0,t+3.5);osc.start(t);osc.stop(t+3.5);return;}
   if(type==='exciting'){for(let i=0;i<8;i++){const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=440+(i%2)*220;o2.type='square';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime+i*0.15;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.08,t+0.02);g2.gain.setValueAtTime(0.08,t+0.1);g2.gain.linearRampToValueAtTime(0,t+0.13);o2.start(t);o2.stop(t+0.14);}return;}
   if(type==='avoid'){[55,58].forEach(f=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type='sawtooth';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.1,t+0.1);g2.gain.setValueAtTime(0.1,t+2);g2.gain.linearRampToValueAtTime(0,t+2.5);o2.start(t);o2.stop(t+2.5);});return;}
+  if(type==='neutral'){const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=330;o2.type='sine';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.12,t+0.2);g2.gain.setValueAtTime(0.12,t+1.8);g2.gain.linearRampToValueAtTime(0,t+2.2);o2.start(t);o2.stop(t+2.2);return;}
   if(type==='approach'){[880,1100,1320].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.frequency.value=f;o2.type='sine';o2.connect(g2);g2.connect(ctx.destination);const t=ctx.currentTime+i*0.1;g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.12,t+0.02);g2.gain.exponentialRampToValueAtTime(0.001,t+0.35);o2.start(t);o2.stop(t+0.35);});return;}
 }
 
-// ── AUDIO PLAYBACK ──
 let currentAudio=null,audioGateTimer=null,audioGatePassed={};
 
 function handlePlay(atomIdx,url){
@@ -769,9 +332,7 @@ function handlePlay(atomIdx,url){
   }
 }
 
-function syncMiniPlayers(atomIdx,playing){
-  document.querySelectorAll(`[data-mini-atom="${atomIdx}"]`).forEach(btn=>{btn.textContent=playing?'⏸':'▶';});
-}
+function syncMiniPlayers(atomIdx,playing){document.querySelectorAll(`[data-mini-atom="${atomIdx}"]`).forEach(btn=>{btn.textContent=playing?'⏸':'▶';});}
 function handleMiniPlay(atomIdx,url){handlePlay(atomIdx,url);}
 
 function playBaselineTone(){
@@ -793,7 +354,6 @@ function playBaselineTone(){
   osc.onended=()=>{btn.textContent='▶';btn.disabled=false;if(fill)fill.style.width='100%';document.getElementById('volOpts').style.display='flex';document.getElementById('baselineNext').disabled=!volSelected;};
 }
 
-// ── RENDER HELPERS ──
 function renderLikert(id,left,right,n,label){
   const opts=Array.from({length:n},(_,i)=>`<input type="radio" name="${id}" id="${id}_${i+1}" value="${i+1}"><label for="${id}_${i+1}">${i+1}</label>`).join('');
   return `<div class="sa-scale-block"><div class="sa-scale-label">${label}</div><div class="sa-likert"><span class="sa-likert-anchor">${left}</span><div class="sa-likert-options">${opts}</div><span class="sa-likert-anchor right">${right}</span></div></div>`;
@@ -821,11 +381,8 @@ function renderSectionHeader(tag,title){
   return `<div class="sa-section-header"><div class="sa-section-tag">${tag}</div><h3>${title}</h3></div>`;
 }
 
-function render(html){
-  document.getElementById('app').innerHTML=`<div class="sa-card">${html}</div>`;
-}
+function render(html){document.getElementById('app').innerHTML=`<div class="sa-card">${html}</div>`;}
 
-// ── SUBMIT LOGIC ──
 function checkSubmitReady(atomIdx){
   const btn=document.getElementById(`submitBtn_${atomIdx}`);
   if(!btn)return;
@@ -841,16 +398,8 @@ function checkAllAnswered(atomIdx){
   return true;
 }
 
-function selectAttr(el){
-  document.querySelectorAll('[data-attr]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});
-  el.dataset.selected='true';el.classList.add('selected');
-  checkSubmitReady(parseInt(el.dataset.atomidx));
-}
-function selectUX(el){
-  document.querySelectorAll('[data-ux]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});
-  el.dataset.selected='true';el.classList.add('selected');
-  checkSubmitReady(parseInt(el.dataset.atomidx));
-}
+function selectAttr(el){document.querySelectorAll('[data-attr]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});el.dataset.selected='true';el.classList.add('selected');checkSubmitReady(parseInt(el.dataset.atomidx));}
+function selectUX(el){document.querySelectorAll('[data-ux]').forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});el.dataset.selected='true';el.classList.add('selected');checkSubmitReady(parseInt(el.dataset.atomidx));}
 function onLikertChange(atomIdx){checkSubmitReady(atomIdx);}
 function getVal(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?parseInt(el.value):null;}
 
@@ -877,8 +426,6 @@ function submitAtom(atomIdx){
   }
 }
 
-// ── SCREENS ──
-
 function renderWelcome(){
   if(STATE.source==='social'&&isSessionCompleted(STATE.sessionID)){
     render(`<div class="sa-rest"><div class="big">✅</div><h2>Already completed</h2><p style="margin-top:.8rem">It looks like you have already completed this study. Thank you for your participation!</p></div>`);
@@ -897,7 +444,6 @@ function renderWelcome(){
   `);
 }
 
-// HP CHECK
 let hugginsBuffers=null,hugginsSelected=null,hugginsAttempts=0;
 function renderHeadphoneCheck(){
   hugginsBuffers=generateHugginsStimuli();hugginsSelected=null;
@@ -952,7 +498,6 @@ function submitSpectral(hardFail){
   renderBaseline();
 }
 
-// BASELINE
 let volSelected=null;
 function renderBaseline(){
   render(`<h2>Volume Calibration</h2>
@@ -971,7 +516,6 @@ function renderBaseline(){
 }
 function selectVol(val,el){document.querySelectorAll('.sa-vol-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');volSelected=val;document.getElementById('baselineNext').disabled=false;}
 
-// SENSITIVITY
 function renderSensitivity(){
   render(`<h2>Sound Sensitivity</h2>
     <p style="margin-top:.6rem">How sensitive are you to sounds in general? (1 = not sensitive, 10 = very sensitive)</p>
@@ -987,7 +531,6 @@ function submitSensitivity(){
   renderEarTraining();
 }
 
-// EAR TRAINING
 function renderEarTraining(){
   render(`
     <h2>Ear Training</h2>
@@ -1029,11 +572,16 @@ function renderEarTraining(){
 
     ${renderSectionHeader('Scale 3 of 4','Action Urge — Avoid vs. Approach')}
     <p style="font-size:.85rem; color:var(--muted); margin-bottom:.8rem">Does the sound make you want to move away from it, or engage with it?</p>
-    <div class="sa-training-grid">
+    <div class="sa-training-grid-3">
       <div class="sa-training-card extreme-low">
         <div class="tc-label">Score 1</div><div class="tc-val">Avoid</div>
         <div class="tc-desc">Want to stop, silence, leave</div>
         <button class="sa-train-play" onclick="playTrainingTone('avoid')">▶ Play example</button>
+      </div>
+      <div class="sa-training-card">
+        <div class="tc-label">Score 4</div><div class="tc-val">Neutral</div>
+        <div class="tc-desc">Neutral — no motivation either way</div>
+        <button class="sa-train-play" onclick="playTrainingTone('neutral')">▶ Play example</button>
       </div>
       <div class="sa-training-card extreme-high">
         <div class="tc-label">Score 7</div><div class="tc-val">Approach</div>
@@ -1062,7 +610,6 @@ function renderEarTraining(){
   `);
 }
 
-// INSTRUCTIONS
 function renderInstructions(){
   render(`<h2>Instructions</h2>
     <p style="margin-top:.6rem">You will now hear <strong>3 sounds</strong>. For each sound, you will rate it across four sections:</p>
@@ -1077,7 +624,6 @@ function renderInstructions(){
     <button class="sa-submit" onclick="renderAtom(0)" style="margin-top:1.2rem">Begin →</button>`);
 }
 
-// ATOM
 function renderAtom(atomIdx){
   const stim=STATE.stimulusOrder[atomIdx];
   const url=audioURL(stim.cell,stim.var);
@@ -1091,20 +637,16 @@ function renderAtom(atomIdx){
   render(`
     <div class="sa-progress"><div class="sa-progress-bar" style="width:${prog}%"></div></div>
     <p class="sa-meta">Sound ${atomIdx+1} of ${STATE.stimulusOrder.length}</p>
-
     ${renderAudioPlayer(url,atomIdx)}
-
     <hr class="sa-divider">
     ${renderSectionHeader('Section 1 · Affect','How does the sound feel?')}
     ${renderMiniPlayer(atomIdx,url,'replay before rating')}
     ${renderLikert(`valence_${atomIdx}`,'Unpleasant','Pleasant',9,'Valence (1 = Unpleasant, 9 = Pleasant)')}
     ${renderLikert(`arousal_${atomIdx}`,'Calm','Exciting',9,'Arousal (1 = Calm, 9 = Exciting)')}
-
     <hr class="sa-divider">
     ${renderSectionHeader('Section 2 · Perception','Sound character')}
     ${renderMiniPlayer(atomIdx,url)}
     ${semDiffHTML}
-
     <hr class="sa-divider">
     ${renderSectionHeader('Section 3 · Behaviour','Your response')}
     ${renderMiniPlayer(atomIdx,url)}
@@ -1114,7 +656,6 @@ function renderAtom(atomIdx){
     <p class="sa-note">How would you react to this sound? &nbsp;1 = I want to stop it / silence it &nbsp;·&nbsp; 4 = neutral &nbsp;·&nbsp; 7 = I want to continue / react / click</p>
     ${renderLikert(`distinctiveness_${atomIdx}`,'Blends in','Very distinctive',7,'Distinctiveness')}
     <p class="sa-note">How easily would you recognise this sound among others? &nbsp;1 = not at all &nbsp;·&nbsp; 7 = immediately, very distinctive</p>
-
     <hr class="sa-divider">
     ${renderSectionHeader('Section 4 · Classification','Context and identity')}
     ${renderMiniPlayer(atomIdx,url)}
@@ -1133,7 +674,6 @@ function renderAtom(atomIdx){
       <p style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem">Imagine this sound playing in an app on your phone. What event would it announce?</p>
       <div class="sa-ux-grid">${uxBtns}</div>
     </div>
-
     <button class="sa-submit" id="submitBtn_${atomIdx}" disabled onclick="submitAtom(${atomIdx})">Submit sound ${atomIdx+1} →</button>
   `);
 
@@ -1142,7 +682,6 @@ function renderAtom(atomIdx){
   });
 }
 
-// ATTENTION CHECK
 let attentionSelected=null;
 function renderAttentionCheck(){
   render(`<h2>Quick Check</h2>
@@ -1155,12 +694,10 @@ function renderAttentionCheck(){
 function selectAttention(n,el){document.querySelectorAll('.sa-attention-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');attentionSelected=n;document.getElementById('attnSubmit').disabled=false;}
 function submitAttention(){if(attentionSelected!==3)STATE.attentionFlag=true;renderAtom(STATE.currentAtomIdx);}
 
-// POST-TEST
 function renderPostTest(){
   render(`
     <h2>Almost done!</h2>
     <p style="margin-top:.6rem; margin-bottom:1.4rem">A few quick questions about your listening setup.</p>
-
     <div class="sa-scale-block">
       <div class="sa-scale-label">Headphone type</div>
       <select class="sa-select" id="pt_headphones">
@@ -1172,7 +709,6 @@ function renderPostTest(){
         <option value="other">Other</option>
       </select>
     </div>
-
     <div class="sa-scale-block">
       <div class="sa-scale-label">Musical training</div>
       <select class="sa-select" id="pt_music_training">
@@ -1184,7 +720,6 @@ function renderPostTest(){
         <option value="professional">Professional musician</option>
       </select>
     </div>
-
     <div class="sa-scale-block">
       <div class="sa-scale-label">How often do you use digital products with sound?</div>
       <select class="sa-select" id="pt_sound_exposure">
@@ -1195,7 +730,6 @@ function renderPostTest(){
         <option value="very_often">Very often — sound is always on</option>
       </select>
     </div>
-
     <button class="sa-submit" onclick="submitPostTest()">Complete study →</button>
   `);
 }
@@ -1209,7 +743,6 @@ function submitPostTest(){
   renderEnd();
 }
 
-// END + RETRY
 async function postWithRetry(data,attempts=3){
   for(let i=0;i<attempts;i++){
     try{
@@ -1231,21 +764,17 @@ async function renderEnd(){
     headphone_flag:STATE.headphoneFlag?1:0,attention_flag:STATE.attentionFlag?1:0,
     post_test:STATE.postTest,responses:STATE.responses,completed_at:new Date().toISOString(),
   };
-
   const dupResp=STATE.responses.filter(r=>r.is_duplicate);
   const origResp=STATE.responses.find(r=>r.cell===STATE.duplicateSource.cell&&r.var===STATE.duplicateSource.var&&!r.is_duplicate);
   if(dupResp.length&&origResp){
     finalData.duplicate_delta_valence=Math.abs((dupResp[0].valence||0)-(origResp.valence||0));
     finalData.duplicate_delta_arousal=Math.abs((dupResp[0].arousal||0)-(origResp.arousal||0));
   }
-
   render(`<div class="sa-rest"><div class="big">⏳</div><h2>Saving your responses…</h2></div>`);
-
   const result=await postWithRetry(finalData);
   const ok=result!==false&&result!==null;
   const completionUrl=(result&&result.completion_url)?result.completion_url:null;
   const isProlific=STATE.source==='prolific';
-
   if(!ok){
     render(`
       <div class="sa-rest">
@@ -1258,9 +787,7 @@ async function renderEnd(){
     `);
     return;
   }
-
   markSessionCompleted(STATE.sessionID);
-
   render(isProlific&&completionUrl?`
     <div class="sa-rest">
       <div class="big">🎉</div>
