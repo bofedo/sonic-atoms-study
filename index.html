@@ -34,7 +34,7 @@ body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:1r
 .sa-divider{border:none;border-top:1px solid var(--border);margin:1.6rem 0;}
 /* Players */
 .sa-mini-player{background:var(--tertiary);border:1px solid var(--border);border-radius:.75rem;padding:.75rem 1rem;display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;transition:border-color .2s;}
-.sa-mini-player:hover{border-color:var(--border-hi);}
+.sa-mini-player:hover{border-color:var(--border-hi);box-shadow:0 2px 12px rgba(0,0,0,.06);}
 .sa-mini-play-btn{width:34px;height:34px;border-radius:50%;background:var(--text);border:none;cursor:pointer;color:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:opacity .2s;font-size:.85rem;}
 .sa-mini-play-btn:hover{opacity:.75;}
 .sa-mini-label{font-size:.75rem;color:var(--muted);flex:1;}
@@ -42,7 +42,7 @@ body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:1r
 .sa-mini-waveform{width:80px;height:20px;background:var(--border);border-radius:4px;overflow:hidden;flex-shrink:0;}
 .sa-mini-waveform-fill{height:100%;background:var(--text);opacity:.25;width:0%;transition:width .1s linear;}
 .sa-player{background:var(--tertiary);border:1px solid var(--border);border-radius:.75rem;padding:.9rem 1.2rem;display:flex;align-items:center;gap:1rem;margin:.8rem 0;transition:border-color .2s;}
-.sa-player:hover{border-color:var(--border-hi);}
+.sa-player:hover{border-color:var(--border-hi);box-shadow:0 2px 12px rgba(0,0,0,.06);}
 .sa-play-btn{width:42px;height:42px;border-radius:50%;background:var(--text);border:none;cursor:pointer;font-size:1rem;color:#fff;flex-shrink:0;transition:opacity .2s;display:flex;align-items:center;justify-content:center;}
 .sa-play-btn:hover{opacity:.75;}
 .sa-play-btn:disabled{background:var(--border);cursor:not-allowed;}
@@ -57,8 +57,8 @@ body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:1r
 .sa-slider-anchors span{max-width:42%;line-height:1.3;}
 .sa-slider-anchors span:last-child{text-align:right;}
 input[type=range].sa-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;background:var(--border);outline:none;cursor:pointer;display:block;}
-input[type=range].sa-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);box-shadow:0 0 0 1.5px var(--text);cursor:pointer;}
-input[type=range].sa-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);box-shadow:0 0 0 1.5px var(--text);cursor:pointer;}
+input[type=range].sa-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer;}
+input[type=range].sa-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer;}
 .sa-slider-ticks{display:flex;justify-content:space-between;padding:0 2px;margin-top:.25rem;}
 .sa-slider-ticks span{font-size:.62rem;color:var(--faint);font-family:var(--mono);}
 .sa-slider-val{text-align:center;font-family:var(--sans);font-weight:700;font-size:1.05rem;color:var(--text);margin-top:.35rem;}
@@ -91,7 +91,7 @@ input[type=range].sa-slider::-moz-range-thumb{width:22px;height:22px;border-radi
 /* Cal cards */
 .sa-cal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin:.8rem 0;}
 .sa-cal-card{background:var(--tertiary);border:1px solid var(--border);border-radius:.75rem;padding:.9rem 1rem;text-align:center;transition:border-color .2s;}
-.sa-cal-card.played{border-color:var(--ok-border);background:var(--ok-bg);}
+.sa-cal-card.played{border-color:var(--border-hi);}
 .cc-score{font-family:var(--mono);font-size:.68rem;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
 .cc-val{font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
 .cc-desc{font-size:.75rem;color:var(--muted);margin-bottom:.5rem;line-height:1.4;}
