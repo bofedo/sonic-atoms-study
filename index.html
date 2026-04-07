@@ -361,7 +361,8 @@ function setLang(l){LANG=l;STATE.lang=l;renderConsent();}
 async function fetchAssignment(){
   try{
     const url=`${CONFIG.assignmentURL}?session_id=${encodeURIComponent(STATE.sessionID)}&study_id=${encodeURIComponent(STATE.studyID)}`;
-    const r=await fetch(url,{signal:AbortSignal.timeout(5000)});
+    const ac=new AbortController();const tm=setTimeout(()=>ac.abort(),5000);
+    const r=await fetch(url,{signal:ac.signal});clearTimeout(tm);
     if(!r.ok)throw new Error(r.status);
     const data=await r.json();
     if(data.stimuli&&data.stimuli.length>=CONFIG.stimPerParticipant)return data;
@@ -378,7 +379,10 @@ async function buildStimulusOrder(){
   const assignment=await fetchAssignment();
   let picked;
   if(assignment){
-    picked=assignment.stimuli.slice(0,CONFIG.stimPerParticipant).map(s=>({cell:s.cell,var:s.var}));
+    picked=assignment.stimuli.slice(0,CONFIG.stimPerParticipant).map(s=>({
+      cell:String(s.cell).replace(/^CELL/i,''),
+      var:String(s.var).replace(/^VAR/i,'')
+    }));
     STATE.assignmentSource='backend';
   }else{
     picked=buildStimulusOrderLocal();
