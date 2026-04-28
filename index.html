@@ -206,8 +206,6 @@ const STRINGS = {
     post_hp_opts:[{v:'over_ear',l:'Over-ear (full-size)'},{v:'on_ear',l:'On-ear'},{v:'in_ear_wired',l:'In-ear wired'},{v:'in_ear_wireless',l:'In-ear wireless / earbuds'},{v:'other',l:'Other'}],
     post_mus_label:'Musical training',
     post_mus_opts:[{v:'none',l:'No formal training'},{v:'amateur',l:'Amateur / hobby'},{v:'some_formal',l:'Some formal training (1–5 years)'},{v:'advanced',l:'Advanced (5+ years)'},{v:'professional',l:'Professional musician'}],
-    post_exp_label:'How often do you use digital products with sound?',
-    post_exp_opts:[{v:'rarely',l:'Rarely'},{v:'sometimes',l:'Sometimes'},{v:'often',l:'Often'},{v:'very_often',l:'Very often — sound is always on'}],
     post_submit:'Complete study →',
     // End
     saving:'⏳',saving_title:'Saving your responses…',
@@ -290,8 +288,6 @@ const STRINGS = {
     post_hp_opts:[{v:'over_ear',l:'Násluchátkové (plnorozmerné)'},{v:'on_ear',l:'Náušníkové'},{v:'in_ear_wired',l:'Intraaural drôtové'},{v:'in_ear_wireless',l:'Intraaural bezdrôtové / earbuds'},{v:'other',l:'Iné'}],
     post_mus_label:'Hudobné vzdelanie',
     post_mus_opts:[{v:'none',l:'Žiadne formálne vzdelanie'},{v:'amateur',l:'Amatér / hobby'},{v:'some_formal',l:'Nejaké formálne vzdelanie (1–5 rokov)'},{v:'advanced',l:'Pokročilé (5+ rokov)'},{v:'professional',l:'Profesionálny hudobník'}],
-    post_exp_label:'Ako často používaš digitálne produkty so zvukom?',
-    post_exp_opts:[{v:'rarely',l:'Zriedkavo'},{v:'sometimes',l:'Občas'},{v:'often',l:'Často'},{v:'very_often',l:'Veľmi často — zvuk mám vždy zapnutý'}],
     post_submit:'Dokončiť štúdiu →',
     saving:'⏳',saving_title:'Ukladám odpovede…',
     err_title:'Odpovede sa nepodarilo uložiť',err_body:'Nastala chyba pri ukladaní dát. Skús to prosím znova.',
@@ -681,10 +677,9 @@ function renderPostTest(){
   render(`<h2>${T('post_title')}</h2><p style="margin-top:.6rem;margin-bottom:1.4rem">${T('post_intro')}</p>
     <div class="sa-slider-block"><div class="sa-slider-label">${T('post_hp_label')}</div>${sel('post_hp')}</div>
     <div class="sa-slider-block"><div class="sa-slider-label">${T('post_mus_label')}</div>${sel('post_mus')}</div>
-    <div class="sa-slider-block"><div class="sa-slider-label">${T('post_exp_label')}</div>${sel('post_exp')}</div>
     <button class="sa-submit" onclick="submitPostTest()">${T('post_submit')}</button>`);
 }
-function submitPostTest(){STATE.postTest={headphones:document.getElementById('post_hp').value,music_training:document.getElementById('post_mus').value,sound_exposure:document.getElementById('post_exp').value};renderEnd();}
+function submitPostTest(){STATE.postTest={headphones:document.getElementById('post_hp').value,music_training:document.getElementById('post_mus').value};renderEnd();}
 
 /* ═══════════════════════════ END ═══════════════════════════ */
 async function postWithRetry(data,n=3){for(let i=0;i<n;i++){try{const r=await fetch(CONFIG.backendURL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(r.ok)return await r.json();if(r.status===422)return false;}catch(e){if(i===n-1)return false;await new Promise(r=>setTimeout(r,1000*(i+1)));}}return false;}
