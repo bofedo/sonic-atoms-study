@@ -7,7 +7,6 @@
 <title>Sonic Atoms — Perception Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Cloudflare Web Analytics (replaced GTM — no consent needed, no cookies, GDPR-compliant by default) -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_CF_TOKEN"}'></script>
 <style>
 :root{
@@ -58,7 +57,6 @@ body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:1r
 input[type=range].sa-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;background:var(--border);outline:none;cursor:pointer;display:block;}
 input[type=range].sa-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer;}
 input[type=range].sa-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer;}
-/* Arousal slider: blue (calming) → gray → red (activating) */
 input[type=range].sa-slider.sa-arousal{background:linear-gradient(to right,#3b82f6,#d1d5db 50%,#ef4444);}
 .sa-slider-ticks{display:flex;justify-content:space-between;padding:0 2px;margin-top:.25rem;}
 .sa-slider-ticks span{font-size:.62rem;color:var(--faint);font-family:var(--mono);}
@@ -125,9 +123,7 @@ input[type=range].sa-slider.sa-arousal{background:linear-gradient(to right,#3b82
 <body>
 <div id="app"></div>
 <script>
-/* ═══════════════════════════
-   STRINGS (EN / SK)
-═══════════════════════════ */
+/* ═══════════════════════════ STRINGS ═══════════════════════════ */
 const STRINGS = {
   en: {
     consent_title:'Informed Consent',
@@ -136,27 +132,19 @@ const STRINGS = {
     consent_p3:'Your participation is entirely voluntary. You may withdraw at any time without penalty by closing this page.',
     consent_p4:'No personally identifiable information is collected. Your responses are stored anonymously and used solely for research purposes.',
     consent_p5:'By checking the box below you confirm that you have read and understood this information and agree to participate.',
-    consent_check:'I agree to participate in this study',
-    consent_btn:'Continue →',
-    consent_privacy:'Privacy Policy',
+    consent_check:'I agree to participate in this study',consent_btn:'Continue →',consent_privacy:'Privacy Policy',
     welcome_title:'Sonic Atoms\nSound Perception Study',
-    welcome_intro:'Welcome! In this study you will listen to <strong>3 short sounds</strong> and rate each one across several dimensions.',
-    welcome_time:'The study takes approximately <strong>5 minutes</strong>. Please use <strong>headphones</strong> and find a quiet place.',
-    welcome_li1:'Listen to each sound before answering',
-    welcome_li2:'Rate based on your first impression',
-    welcome_li3:'There are no right or wrong answers',
-    welcome_start:'Start →',
-    hp_title:'Headphone Check',hp_intro:'This study requires headphones. We will verify your audio setup.',
-    hp_task:'<strong>Task:</strong> Three short intervals will play. In one you may hear a faint tone. Which interval contains it?',
-    hp_attempt:'Attempt',hp_of:'of',hp_play:'▶ Play intervals',hp_confirm:'Confirm →',
+    welcome_intro:'Welcome! In this study you will listen to <strong>2 short sounds</strong> and rate each one across several dimensions.',
+    welcome_time:'The study takes approximately <strong>8 minutes</strong>. Please use <strong>headphones</strong> and find a quiet place.',
+    welcome_li1:'Listen to each sound before answering',welcome_li2:'Rate based on your first impression',welcome_li3:'There are no right or wrong answers',welcome_start:'Start →',
+    screen_title:'Audio & Volume Check',
+    screen_intro:'Three short intervals will play. In one you may hear a faint tone. Which interval contains it?',
+    screen_play:'▶ Play intervals',screen_pass:'Continue →',
+    screen_vol_intro:'Now set your volume to a comfortable level and press play.',
+    screen_quiet:'🔉 Too quiet',screen_ok:'✓ Good',screen_loud:'🔊 Too loud',
+    hp_attempt:'Attempt',hp_of:'of',hp_play:'▶ Play intervals',
     hp_i1:'Interval 1',hp_i2:'Interval 2',hp_i3:'Interval 3',
-    spec_title:'Audio Check — Part 2',spec_intro:'Three tones will play. One has a <strong>different pitch</strong>. Which one?',
-    spec_play:'▶ Play tones',spec_t1:'Tone 1',spec_t2:'Tone 2',spec_t3:'Tone 3',
-    spec_fail_title:'Audio Check Failed',spec_fail_body:'We could not verify your headphone setup. Please return your submission on Prolific — you will not be penalised.',
-    base_title:'Volume Calibration',base_intro:'Listen to this reference tone and set your volume to a comfortable level.',
-    base_hint:'Press ▶ to play.',base_quiet:'🔉 Too quiet',base_ok:'✓ OK',base_loud:'🔊 Too loud',base_continue:'Continue →',
-    sens_title:'Sound Sensitivity',sens_intro:'How sensitive are you to sounds in general?',
-    sens_left:'Not sensitive',sens_right:'Very sensitive',sens_note:'This serves as a baseline for individual differences in reactivity.',
+    // Calibration
     cal_tag:'Perception Calibration',cal_note:'You can replay each sound as many times as you like. Continue unlocks after playing all sounds for this scale.',
     cal_next:'Next scale →',cal_start:'Start the study →',cal_play:'▶ Play',cal_playing:'⏸ Playing…',
     cal_scales:[
@@ -167,43 +155,52 @@ const STRINGS = {
       {tag:'Scale 3 of 3',title:'Motivational Direction (−5 to +5)',question:'Direction of motivation — not its strength. The neutral midpoint (0) is explicitly shown.',
        tones:[{id:'actionurge_low',score:'−5',label:'Want to avoid',desc:'Want to stop, silence, leave'},{id:'actionurge_neutral',score:'0',label:'Neutral',desc:'No motivation in either direction'},{id:'actionurge_high',score:'+5',label:'Want to engage',desc:'Want to continue, confirm, interact'}]}
     ],
+    // Instructions
     instr_title:'Instructions',
-    instr_intro:'You will now hear <strong>3 sounds</strong>. For each sound you will rate:',
-    instr_li1:'<strong>Block A — First impression:</strong> Pleasantness and Activation Level (bipolar scales −5 to +5)',
-    instr_li2:'<strong>Block B — Digital scenario:</strong> Motivational Direction and Distinctiveness',
-    instr_li3:'<strong>Rotated block:</strong> 2 of 5 — exploratory interpretation or semantic differentials',
-    instr_note:'Submit unlocks after listening ≥ 2 seconds and completing all questions.',
-    instr_begin:'Begin →',
+    instr_intro:'You will now hear <strong>2 sounds</strong>. For each sound you will rate:',
+    instr_li1:'<strong>Block A — First impression:</strong> Pleasantness and Activation Level',
+    instr_li2:'<strong>Block B — Digital scenario:</strong> Motivational Direction and Sound Meaning',
+    instr_li3:'<strong>Block C — Sound character:</strong> 3 semantic differentials',
+    instr_note:'Submit unlocks after listening ≥ 2 seconds and completing all questions.',instr_begin:'Begin →',
+    // Atom
     atom_of:'of',atom_sound:'Sound',atom_hint:'Press ▶ to listen — Submit unlocks after 2 seconds.',atom_replay:'Replay sound',
+    // Block A
     blkA_tag:'Block A · First Impression',blkA_title:'Immediate reaction',
     blkA_instr:'Rate this sound based on your first impression. Do not think too long — your immediate reaction matters.',
     blkA_val_label:'1. Pleasantness',blkA_val_q:'How pleasant or unpleasant is this sound?',
     blkA_val_left:'Very unpleasant',blkA_val_right:'Very pleasant',
     blkA_ar_label:'2. Activation Level',blkA_ar_q:'How much does this sound activate or calm you?',
     blkA_ar_left:'Very calming',blkA_ar_right:'Very activating',
-    blkB_tag:'Block B · Digital Scenario',blkB_title:'How would the sound work in a product?',
-    blkB_instr:'Imagine these sounds are part of a digital product — a mobile app, a game, or a system notification. Answer from a user\'s perspective.',
+    // Block B
+    blkB_tag:'Block B · Digital Scenario',blkB_title:'Sound in a product',
+    blkB_instr:'Imagine this sound is part of a digital product — a mobile app, a game, or a system notification. Answer from a user\'s perspective.',
     blkB_au_label:'3. Motivational Direction',blkB_au_q:'If this sound played in an app, how would you react?',
-    blkB_au_left:'Stop / silence / leave',blkB_au_right:'Continue / confirm / engage',
-    blkB_au_note:'Scale zones: −5 to −1 = Avoidance · 0 = Neutral · +1 to +5 = Approach',
-    blkB_di_label:'4. Distinctiveness',blkB_di_q:'How distinctive does this sound feel to you?',
-    blkB_di_left:'Not distinctive at all',blkB_di_right:'Highly distinctive',
-    r1_tag:'Rotated Block · Exploratory',r1_title:'Function and impression',
-    r1_step1_label:'Step 1 — Assumed function',r1_step1_q:'Imagine this sound plays in an app. What would it announce?',
-    r1_step2_label:'Step 2 — Attributive impression',r1_step2_q:'What impression would this sound make on the user?',
-    ux_affordances:[{id:'success',label:'Success'},{id:'error',label:'Error'},{id:'warning',label:'Warning'},{id:'message',label:'Message'},{id:'loading',label:'Loading'},{id:'unknown',label:"Don't know"}],
-    attributes:[{id:'premium',label:'Premium',type:'positive'},{id:'trustworthy',label:'Trustworthy',type:'positive'},{id:'dynamic',label:'Dynamic',type:'positive'},{id:'fresh',label:'Fresh',type:'positive'},{id:'generic',label:'Generic',type:'neutral'},{id:'functional',label:'Functional',type:'neutral'},{id:'cheap',label:'Cheap',type:'negative'},{id:'irritating',label:'Irritating',type:'negative'},{id:'none',label:"Can't assign",type:'escape'}],
-    semdiff_tag:'Rotated Block · Semantic Differential',semdiff_title:'Sound character',
+    blkB_au_left:'Don\'t want',blkB_au_right:'Want',
+    blkB_au_note:'Zones: −5 to −1 = Don\'t want · 0 = Neutral · +1 to +5 = Want',
+    blkB_fn_label:'4. Sound Meaning',blkB_fn_q:'If this sound played in an app or game, what would it mean to you?',
+    ux_affordances:[
+      {id:'success',label:'Success / Confirm'},
+      {id:'error',label:'Error / Failure'},
+      {id:'warning',label:'Warning / Alert'},
+      {id:'message',label:'Message / Notification'},
+      {id:'loading',label:'Loading / Wait'},
+      {id:'transition',label:'Transition / Navigation'},
+      {id:'reward',label:'Reward / Achievement'},
+      {id:'interaction',label:'Interaction / Tap feedback'},
+      {id:'end',label:'End / Session complete'},
+      {id:'unknown',label:"Don't know"},
+    ],
+    // Block C
+    blkC_tag:'Block C · Sound Character',blkC_title:'Perceived qualities',
     semdiff_scales:[
+      {id:'bright_dark',left:'Bright',right:'Dark',label:'Bright — Dark'},
+      {id:'thin_full',left:'Thin',right:'Full',label:'Thin — Full'},
       {id:'soft_hard',left:'Soft',right:'Hard',label:'Soft — Hard'},
-      {id:'dark_bright',left:'Dark',right:'Bright',label:'Dark — Bright'},
-      {id:'smooth_rough',left:'Smooth',right:'Rough',label:'Smooth — Rough'},
-      {id:'simple_complex',left:'Simple',right:'Complex',label:'Simple — Complex'},
     ],
     submit_sound:'Submit sound',
-    break_title:'Quick Break',break_body:'You are halfway through. Take a moment if you need one.',
-    break_recal:'If the volume is uncomfortable, adjust it now.',break_continue:'Continue →',
+    // Attention
     attn_title:'Quick Check',attn_body:'Please select option <strong>3</strong> from the list below.',attn_continue:'Continue →',
+    // Post-test
     post_title:'Almost done!',post_intro:'A few quick questions about your listening setup.',
     post_hp_label:'Headphone type',
     post_hp_opts:[{v:'over_ear',l:'Over-ear (full-size)'},{v:'on_ear',l:'On-ear'},{v:'in_ear_wired',l:'In-ear wired'},{v:'in_ear_wireless',l:'In-ear wireless / earbuds'},{v:'other',l:'Other'}],
@@ -212,12 +209,12 @@ const STRINGS = {
     post_exp_label:'How often do you use digital products with sound?',
     post_exp_opts:[{v:'rarely',l:'Rarely'},{v:'sometimes',l:'Sometimes'},{v:'often',l:'Often'},{v:'very_often',l:'Very often — sound is always on'}],
     post_submit:'Complete study →',
+    // End
     saving:'⏳',saving_title:'Saving your responses…',
     err_title:'Could not save responses',err_body:'There was a problem saving your data. Please try again.',
     err_retry:'Try again →',err_prolific:'If the problem persists, please contact the research team before completing on Prolific.',
     done_big:'🎉',done_title:'Thank you!',
-    done_prolific:'Your responses have been recorded. Please click below to complete your submission on Prolific.',
-    done_prolific_btn:'Complete on Prolific →',
+    done_prolific:'Your responses have been recorded. Please click below to complete your submission on Prolific.',done_prolific_btn:'Complete on Prolific →',
     done_social:'Your responses have been recorded and will contribute to research on sound perception.',
     done_share:'If you\'d like to share this study:',done_copy:'Copy link to share',done_copied:'✓ Copied!',
   },
@@ -228,25 +225,19 @@ const STRINGS = {
     consent_p3:'Tvoja účasť je úplne dobrovoľná. Môžeš ju kedykoľvek ukončiť bez penalizácie zatvorením tejto stránky.',
     consent_p4:'Nezhromažďujeme žiadne osobné identifikačné údaje. Tvoje odpovede sú uložené anonymne a použité výhradne na výskumné účely.',
     consent_p5:'Zaškrtnutím políčka nižšie potvrdzuješ, že si prečítal/a a pochopil/a tieto informácie a súhlasíš s účasťou.',
-    consent_check:'Súhlasím s účasťou v tejto štúdii',
-    consent_btn:'Pokračovať →',
-    consent_privacy:'Zásady ochrany osobných údajov',
+    consent_check:'Súhlasím s účasťou v tejto štúdii',consent_btn:'Pokračovať →',consent_privacy:'Zásady ochrany osobných údajov',
     welcome_title:'Sonic Atoms\nŠtúdia vnímania zvuku',
-    welcome_intro:'Vitaj! V tejto štúdii budeš počúvať <strong>3 krátke zvuky</strong> a hodnotiť každý z nich podľa viacerých dimenzií.',
-    welcome_time:'Štúdia trvá približne <strong>5 minút</strong>. Prosím, použi <strong>slúchadlá</strong> a nájdi si tichý priestor.',
+    welcome_intro:'Vitaj! V tejto štúdii budeš počúvať <strong>2 krátke zvuky</strong> a hodnotiť každý z nich podľa viacerých dimenzií.',
+    welcome_time:'Štúdia trvá približne <strong>8 minút</strong>. Prosím, použi <strong>slúchadlá</strong> a nájdi si tichý priestor.',
     welcome_li1:'Vypočuj si každý zvuk pred hodnotením',welcome_li2:'Hodnoť na základe prvého dojmu',welcome_li3:'Neexistujú správne ani nesprávne odpovede',welcome_start:'Začať →',
-    hp_title:'Kontrola slúchadiel',hp_intro:'Táto štúdia vyžaduje slúchadlá. Overíme tvoje zvukové nastavenie.',
-    hp_task:'<strong>Úloha:</strong> Zahrajú sa tri krátke intervaly. V jednom môžeš počuť slabý tón. Ktorý interval ho obsahuje?',
-    hp_attempt:'Pokus',hp_of:'z',hp_play:'▶ Prehrať intervaly',hp_confirm:'Potvrdiť →',
+    screen_title:'Zvukový test a hlasitosť',
+    screen_intro:'Zahrajú sa tri krátke intervaly. V jednom môžeš počuť slabý tón. Ktorý interval ho obsahuje?',
+    screen_play:'▶ Prehrať intervaly',screen_pass:'Pokračovať →',
+    screen_vol_intro:'Teraz nastav hlasitosť na pohodlnú úroveň a stlač play.',
+    screen_quiet:'🔉 Príliš ticho',screen_ok:'✓ OK',screen_loud:'🔊 Príliš hlasno',
+    hp_attempt:'Pokus',hp_of:'z',hp_play:'▶ Prehrať intervaly',
     hp_i1:'Interval 1',hp_i2:'Interval 2',hp_i3:'Interval 3',
-    spec_title:'Zvukový test — Časť 2',spec_intro:'Zahrajú sa tri tóny. Jeden má <strong>inú výšku</strong>. Ktorý?',
-    spec_play:'▶ Prehrať tóny',spec_t1:'Tón 1',spec_t2:'Tón 2',spec_t3:'Tón 3',
-    spec_fail_title:'Zvukový test nevyšiel',spec_fail_body:'Nepodarilo sa nám overiť tvoje slúchadlá. Prosím, vráť sa na Prolific — nebudeš penalizovaný/á.',
-    base_title:'Kalibrácia hlasitosti',base_intro:'Vypočuj si referenčný zvuk a nastav hlasitosť na pohodlnú úroveň.',
-    base_hint:'Stlač ▶ a prehrať.',base_quiet:'🔉 Príliš ticho',base_ok:'✓ OK',base_loud:'🔊 Príliš hlasno',base_continue:'Pokračovať →',
-    sens_title:'Citlivosť na zvuk',sens_intro:'Ako veľmi si vo všeobecnosti citlivý/á na zvuky?',
-    sens_left:'Nie som citlivý/á',sens_right:'Veľmi citlivý/á',sens_note:'Toto slúži ako referenčná hodnota pre individuálne rozdiely v reaktivite.',
-    cal_tag:'Kalibrácia vnímania',cal_note:'Každý zvuk môžeš prehrať viackrát. Tlačidlo Pokračovať sa odomkne po prehratí všetkých zvukov tejto škály.',
+    cal_tag:'Kalibrácia vnímania',cal_note:'Každý zvuk môžeš prehrať viackrát. Pokračovať sa odomkne po prehratí všetkých zvukov.',
     cal_next:'Ďalšia škála →',cal_start:'Začať štúdiu →',cal_play:'▶ Prehrať',cal_playing:'⏸ Hrá…',
     cal_scales:[
       {tag:'Škála 1 z 3',title:'Príjemnosť (−5 až +5)',question:'Ako príjemný alebo nepríjemný je pre teba tento zvuk na prvé počutie?',
@@ -256,10 +247,10 @@ const STRINGS = {
       {tag:'Škála 3 z 3',title:'Motivačný smer (−5 až +5)',question:'Miera smeru motivácie — nie jej sily. Neutrálny stred (0) je explicitne ukázaný.',
        tones:[{id:'actionurge_low',score:'−5',label:'Chcem sa vyhnúť',desc:'Chcem zastaviť, stíšiť, odísť'},{id:'actionurge_neutral',score:'0',label:'Neutrálne',desc:'Nemotivuje ma ani jedným smerom'},{id:'actionurge_high',score:'+5',label:'Chcem reagovať',desc:'Chcem pokračovať, potvrdiť, zapojiť sa'}]}
     ],
-    instr_title:'Inštrukcie',instr_intro:'Teraz začne hlavná fáza. Vypočuješ si <strong>3 zvuky</strong>. Pri každom zvuku hodnotíš:',
-    instr_li1:'<strong>Blok A — Prvý dojem:</strong> Príjemnosť a Miera aktivácie (bipolárne škály −5 až +5)',
-    instr_li2:'<strong>Blok B — Digitálny scenár:</strong> Motivačný smer a Rozpoznateľnosť',
-    instr_li3:'<strong>Rotovaný blok:</strong> 2 z 5 — exploratórna interpretácia alebo sémantické diferenciály',
+    instr_title:'Inštrukcie',instr_intro:'Teraz začne hlavná fáza. Vypočuješ si <strong>4 zvuky</strong>. Pri každom hodnotíš:',
+    instr_li1:'<strong>Blok A — Prvý dojem:</strong> Príjemnosť a Miera aktivácie',
+    instr_li2:'<strong>Blok B — Digitálny scenár:</strong> Motivačný smer a Predpokladaná funkcia',
+    instr_li3:'<strong>Blok C — Charakter zvuku:</strong> 3 sémantické diferenciály a Atribučný dojem',
     instr_note:'Odoslať sa odomkne po vypočutí ≥ 2 sekúnd a vyplnení všetkých otázok.',instr_begin:'Začať →',
     atom_of:'z',atom_sound:'Zvuk',atom_hint:'Stlač ▶ a vypočuj si zvuk — Odoslať sa odomkne po 2 sekundách.',atom_replay:'Prehrať zvuk',
     blkA_tag:'Blok A · Prvý dojem',blkA_title:'Okamžitá reakcia',
@@ -268,28 +259,31 @@ const STRINGS = {
     blkA_val_left:'Veľmi nepríjemný',blkA_val_right:'Veľmi príjemný',
     blkA_ar_label:'2. Miera aktivácie',blkA_ar_q:'Nakoľko ťa tento zvuk aktivuje alebo upokojuje?',
     blkA_ar_left:'Veľmi upokojujúci',blkA_ar_right:'Veľmi aktivujúci',
-    blkB_tag:'Blok B · Digitálny scenár',blkB_title:'Ako by zvuk fungoval v produkte?',
-    blkB_instr:'Teraz si predstav, že tieto zvuky sú súčasťou digitálneho produktu — napríklad mobilnej aplikácie, hry alebo systémového upozornenia. Odpovedaj z pohľadu používateľa.',
+    blkB_tag:'Blok B · Digitálny scenár',blkB_title:'Zvuk v produkte',
+    blkB_instr:'Teraz si predstav, že tento zvuk je súčasťou digitálneho produktu — napríklad mobilnej aplikácie, hry alebo systémového upozornenia. Odpovedaj z pohľadu používateľa.',
     blkB_au_label:'3. Motivačný smer',blkB_au_q:'Keby tento zvuk zaznel v aplikácii, ako by si reagoval/a?',
-    blkB_au_left:'Zastaviť / stíšiť / odísť',blkB_au_right:'Pokračovať / potvrdiť / reagovať',
-    blkB_au_note:'Definícia pásiem: −5 až −1 = Avoidance · 0 = Neutrálne · +1 až +5 = Approach',
-    blkB_di_label:'4. Rozpoznateľnosť',blkB_di_q:'Ako výrazný alebo charakteristický sa ti tento zvuk zdá?',
-    blkB_di_left:'Vôbec nie je výrazný',blkB_di_right:'Veľmi výrazný',
-    r1_tag:'Rotovaný blok · Exploratórny',r1_title:'Funkcia a dojem',
-    r1_step1_label:'Krok 1 — Predpokladaná funkcia',r1_step1_q:'Predstav si, že tento zvuk zaznie v aplikácii. Čo by oznamoval?',
-    r1_step2_label:'Krok 2 — Atribučný dojem',r1_step2_q:'Aký dojem by tento zvuk urobil na používateľa?',
-    ux_affordances:[{id:'success',label:'Úspech'},{id:'error',label:'Chyba'},{id:'warning',label:'Upozornenie'},{id:'message',label:'Správa'},{id:'loading',label:'Načítavanie'},{id:'unknown',label:'Neviem'}],
-    attributes:[{id:'premium',label:'Prémiový',type:'positive'},{id:'trustworthy',label:'Dôveryhodný',type:'positive'},{id:'dynamic',label:'Dynamický',type:'positive'},{id:'fresh',label:'Svieži',type:'positive'},{id:'generic',label:'Generický',type:'neutral'},{id:'functional',label:'Funkčný',type:'neutral'},{id:'cheap',label:'Lacný',type:'negative'},{id:'irritating',label:'Iritujúci',type:'negative'},{id:'none',label:'Nedokážem priradiť',type:'escape'}],
-    semdiff_tag:'Rotovaný blok · Sémantický diferenciál',semdiff_title:'Charakter zvuku',
+    blkB_au_left:'Nechcem',blkB_au_right:'Chcem',
+    blkB_au_note:'Pásma: −5 až −1 = Nechcem · 0 = Neutrálne · +1 až +5 = Chcem',
+    blkB_fn_label:'4. Význam zvuku',blkB_fn_q:'Ak by tento zvuk zaznel v aplikácii alebo hre, čo by pre teba znamenal?',
+    ux_affordances:[
+      {id:'success',label:'Úspech / Potvrdenie'},
+      {id:'error',label:'Chyba / Zlyhanie'},
+      {id:'warning',label:'Upozornenie / Varovanie'},
+      {id:'message',label:'Správa / Notifikácia'},
+      {id:'loading',label:'Načítavanie / Čakanie'},
+      {id:'transition',label:'Prechod / Navigácia'},
+      {id:'reward',label:'Odmena / Achievement'},
+      {id:'interaction',label:'Interakcia / Feedback'},
+      {id:'end',label:'Koniec / Ukončenie'},
+      {id:'unknown',label:'Neviem'},
+    ],
+    blkC_tag:'Blok C · Charakter zvuku',blkC_title:'Vnímané vlastnosti',
     semdiff_scales:[
+      {id:'bright_dark',left:'Svetlý',right:'Tmavý',label:'Svetlý — Tmavý'},
+      {id:'thin_full',left:'Tenký',right:'Plný',label:'Tenký — Plný'},
       {id:'soft_hard',left:'Mäkký',right:'Tvrdý',label:'Mäkký — Tvrdý'},
-      {id:'dark_bright',left:'Tmavý',right:'Jasný',label:'Tmavý — Jasný'},
-      {id:'smooth_rough',left:'Hladký',right:'Drsný',label:'Hladký — Drsný'},
-      {id:'simple_complex',left:'Jednoduchý',right:'Komplexný',label:'Jednoduchý — Komplexný'},
     ],
     submit_sound:'Odoslať zvuk',
-    break_title:'Krátka prestávka',break_body:'Si v polovici. Ak potrebuješ, na chvíľu si oddýchni.',
-    break_recal:'Ak je hlasitosť nekomfortná, uprav ju teraz.',break_continue:'Pokračovať →',
     attn_title:'Rýchla kontrola',attn_body:'Prosím, vyber možnosť <strong>3</strong> zo zoznamu.',attn_continue:'Pokračovať →',
     post_title:'Takmer hotovo!',post_intro:'Niekoľko rýchlych otázok o tvojom počúvacom nastavení.',
     post_hp_label:'Typ slúchadiel',
@@ -313,12 +307,16 @@ const STRINGS = {
 const CONFIG={
   audioBase:'https://pub-e597382e71d24ba2a9ec99f1249c6c55.r2.dev/',
   backendURL:'https://app.doremifo.com/responses',
-  prolificCompletionURL:'https://app.prolific.com/submissions/complete?cc=C1FJXB7Q',
-  cells:['01','02','03','04','05','06','07','08','09','10'],
-  vars:['01','02','03','04','05','06','07','08','09','10'],
-  stimPerParticipant:3,
-  hugginsCorrect:null,
   assignmentURL:'https://app.doremifo.com/assignment',
+  prolificCompletionURL:'https://app.prolific.com/submissions/complete?cc=C1FJXB7Q',
+  stimPerParticipant:2,
+  groups:{
+    A:{vars:['01','02']},         // VAR03 excluded — near-identical to VAR01 per expert testing
+    B:{vars:['04','05']},
+    C:{vars:['06','07','08','09']},
+    D:{vars:['10']},              // internal; benchmarks added by backend
+  },
+  cells:['01','02','03','04','05','06','07','08','09','10'],
 };
 
 /* ═══════════════════════════ STATE ═══════════════════════════ */
@@ -329,12 +327,13 @@ const STATE={
   studyID:params.get('STUDY_ID')||params.get('UTM_SOURCE')||'SOCIAL',
   sessionID:params.get('SESSION_ID')||crypto.randomUUID(),
   source:params.get('PROLIFIC_PID')?'prolific':'social',
-  lang:'en',sensitivity:null,
-  headphoneFlag:false,attentionFlag:false,terminated:false,
+  lang:'en',
+  attentionFlag:false,
   stimulusOrder:[],
   responses:[],currentAtomIdx:0,
-  attentionCheckIdx:null,rotationAssignment:[],
+  attentionCheckIdx:null,
   postTest:{},pageTimestamps:{},
+  assignmentSource:'random',
 };
 function T(k){return STRINGS[LANG][k]??STRINGS['en'][k]??k;}
 
@@ -345,19 +344,18 @@ function isDone(s){try{return JSON.parse(localStorage.getItem(SK)||'[]').include
 
 /* ═══════════════════════════ UTILS ═══════════════════════════ */
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function audioURL(c,v){return`${CONFIG.audioBase}CELL${c}_VAR${v}.wav`;}
+function audioURL(id){
+  // benchmark items have a full URL; internals use cell+var pattern
+  if(id.startsWith('http'))return id;
+  return`${CONFIG.audioBase}CELL${id.cell}_VAR${id.var}.wav`;
+}
+function stimURL(stim){return stim.url||`${CONFIG.audioBase}CELL${stim.cell}_VAR${stim.var}.wav`;}
 function render(h){document.getElementById('app').innerHTML=`<div class="sa-card">${h}</div>`;window.scrollTo(0,0);}
 function sectionHeader(tag,title){return`<div class="sa-section-header"><div class="sa-section-tag">${tag}</div><h3>${title}</h3></div>`;}
 function langSwitcher(){return`<div class="lang-switch"><button class="lang-btn ${LANG==='en'?'active':''}" onclick="setLang('en')">EN</button><button class="lang-btn ${LANG==='sk'?'active':''}" onclick="setLang('sk')">SK</button></div>`;}
 function setLang(l){LANG=l;STATE.lang=l;renderConsent();}
 
-/* ═══════════════════════════ BUILD ORDER (quota-aware) ═══════════════════════════ */
-/*
- * Backend endpoint: GET /assignment?session_id=...&study_id=...
- * Returns: { stimuli: [{cell:"03",var:"07"}, ...] }
- * Backend picks the 3 cell×var combos with the fewest existing ratings → balanced coverage.
- * If backend is unreachable, falls back to local random (acceptable for social/pilot).
- */
+/* ═══════════════════════════ BUILD ORDER ═══════════════════════════ */
 async function fetchAssignment(){
   try{
     const url=`${CONFIG.assignmentURL}?session_id=${encodeURIComponent(STATE.sessionID)}&study_id=${encodeURIComponent(STATE.studyID)}`;
@@ -370,32 +368,34 @@ async function fetchAssignment(){
   return null;
 }
 
-function buildStimulusOrderLocal(){
-  const allCells=shuffle([...CONFIG.cells]);
-  return allCells.slice(0,CONFIG.stimPerParticipant).map(c=>({cell:c,var:CONFIG.vars[Math.floor(Math.random()*CONFIG.vars.length)]}));
+function pickRandomFromGroup(groupKey){
+  const g=CONFIG.groups[groupKey];
+  const cell=CONFIG.cells[Math.floor(Math.random()*CONFIG.cells.length)];
+  const v=g.vars[Math.floor(Math.random()*g.vars.length)];
+  return{cell,var:v,group:groupKey,type:'internal'};
 }
 
 async function buildStimulusOrder(){
   const assignment=await fetchAssignment();
   let picked;
   if(assignment){
-    picked=assignment.stimuli.slice(0,CONFIG.stimPerParticipant).map(s=>({
-      cell:String(s.cell).replace(/^CELL/i,''),
-      var:String(s.var).replace(/^VAR/i,'')
+    picked=assignment.stimuli.map(s=>({
+      cell:s.cell?String(s.cell).replace(/^CELL/i,''):null,
+      var:s.var?String(s.var).replace(/^VAR/i,''):null,
+      group:s.group||'D',type:s.type||'internal',url:s.url||null,id:s.id||null,
     }));
     STATE.assignmentSource='backend';
   }else{
-    picked=buildStimulusOrderLocal();
+    // Fallback: pick 2 stimuli from 2 different random groups
+    const allGroups=shuffle(['A','B','C','D']);
+    const groupA=allGroups[0],groupB=allGroups[1];
+    picked=[pickRandomFromGroup(groupA),pickRandomFromGroup(groupB)];
     STATE.assignmentSource='random';
   }
-  STATE.stimulusOrder=picked;
-  // Attention check: random after 2nd or 3rd stimulus (indices 1–2)
-  STATE.attentionCheckIdx=1+Math.floor(Math.random()*2);
-  // Rotation: 5 blocks (R1 + SD0–SD3), 2 per stimulus
-  const B=['R1','SD0','SD1','SD2','SD3'];
-  STATE.rotationAssignment=STATE.stimulusOrder.map(()=>{const s=shuffle(B);return[s[0],s[1]];});
+  STATE.stimulusOrder=shuffle(picked);
+  // Attention check: always after 1st stimulus (only position with 2 stimuli)
+  STATE.attentionCheckIdx=1;
 }
-// NOTE: buildStimulusOrder() is called async after consent, not at page load
 
 /* ═══════════════════════════ AUDIO ═══════════════════════════ */
 let audioCtx=null;
@@ -413,7 +413,7 @@ function handlePlay(idx,url){
   a.addEventListener('ended',()=>{btn.textContent='▶';btn.onclick=()=>handlePlay(idx,url);if(fill)fill.style.width='100%';syncMini(idx,false);});
   a.play().catch(e=>console.warn(e));
   syncMini(idx,true);
-  if(idx!=='baseline'&&!gatePassed[idx]){clearTimeout(gateTimer);gateTimer=setTimeout(()=>{gatePassed[idx]=true;checkReady(idx);},2000);}
+  if(idx!=='screen'&&!gatePassed[idx]){clearTimeout(gateTimer);gateTimer=setTimeout(()=>{gatePassed[idx]=true;checkReady(idx);},2000);}
 }
 function syncMini(idx,p){document.querySelectorAll(`[data-mini="${idx}"]`).forEach(b=>b.textContent=p?'⏸':'▶');}
 function handleMiniPlay(idx,url){handlePlay(idx,url);}
@@ -421,7 +421,7 @@ function handleMiniPlay(idx,url){handlePlay(idx,url);}
 function miniPlayer(idx,url){const ie=typeof idx==='string'?`'${idx}'`:idx;return`<div class="sa-mini-player"><button class="sa-mini-play-btn" data-mini="${idx}" onclick="handleMiniPlay(${ie},'${url}')">▶</button><div class="sa-mini-label"><strong>${T('atom_replay')}</strong></div><div class="sa-mini-waveform"><div class="sa-mini-waveform-fill" id="miniwf_${idx}"></div></div></div>`;}
 function mainPlayer(idx,url){const ie=typeof idx==='string'?`'${idx}'`:idx;return`<p class="sa-play-hint">${T('atom_hint')}</p><div class="sa-player"><button class="sa-play-btn" id="playBtn_${idx}" onclick="handlePlay(${ie},'${url}')">▶</button><div class="sa-waveform"><div class="sa-waveform-fill" id="wfill_${idx}"></div></div></div>`;}
 
-/* Synth tones for Module 0 */
+/* ── Synth tones for Module 0 ── */
 function playCalTone(type,btnEl){
   const ctx=getCtx();if(ctx.state==='suspended')ctx.resume();
   document.querySelectorAll('.cc-play').forEach(b=>{b.classList.remove('playing');b.textContent=T('cal_play');});
@@ -440,14 +440,6 @@ function playCalTone(type,btnEl){
 }
 function checkCalReady(){const c=document.querySelectorAll('.sa-cal-card'),all=[...c].every(x=>x.classList.contains('played')),btn=document.getElementById('calContinue');if(btn)btn.disabled=!all;}
 
-/* Baseline — CELL05_VAR01.wav */
-let volSelected=null;
-function playBaselineTone(){handlePlay('baseline',audioURL('05','01'));setTimeout(()=>{document.getElementById('volOpts').style.display='flex';if(volSelected)document.getElementById('baselineNext').disabled=false;},3000);}
-function selectVol(v,el){document.querySelectorAll('.sa-vol-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');volSelected=v;const btn=document.getElementById('baselineNext');if(btn)btn.disabled=false;}
-
-/* Huggins */
-function genHuggins(){const ctx=getCtx(),D=1.5,sr=ctx.sampleRate,bufs=[];const ci=Math.floor(Math.random()*3);CONFIG.hugginsCorrect=ci+1;for(let s=0;s<3;s++){const buf=ctx.createBuffer(2,sr*D,sr),L=buf.getChannelData(0),R=buf.getChannelData(1);for(let i=0;i<L.length;i++){const n=(Math.random()*2-1)*.3;L[i]=n;R[i]=n;}if(s===ci)for(let i=0;i<L.length;i++){const tone=Math.sin(2*Math.PI*600*(i/sr))*.15;L[i]+=tone;R[i]-=tone;}bufs.push(buf);}return bufs;}
-
 /* ═══════════════════════════ SLIDERS ═══════════════════════════ */
 function sliderBipolar(id,l,r,hdr,q,extra){
   const ticks=[-5,-4,-3,-2,-1,0,1,2,3,4,5],cls=extra?' '+extra:'';
@@ -455,29 +447,18 @@ function sliderBipolar(id,l,r,hdr,q,extra){
 }
 function onBipolarInput(id){const v=parseInt(document.getElementById(id).value),el=document.getElementById(id+'_val');el.textContent=v>0?'+'+v:String(v);el.style.color='var(--text)';document.getElementById('wrap_'+id)?.setAttribute('data-touched','1');checkReady(STATE.currentAtomIdx);}
 
-function sliderUnipolar(id,l,r,hdr,q){
-  const ticks=[1,2,3,4,5,6,7];
-  return`<div class="sa-slider-block" id="wrap_${id}"><div class="sa-slider-label">${hdr}</div>${q?`<p class="sa-slider-question">${q}</p>`:''}<div class="sa-slider-uni-anchors"><span>${l}</span><span>${r}</span></div><input type="range" class="sa-slider" id="${id}" min="1" max="7" step="1" value="4" oninput="onUnipolarInput('${id}')"><div class="sa-slider-ticks">${ticks.map(n=>`<span>${n}</span>`).join('')}</div><div class="sa-slider-val" id="${id}_val" style="color:var(--faint)">—</div></div>`;
-}
-function onUnipolarInput(id){const v=parseInt(document.getElementById(id).value);document.getElementById(id+'_val').textContent=String(v);document.getElementById(id+'_val').style.color='var(--text)';document.getElementById('wrap_'+id)?.setAttribute('data-touched','1');checkReady(STATE.currentAtomIdx);}
-
-function likert7(id,l,r,label){const opts=[1,2,3,4,5,6,7].map(i=>`<input type="radio" name="${id}" id="${id}_${i}" value="${i}"><label for="${id}_${i}">${i}</label>`).join('');return`<div class="sa-likert-block"><div class="sa-likert-label">${label}</div><div class="sa-likert-row"><span class="sa-likert-anchor">${l}</span><div class="sa-likert-options">${opts}</div><span class="sa-likert-anchor right">${r}</span></div></div>`;}
+function likert7(id,l,r,label){const opts=[1,2,3,4,5,6,7].map(i=>`<input type="radio" name="${id}" id="${id}_${i}" value="${i}" onchange="checkReady(STATE.currentAtomIdx)"><label for="${id}_${i}">${i}</label>`).join('');return`<div class="sa-likert-block"><div class="sa-likert-label">${label}</div><div class="sa-likert-row"><span class="sa-likert-anchor">${l}</span><div class="sa-likert-options">${opts}</div><span class="sa-likert-anchor right">${r}</span></div></div>`;}
 
 /* ═══════════════════════════ CHECK READY ═══════════════════════════ */
 function checkReady(idx){const btn=document.getElementById(`submitBtn_${idx}`);if(!btn)return;btn.disabled=!(gatePassed[idx]&&allAnswered(idx));}
 function isTouched(id){return document.getElementById('wrap_'+id)?.getAttribute('data-touched')==='1';}
+
 function allAnswered(idx){
-  if(!isTouched(`val_${idx}`)||!isTouched(`ar_${idx}`)||!isTouched(`au_${idx}`)||!isTouched(`di_${idx}`))return false;
-  const rot=STATE.rotationAssignment[idx];
-  for(const block of rot){
-    if(block==='R1'){
-      if(!document.querySelector(`[data-r1ux][data-ai="${idx}"][data-selected="true"]`))return false;
-      if(!document.querySelector(`[data-r1attr][data-ai="${idx}"][data-selected="true"]`))return false;
-    }else{
-      const sc=T('semdiff_scales')[parseInt(block.replace('SD',''))];
-      if(!document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`))return false;
-    }
-  }
+  if(!isTouched(`val_${idx}`)||!isTouched(`ar_${idx}`))return false;
+  if(!isTouched(`au_${idx}`))return false;
+  if(!document.querySelector(`[data-ux][data-ai="${idx}"][data-selected="true"]`))return false;
+  const scales=T('semdiff_scales');
+  for(const sc of scales){if(!document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`))return false;}
   return true;
 }
 
@@ -493,7 +474,6 @@ function renderConsent(){
     <p style="margin-top:.8rem;text-align:center"><a href="https://doremifo.com/privacy" target="_blank" style="color:var(--faint);font-size:.78rem">${T('consent_privacy')}</a></p>`);
 }
 
-/* ═══════════════════════════ CONSENT → ASSIGNMENT → WELCOME ═══════════════════════════ */
 async function onConsentAccepted(){
   render(`<div class="sa-rest"><div class="big">⏳</div><h2>${LANG==='sk'?'Pripravujem štúdiu…':'Preparing study…'}</h2></div>`);
   await buildStimulusOrder();
@@ -505,58 +485,86 @@ function renderWelcome(){
   render(`<h2>${T('welcome_title').replace('\n','<br>')}</h2>
     <p style="margin-top:.8rem">${T('welcome_intro')}</p><p style="margin-top:.6rem">${T('welcome_time')}</p>
     <ul style="margin-top:.8rem"><li>${T('welcome_li1')}</li><li>${T('welcome_li2')}</li><li>${T('welcome_li3')}</li></ul>
-    <button class="sa-submit" onclick="renderHeadphoneCheck()">${T('welcome_start')}</button>`);
+    <button class="sa-submit" onclick="renderScreening()">${T('welcome_start')}</button>`);
 }
 
-/* ═══════════════════════════ HUGGINS ═══════════════════════════ */
-let hugginsBuffers=null,hugginsSelected=null,hugginsAttempts=0;
-function renderHeadphoneCheck(){
-  hugginsBuffers=genHuggins();hugginsSelected=null;
-  render(`<h2>${T('hp_title')}</h2><p style="margin-top:.6rem">${T('hp_intro')}</p><p style="margin-top:.8rem">${T('hp_task')}</p>
-    <p class="sa-meta" style="margin-top:.6rem">${T('hp_attempt')} ${hugginsAttempts+1} ${T('hp_of')} 2</p>
-    <button class="sa-submit" style="margin-top:1rem;margin-bottom:1rem" onclick="playHuggins()">${T('hp_play')}</button>
-    <div class="sa-hp-options" id="hugginsOpts" style="display:none"><button class="sa-hp-btn" onclick="selHuggins(1,this)">${T('hp_i1')}</button><button class="sa-hp-btn" onclick="selHuggins(2,this)">${T('hp_i2')}</button><button class="sa-hp-btn" onclick="selHuggins(3,this)">${T('hp_i3')}</button></div>
-    <button class="sa-submit" id="hugginsSubmit" disabled onclick="submitHuggins()" style="margin-top:.8rem">${T('hp_confirm')}</button>`);
-}
-function playHuggins(){const ctx=getCtx();let t=ctx.currentTime+.1;hugginsBuffers.forEach(buf=>{const s=ctx.createBufferSource();s.buffer=buf;s.connect(ctx.destination);s.start(t);t+=buf.duration+.3;});setTimeout(()=>{document.getElementById('hugginsOpts').style.display='flex';},(hugginsBuffers[0].duration+.3)*500);}
-function selHuggins(n,el){document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');hugginsSelected=n;document.getElementById('hugginsSubmit').disabled=false;}
-function submitHuggins(){const ok=hugginsSelected===CONFIG.hugginsCorrect;hugginsAttempts++;if(!ok&&hugginsAttempts>=2)renderSpectral(true);else{if(!ok)STATE.headphoneFlag=true;renderSpectral(false);}}
+/* ═══════════════════════════ SCREENING — Huggins + volume check ═══════════════════════════ */
+let volSelected=null;
+let hugginsBuffers=null,hugginsSelected=null,hugginsAttempts=0,hugginsCorrect=null;
 
-/* Spectral */
-let spectralCorrect=null,spectralSelected=null;
-function renderSpectral(hardFail){
-  spectralCorrect=Math.floor(Math.random()*3)+1;spectralSelected=null;
-  const tones=[440,440,440];tones[spectralCorrect-1]=880;
-  render(`<h2>${T('spec_title')}</h2><p style="margin-top:.6rem">${T('spec_intro')}</p>
-    <button class="sa-submit" style="margin-top:1rem;margin-bottom:1rem" onclick="playSpectral(${JSON.stringify(tones)})">${T('spec_play')}</button>
-    <div class="sa-hp-options" id="spectralOpts" style="display:none"><button class="sa-hp-btn" onclick="selSpectral(1,this)">${T('spec_t1')}</button><button class="sa-hp-btn" onclick="selSpectral(2,this)">${T('spec_t2')}</button><button class="sa-hp-btn" onclick="selSpectral(3,this)">${T('spec_t3')}</button></div>
-    <button class="sa-submit" id="spectralSubmit" disabled onclick="submitSpectral(${hardFail})" style="margin-top:.8rem">${T('hp_confirm')}</button>`);
-}
-function playSpectral(tones){const ctx=getCtx();let t=ctx.currentTime+.1;tones.forEach(f=>{const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=f;o.connect(g);g.connect(ctx.destination);g.gain.setValueAtTime(.2,t);g.gain.exponentialRampToValueAtTime(.001,t+.8);o.start(t);o.stop(t+.8);t+=1.1;});setTimeout(()=>{document.getElementById('spectralOpts').style.display='flex';},1500);}
-function selSpectral(n,el){document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');spectralSelected=n;document.getElementById('spectralSubmit').disabled=false;}
-function submitSpectral(hardFail){const ok=spectralSelected===spectralCorrect;if(hardFail&&!ok){STATE.terminated=true;render(`<h2>${T('spec_fail_title')}</h2><p style="margin-top:.8rem">${T('spec_fail_body')}</p>`);return;}if(!ok)STATE.headphoneFlag=true;renderBaseline();}
-
-/* Baseline */
-function renderBaseline(){
-  render(`<h2>${T('base_title')}</h2><p style="margin-top:.6rem">${T('base_intro')}</p>
-    <p class="sa-play-hint" style="margin-top:1rem">${T('base_hint')}</p>
-    <div class="sa-player"><button class="sa-play-btn" id="playBtn_baseline" onclick="playBaselineTone()">▶</button><div class="sa-waveform"><div class="sa-waveform-fill" id="wfill_baseline"></div></div></div>
-    <div class="sa-vol-options" id="volOpts" style="display:none"><button class="sa-vol-btn" onclick="selectVol('too_quiet',this)">${T('base_quiet')}</button><button class="sa-vol-btn" onclick="selectVol('ok',this)">${T('base_ok')}</button><button class="sa-vol-btn" onclick="selectVol('too_loud',this)">${T('base_loud')}</button></div>
-    <button class="sa-submit" id="baselineNext" disabled onclick="renderSensitivity()">${T('base_continue')}</button>`);
+function genHuggins(){
+  const ctx=getCtx(),D=1.5,sr=ctx.sampleRate,bufs=[];
+  const ci=Math.floor(Math.random()*3);hugginsCorrect=ci+1;
+  for(let s=0;s<3;s++){
+    const buf=ctx.createBuffer(2,sr*D,sr),L=buf.getChannelData(0),R=buf.getChannelData(1);
+    for(let i=0;i<L.length;i++){const n=(Math.random()*2-1)*.3;L[i]=n;R[i]=n;}
+    if(s===ci)for(let i=0;i<L.length;i++){const tone=Math.sin(2*Math.PI*600*(i/sr))*.15;L[i]+=tone;R[i]-=tone;}
+    bufs.push(buf);
+  }
+  return bufs;
 }
 
-/* Sensitivity */
-function renderSensitivity(){
-  render(`<h2>${T('sens_title')}</h2><p style="margin-top:.6rem">${T('sens_intro')}</p>
-    <div style="margin-top:1.2rem">${sliderUnipolar('sensitivity',T('sens_left'),T('sens_right'),'','')}</div>
-    <p class="sa-note">${T('sens_note')}</p>
-    <button class="sa-submit" onclick="submitSensitivity()">${T('base_continue')}</button>`);
-  const sl=document.getElementById('sensitivity');sl.min=1;sl.max=10;sl.value=5;
-  const tc=sl.nextElementSibling;if(tc)tc.innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<span>${n}</span>`).join('');
-  document.getElementById('sensitivity_val').textContent='5';document.getElementById('sensitivity_val').style.color='var(--text)';
-  sl.oninput=()=>{document.getElementById('sensitivity_val').textContent=sl.value;};
+function renderScreening(){
+  volSelected=null;hugginsSelected=null;hugginsAttempts=0;
+  hugginsBuffers=genHuggins();
+  render(`<h2>${T('screen_title')}</h2>
+    <p style="margin-top:.6rem">${T('screen_intro')}</p>
+    <p class="sa-meta" style="margin-top:.8rem">${T('hp_attempt')} ${hugginsAttempts+1} ${T('hp_of')} 2</p>
+    <button class="sa-submit" style="margin-top:.8rem;margin-bottom:1rem" onclick="playHuggins()">${T('hp_play')}</button>
+    <div class="sa-hp-options" id="hugginsOpts" style="display:none">
+      <button class="sa-hp-btn" onclick="selHuggins(1,this)">${T('hp_i1')}</button>
+      <button class="sa-hp-btn" onclick="selHuggins(2,this)">${T('hp_i2')}</button>
+      <button class="sa-hp-btn" onclick="selHuggins(3,this)">${T('hp_i3')}</button>
+    </div>
+    <div id="volSection" style="display:none">
+      <hr class="sa-divider">
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:.6rem">${T('screen_vol_intro')}</p>
+      <div class="sa-player"><button class="sa-play-btn" id="playBtn_screen" onclick="playScreenTone()">▶</button><div class="sa-waveform"><div class="sa-waveform-fill" id="wfill_screen"></div></div></div>
+      <div class="sa-vol-options" id="volOpts" style="display:none">
+        <button class="sa-vol-btn" onclick="selectVol('too_quiet',this)">${T('screen_quiet')}</button>
+        <button class="sa-vol-btn" onclick="selectVol('ok',this)">${T('screen_ok')}</button>
+        <button class="sa-vol-btn" onclick="selectVol('too_loud',this)">${T('screen_loud')}</button>
+      </div>
+    </div>
+    <button class="sa-submit" id="screenNext" disabled onclick="renderModule0(0)">${T('screen_pass')}</button>`);
 }
-function submitSensitivity(){STATE.sensitivity=parseInt(document.getElementById('sensitivity').value);renderModule0(0);}
+
+function playHuggins(){
+  const ctx=getCtx();let t=ctx.currentTime+.1;
+  hugginsBuffers.forEach(buf=>{const s=ctx.createBufferSource();s.buffer=buf;s.connect(ctx.destination);s.start(t);t+=buf.duration+.3;});
+  setTimeout(()=>{document.getElementById('hugginsOpts').style.display='flex';},(hugginsBuffers[0].duration+.3)*500);
+}
+
+function selHuggins(n,el){
+  document.querySelectorAll('.sa-hp-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');hugginsSelected=n;
+  hugginsAttempts++;
+  const ok=hugginsSelected===hugginsCorrect;
+  // After selection: show volume section regardless (no hard fail, just flag)
+  if(!ok&&hugginsAttempts<2){
+    // Regenerate and retry
+    hugginsBuffers=genHuggins();hugginsSelected=null;
+    setTimeout(()=>{
+      document.querySelector('.sa-meta').textContent=`${T('hp_attempt')} ${hugginsAttempts+1} ${T('hp_of')} 2`;
+      document.getElementById('hugginsOpts').style.display='none';
+    },400);
+    return;
+  }
+  // After 2 attempts or correct: show volume section
+  document.getElementById('hugginsOpts').style.display='none';
+  document.getElementById('volSection').style.display='block';
+}
+
+function playScreenTone(){
+  handlePlay('screen',`${CONFIG.audioBase}CELL05_VAR01.wav`);
+  setTimeout(()=>{document.getElementById('volOpts').style.display='flex';},3000);
+}
+
+function selectVol(v,el){
+  document.querySelectorAll('.sa-vol-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');volSelected=v;
+  const btn=document.getElementById('screenNext');if(btn)btn.disabled=false;
+}
 
 /* ═══════════════════════════ MODULE 0 ═══════════════════════════ */
 function renderModule0(si){
@@ -581,58 +589,76 @@ function renderInstructions(){
 /* ═══════════════════════════ ATOM ═══════════════════════════ */
 function renderAtom(idx){
   STATE.currentAtomIdx=idx;STATE.pageTimestamps[idx]=Date.now();
-  const stim=STATE.stimulusOrder[idx],url=audioURL(stim.cell,stim.var),total=STATE.stimulusOrder.length,prog=Math.round((idx/total)*100),rot=STATE.rotationAssignment[idx];
-  let rotHTML='';
-  for(const block of rot){
-    if(block==='R1'){rotHTML+=buildR1(idx,url);}
-    else{const sc=T('semdiff_scales')[parseInt(block.replace('SD',''))];rotHTML+=`<hr class="sa-divider">${sectionHeader(T('semdiff_tag'),T('semdiff_title'))}${miniPlayer(idx,url)}${likert7(`sd_${sc.id}_${idx}`,sc.left,sc.right,sc.label)}`;}
-  }
+  const stim=STATE.stimulusOrder[idx],url=stimURL(stim),total=STATE.stimulusOrder.length,prog=Math.round((idx/total)*100);
+
+  // Block B: function buttons
+  const uxBtns=T('ux_affordances').map(u=>`<button class="sa-r1-btn" data-ux="${u.id}" data-selected="false" data-ai="${idx}" onclick="selUX(this)">${u.label}</button>`).join('');
+
+  // Block C: sem diffs only (attribution removed for this phase)
+  const sdHTML=T('semdiff_scales').map(sc=>likert7(`sd_${sc.id}_${idx}`,sc.left,sc.right,sc.label)).join('');
+
   render(`<div class="sa-progress"><div class="sa-progress-bar" style="width:${prog}%"></div></div>
     <p class="sa-meta">${T('atom_sound')} ${idx+1} ${T('atom_of')} ${total}</p>
     ${mainPlayer(idx,url)}
-    <hr class="sa-divider">${sectionHeader(T('blkA_tag'),T('blkA_title'))}
+
+    <hr class="sa-divider">
+    ${sectionHeader(T('blkA_tag'),T('blkA_title'))}
     <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;font-style:italic">${T('blkA_instr')}</p>
     ${miniPlayer(idx,url)}
     ${sliderBipolar(`val_${idx}`,T('blkA_val_left'),T('blkA_val_right'),T('blkA_val_label'),T('blkA_val_q'))}
     ${sliderBipolar(`ar_${idx}`,T('blkA_ar_left'),T('blkA_ar_right'),T('blkA_ar_label'),T('blkA_ar_q'),'sa-arousal')}
-    <hr class="sa-divider">${sectionHeader(T('blkB_tag'),T('blkB_title'))}
+
+    <hr class="sa-divider">
+    ${sectionHeader(T('blkB_tag'),T('blkB_title'))}
     <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;font-style:italic">${T('blkB_instr')}</p>
     ${miniPlayer(idx,url)}
     ${sliderBipolar(`au_${idx}`,T('blkB_au_left'),T('blkB_au_right'),T('blkB_au_label'),T('blkB_au_q'))}
     <p class="sa-note">${T('blkB_au_note')}</p>
-    ${sliderUnipolar(`di_${idx}`,T('blkB_di_left'),T('blkB_di_right'),T('blkB_di_label'),T('blkB_di_q'))}
-    ${rotHTML}
+    <div class="sa-scale-block">
+      <div class="sa-slider-label">${T('blkB_fn_label')}</div>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">${T('blkB_fn_q')}</p>
+      <div class="sa-r1-grid">${uxBtns}</div>
+    </div>
+
+    <hr class="sa-divider">
+    ${sectionHeader(T('blkC_tag'),T('blkC_title'))}
+    ${miniPlayer(idx,url)}
+    ${sdHTML}
+
     <button class="sa-submit" id="submitBtn_${idx}" disabled onclick="submitAtom(${idx})">${T('submit_sound')} ${idx+1} →</button>`);
-  document.querySelectorAll('input[type=radio]').forEach(el=>el.addEventListener('change',()=>checkReady(idx)));
 }
 
-function buildR1(idx,url){
-  const uxBtns=T('ux_affordances').map(u=>`<button class="sa-r1-btn" data-r1ux="${u.id}" data-selected="false" data-ai="${idx}" onclick="selR1UX(this)">${u.label}</button>`).join('');
-  const attrBtns=T('attributes').map(a=>`<button class="sa-attr-btn ${a.type}" data-r1attr="${a.id}" data-selected="false" data-ai="${idx}" onclick="selR1Attr(this)">${a.label}</button>`).join('');
-  return`<hr class="sa-divider">${sectionHeader(T('r1_tag'),T('r1_title'))}${miniPlayer(idx,url)}
-    <div class="sa-scale-block"><div class="sa-slider-label">${T('r1_step1_label')}</div><p style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">${T('r1_step1_q')}</p><div class="sa-r1-grid">${uxBtns}</div></div>
-    <div class="sa-scale-block" style="margin-top:.8rem"><div class="sa-slider-label">${T('r1_step2_label')}</div><p style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">${T('r1_step2_q')}</p><div class="sa-attr-grid">${attrBtns}</div></div>`;
-}
-function selR1UX(el){const ai=el.dataset.ai;document.querySelectorAll(`[data-r1ux][data-ai="${ai}"]`).forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});el.dataset.selected='true';el.classList.add('selected');checkReady(STATE.currentAtomIdx);}
-function selR1Attr(el){const ai=el.dataset.ai;document.querySelectorAll(`[data-r1attr][data-ai="${ai}"]`).forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});el.dataset.selected='true';el.classList.add('selected');checkReady(STATE.currentAtomIdx);}
+function selUX(el){const ai=el.dataset.ai;document.querySelectorAll(`[data-ux][data-ai="${ai}"]`).forEach(b=>{b.dataset.selected='false';b.classList.remove('selected');});el.dataset.selected='true';el.classList.add('selected');checkReady(STATE.currentAtomIdx);}
 
 /* ═══════════════════════════ SUBMIT ATOM ═══════════════════════════ */
 function getSlider(id){const el=document.getElementById(id);return el?parseInt(el.value):null;}
+
 function submitAtom(idx){
   const pageTime=Date.now()-(STATE.pageTimestamps[idx]||Date.now());
-  const rot=STATE.rotationAssignment[idx],rotData={rotation_blocks:rot};
-  for(const block of rot){
-    if(block==='R1'){
-      const ux=document.querySelector(`[data-r1ux][data-ai="${idx}"][data-selected="true"]`);
-      const attr=document.querySelector(`[data-r1attr][data-ai="${idx}"][data-selected="true"]`);
-      rotData.r1_ux=ux?ux.dataset.r1ux:null;rotData.r1_attr=attr?attr.dataset.r1attr:null;
-    }else{const sc=T('semdiff_scales')[parseInt(block.replace('SD',''))];const ch=document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`);rotData[`sd_${sc.id}`]=ch?parseInt(ch.value):null;}
-  }
   const stim=STATE.stimulusOrder[idx];
-  STATE.responses.push({prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
-    atom_index:idx,cell:stim.cell,var:stim.var,lang:LANG,
-    valence:getSlider(`val_${idx}`),arousal:getSlider(`ar_${idx}`),action_urge:getSlider(`au_${idx}`),distinctiveness:getSlider(`di_${idx}`),
-    page_time_ms:pageTime,...rotData,timestamp:Date.now()});
+
+  // Collect sem diffs
+  const sdData={};
+  T('semdiff_scales').forEach(sc=>{const ch=document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`);sdData[`sd_${sc.id}`]=ch?parseInt(ch.value):null;});
+
+  const ux=document.querySelector(`[data-ux][data-ai="${idx}"][data-selected="true"]`);
+
+  STATE.responses.push({
+    prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
+    atom_index:idx,
+    cell:stim.cell||null,var:stim.var||null,
+    group:stim.group,type:stim.type,
+    benchmark_id:stim.id||null,
+    lang:LANG,
+    valence:getSlider(`val_${idx}`),
+    arousal:getSlider(`ar_${idx}`),
+    action_urge:getSlider(`au_${idx}`),
+    assumed_function:ux?ux.dataset.ux:null,
+    ...sdData,
+    page_time_ms:pageTime,
+    timestamp:Date.now()
+  });
+
   STATE.currentAtomIdx++;const next=STATE.currentAtomIdx;
   if(next>=STATE.stimulusOrder.length){renderPostTest();return;}
   if(next===STATE.attentionCheckIdx){renderAttentionCheck();return;}
@@ -664,11 +690,16 @@ function submitPostTest(){STATE.postTest={headphones:document.getElementById('po
 async function postWithRetry(data,n=3){for(let i=0;i<n;i++){try{const r=await fetch(CONFIG.backendURL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(r.ok)return await r.json();if(r.status===422)return false;}catch(e){if(i===n-1)return false;await new Promise(r=>setTimeout(r,1000*(i+1)));}}return false;}
 
 async function renderEnd(){
-  const payload={prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
-    source:STATE.source,lang:LANG,sensitivity:STATE.sensitivity,
-    assignment_source:STATE.assignmentSource||'random',
-    headphone_flag:STATE.headphoneFlag?1:0,attention_flag:STATE.attentionFlag?1:0,
-    post_test:STATE.postTest,responses:STATE.responses,completed_at:new Date().toISOString()};
+  const payload={
+    prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
+    source:STATE.source,lang:LANG,
+    assignment_source:STATE.assignmentSource,
+    vol_selection:volSelected||null,
+    attention_flag:STATE.attentionFlag?1:0,
+    post_test:STATE.postTest,
+    responses:STATE.responses,
+    completed_at:new Date().toISOString()
+  };
   render(`<div class="sa-rest"><div class="big">${T('saving')}</div><h2>${T('saving_title')}</h2></div>`);
   const result=await postWithRetry(payload);
   const ok=result!==false&&result!==null;
