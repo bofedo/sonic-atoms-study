@@ -635,21 +635,25 @@ function submitAtom(idx){
 
   // Collect sem diffs
   const sdData={};
-  T('semdiff_scales').forEach(sc=>{const ch=document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`);sdData[`sd_${sc.id}`]=ch?parseInt(ch.value):null;});
+  T('semdiff_scales').forEach(sc=>{
+    const ch=document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`);
+    // Mapovanie na backend polia: bright_dark→sd_bright_dark atď.
+    sdData[`sd_${sc.id.replace('_','_')}`]=ch?parseInt(ch.value):null;
+  });
 
   const ux=document.querySelector(`[data-ux][data-ai="${idx}"][data-selected="true"]`);
 
   STATE.responses.push({
-    prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
     atom_index:idx,
+    stimulus_index:idx,
     cell:stim.cell||null,var:stim.var||null,
     group:stim.group,type:stim.type,
     benchmark_id:stim.id||null,
     lang:LANG,
-    valence:getSlider(`val_${idx}`),
-    arousal:getSlider(`ar_${idx}`),
-    action_urge:getSlider(`au_${idx}`),
-    assumed_function:ux?ux.dataset.ux:null,
+    pleasantness:getSlider(`val_${idx}`),
+    activation:getSlider(`ar_${idx}`),
+    motivational_direction:getSlider(`au_${idx}`),
+    sound_meaning:ux?ux.dataset.ux:null,
     ...sdData,
     page_time_ms:pageTime,
     timestamp:Date.now()
@@ -689,8 +693,11 @@ async function renderEnd(){
     prolific_pid:STATE.prolificPID,study_id:STATE.studyID,session_id:STATE.sessionID,
     source:STATE.source,lang:LANG,
     assignment_source:STATE.assignmentSource,
+    assignment_combo:STATE.stimulusOrder.map(s=>s.group).join(''),
     vol_selection:volSelected||null,
     attention_flag:STATE.attentionFlag?1:0,
+    headphone_type:STATE.postTest.headphones||null,
+    music_education:STATE.postTest.music_training||null,
     post_test:STATE.postTest,
     responses:STATE.responses,
     completed_at:new Date().toISOString()
