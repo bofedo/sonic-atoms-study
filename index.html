@@ -637,7 +637,6 @@ function submitAtom(idx){
   const sdData={};
   T('semdiff_scales').forEach(sc=>{
     const ch=document.querySelector(`input[name="sd_${sc.id}_${idx}"]:checked`);
-    // Mapovanie na backend polia: bright_dark→sd_bright_dark atď.
     sdData[`sd_${sc.id.replace('_','_')}`]=ch?parseInt(ch.value):null;
   });
 
