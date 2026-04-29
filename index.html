@@ -135,7 +135,7 @@ const STRINGS = {
     consent_check:'I agree to participate in this study',consent_btn:'Continue →',consent_privacy:'Privacy Policy',
     welcome_title:'Sonic Atoms\nSound Perception Study',
     welcome_intro:'Welcome! In this study you will listen to <strong>2 short sounds</strong> and rate each one across several dimensions.',
-    welcome_time:'The study takes approximately <strong>8 minutes</strong>. Please use <strong>headphones</strong> and find a quiet place.',
+    welcome_time:'The study takes approximately <strong>5 minutes</strong>. Please use <strong>headphones</strong> and find a quiet place.',
     welcome_li1:'Listen to each sound before answering',welcome_li2:'Rate based on your first impression',welcome_li3:'There are no right or wrong answers',welcome_start:'Start →',
     screen_title:'Audio & Volume Check',
     screen_intro:'Three short intervals will play. In one you may hear a faint tone. Which interval contains it?',
@@ -175,8 +175,8 @@ const STRINGS = {
     blkB_tag:'Block B · Digital Scenario',blkB_title:'Sound in a product',
     blkB_instr:'Imagine this sound is part of a digital product — a mobile app, a game, or a system notification. Answer from a user\'s perspective.',
     blkB_au_label:'3. Motivational Direction',blkB_au_q:'If this sound played in an app, how would you react?',
-    blkB_au_left:'Don\'t want',blkB_au_right:'Want',
-    blkB_au_note:'Zones: −5 to −1 = Don\'t want · 0 = Neutral · +1 to +5 = Want',
+    blkB_au_left:'Stop / silence / leave',blkB_au_right:'Continue / confirm / engage',
+    blkB_au_note:'Zones: −5 to −1 = Avoidance · 0 = Neutral · +1 to +5 = Approach',
     blkB_fn_label:'4. Sound Meaning',blkB_fn_q:'If this sound played in an app or game, what would it mean to you?',
     ux_affordances:[
       {id:'success',label:'Success / Confirm'},
@@ -226,7 +226,7 @@ const STRINGS = {
     consent_check:'Súhlasím s účasťou v tejto štúdii',consent_btn:'Pokračovať →',consent_privacy:'Zásady ochrany osobných údajov',
     welcome_title:'Sonic Atoms\nŠtúdia vnímania zvuku',
     welcome_intro:'Vitaj! V tejto štúdii budeš počúvať <strong>2 krátke zvuky</strong> a hodnotiť každý z nich podľa viacerých dimenzií.',
-    welcome_time:'Štúdia trvá približne <strong>8 minút</strong>. Prosím, použi <strong>slúchadlá</strong> a nájdi si tichý priestor.',
+    welcome_time:'Štúdia trvá približne <strong>5 minút</strong>. Prosím, použi <strong>slúchadlá</strong> a nájdi si tichý priestor.',
     welcome_li1:'Vypočuj si každý zvuk pred hodnotením',welcome_li2:'Hodnoť na základe prvého dojmu',welcome_li3:'Neexistujú správne ani nesprávne odpovede',welcome_start:'Začať →',
     screen_title:'Zvukový test a hlasitosť',
     screen_intro:'Zahrajú sa tri krátke intervaly. V jednom môžeš počuť slabý tón. Ktorý interval ho obsahuje?',
@@ -260,8 +260,8 @@ const STRINGS = {
     blkB_tag:'Blok B · Digitálny scenár',blkB_title:'Zvuk v produkte',
     blkB_instr:'Teraz si predstav, že tento zvuk je súčasťou digitálneho produktu — napríklad mobilnej aplikácie, hry alebo systémového upozornenia. Odpovedaj z pohľadu používateľa.',
     blkB_au_label:'3. Motivačný smer',blkB_au_q:'Keby tento zvuk zaznel v aplikácii, ako by si reagoval/a?',
-    blkB_au_left:'Nechcem',blkB_au_right:'Chcem',
-    blkB_au_note:'Pásma: −5 až −1 = Nechcem · 0 = Neutrálne · +1 až +5 = Chcem',
+    blkB_au_left:'Zastaviť / stíšiť / odísť',blkB_au_right:'Pokračovať / potvrdiť / reagovať',
+    blkB_au_note:'Pásma: −5 až −1 = Avoidance · 0 = Neutrálne · +1 až +5 = Approach',
     blkB_fn_label:'4. Význam zvuku',blkB_fn_q:'Ak by tento zvuk zaznel v aplikácii alebo hre, čo by pre teba znamenal?',
     ux_affordances:[
       {id:'success',label:'Úspech / Potvrdenie'},
@@ -439,7 +439,9 @@ function checkCalReady(){const c=document.querySelectorAll('.sa-cal-card'),all=[
 /* ═══════════════════════════ SLIDERS ═══════════════════════════ */
 function sliderBipolar(id,l,r,hdr,q,extra){
   const ticks=[-5,-4,-3,-2,-1,0,1,2,3,4,5],cls=extra?' '+extra:'';
-  return`<div class="sa-slider-block" id="wrap_${id}"><div class="sa-slider-label">${hdr}</div>${q?`<p class="sa-slider-question">${q}</p>`:''}<div class="sa-slider-anchors"><span>${l}</span><span>${r}</span></div><input type="range" class="sa-slider${cls}" id="${id}" min="-5" max="5" step="1" value="0" oninput="onBipolarInput('${id}')"><div class="sa-slider-ticks">${ticks.map(n=>`<span>${n>0?'+'+n:n}</span>`).join('')}</div><div class="sa-slider-val" id="${id}_val" style="color:var(--faint)">—</div></div>`;
+  // au_ sliders: 0 is a valid meaningful answer, pre-mark as touched
+  const preTouched=id.startsWith('au_')?'data-touched="1"':'';
+  return`<div class="sa-slider-block" id="wrap_${id}" ${preTouched}><div class="sa-slider-label">${hdr}</div>${q?`<p class="sa-slider-question">${q}</p>`:''}<div class="sa-slider-anchors"><span>${l}</span><span>${r}</span></div><input type="range" class="sa-slider${cls}" id="${id}" min="-5" max="5" step="1" value="0" oninput="onBipolarInput('${id}')"><div class="sa-slider-ticks">${ticks.map(n=>`<span>${n>0?'+'+n:n}</span>`).join('')}</div><div class="sa-slider-val" id="${id}_val" style="color:var(--faint)">—</div></div>`;
 }
 function onBipolarInput(id){const v=parseInt(document.getElementById(id).value),el=document.getElementById(id+'_val');el.textContent=v>0?'+'+v:String(v);el.style.color='var(--text)';document.getElementById('wrap_'+id)?.setAttribute('data-touched','1');checkReady(STATE.currentAtomIdx);}
 
